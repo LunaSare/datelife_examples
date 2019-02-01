@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1548965255236.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2915102576",
+    "id" : "A1469396",
+    "lastKnownWriteTime" : 1549045433,
+    "last_content_update" : 1549045433223,
+    "path" : "~/datelife_examples/R/global_packages.R",
+    "project_path" : "R/global_packages.R",
+    "properties" : {
+        "cursorPosition" : "18,0",
+        "scrollLine" : "2",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

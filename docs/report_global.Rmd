@@ -1,0 +1,76 @@
+---
+title: "DateLife Workflows"
+author: "Luna L. Sanchez Reyes"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{DateLife Example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+loadd(taxon)
+loadd(tax_dq)
+loadd(tax_dr)
+loadd(tax_summ)
+loadd(tax_phyloall)
+loadd(tax_phylomedian)
+loadd(tax_datedotol)
+# loadd()
+
+```
+
+# Taxon `r taxon`
+
+There are `r length(tax_dq$cleaned_names)` species in the Open Tree of Life Taxonomy for the taxon `r taxon`.
+Information on time of divergence is available for 
+```{r echo = FALSE, results = 'asis'} 
+tt <- nrow(tax_phylomedian$taxon_distribution)
+if(tt == length(tax_dq$cleaned_names)){
+  cat("all")
+} else {
+  cat(nrow(tax_phylomedian$taxon_distribution))
+}
+``` 
+of these species across `r length(tax_phyloall)` published and peer-reviewed chronograms from the following studies:
+
+```{r echo = FALSE, results = 'asis', warning=FALSE}
+citations <- as.matrix(unique(names(tax_phyloall)))
+# print(kable(citations, caption = NULL, row.names = FALSE, booktabs = T))
+for (i in seq(nrow(citations))){
+  cat(paste0("**", i, ". ", citations[i,], "**\n\n"))
+}
+```
+
+Species are distributed across chronograms as follows:
+```{r echo = FALSE, results = 'asis'}
+distributions <- tax_phylomedian$taxon_distribution
+# print(knitr::kable(distributions, caption = NULL, row.names = FALSE, 
+#                    booktabs = T, col.names = colnames(distributions), 
+#                    align = "c"))
+# the table does not look good, so map the percentage to a tree
+
+# plot_phylo_all(trees = tax_datedotol, write = "pdf", file = paste0("docs/datedotol_", taxon, ".pdf"))
+# 
+
+# names(trees[[1]])
+# ho
+# plot(tax_datedotol)
+# axisPhylo()
+# 
+
+```
+
+
+```{r echo = FALSE, results = 'asis'}
+absent <- levels(tax_phylomedian$absent_taxa$taxon)
+if(!"None" %in% absent){
+  cat("The following species were completely absent from chronogram data base: ", paste0("*", levels(tax_phylomedian$absent_taxa$taxon), collapse = "*, *", "*"))
+}
+```
+

@@ -1,0 +1,9 @@
+{
+    "path" : "~/datelife_examples/docs",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

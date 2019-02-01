@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1548898103548.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "61652519",
+    "id" : "8F368358",
+    "lastKnownWriteTime" : 1549059891,
+    "last_content_update" : 1549059893577,
+    "path" : "~/datelife_examples/docs/report_global.Rmd",
+    "project_path" : "docs/report_global.Rmd",
+    "properties" : {
+        "cursorPosition" : "65,0",
+        "last_setup_crc32" : "B5E29B503814fbc0",
+        "scrollLine" : "55",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
