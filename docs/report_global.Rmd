@@ -3,6 +3,7 @@ title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+geometry: "left=4cm,right=3cm,top=3cm,bottom=4cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,12 +22,12 @@ loadd(tax_summ)
 loadd(tax_phyloall)
 loadd(tax_phylomedian)
 loadd(tax_datedotol)
-# loadd()
-
+figcap1 <- paste0(taxon, " Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.")
+figcap2 <- paste0(taxon, " Species Tree from Taxonomy. This tree was obtained with `tree_from_taxonomy()` function.")
 ```
 
 # Taxon `r taxon`
-
+\raggedright
 There are `r length(tax_dq$cleaned_names)` species in the Open Tree of Life Taxonomy for the taxon `r taxon`.
 Information on time of divergence is available for 
 ```{r echo = FALSE, results = 'asis'} 
@@ -48,24 +49,26 @@ for (i in seq(nrow(citations))){
 ```
 
 Species are distributed across chronograms as follows:
-```{r echo = FALSE, results = 'asis'}
-distributions <- tax_phylomedian$taxon_distribution
+```{r echo=FALSE, message = FALSE}
+# distributions <- tax_phylomedian$taxon_distribution
 # print(knitr::kable(distributions, caption = NULL, row.names = FALSE, 
 #                    booktabs = T, col.names = colnames(distributions), 
 #                    align = "c"))
 # the table does not look good, so map the percentage to a tree
-
-# plot_phylo_all(trees = tax_datedotol, write = "pdf", file = paste0("docs/datedotol_", taxon, ".pdf"))
-# 
-
-# names(trees[[1]])
-# ho
-# plot(tax_datedotol)
-# axisPhylo()
-# 
-
+# title1 = paste0(taxon, " Species Presence across chronograms in DateLife Data Base")
+# make_plot_global(tax_datedotol, title1, taxon, tax_summ)
 ```
 
+```{r myfile-1-plot, echo = F, results = 'asis', fig.cap= ""}
+# knitr::include_graphics(paste0("docs/datedotol_", taxon, ".pdf"))
+if(!inherits(tax_datedotol, "phylo")){
+  plot1 <- paste0("Dated induced subtree could not be obtained for the ", taxon, ".\n") 
+} else {
+  plot1 <- paste0("\n![", figcap1, "](datedotol_", taxon, ".pdf)\n")
+}
+cat(plot1)
+
+```
 
 ```{r echo = FALSE, results = 'asis'}
 absent <- levels(tax_phylomedian$absent_taxa$taxon)

@@ -1,8 +1,9 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-02-01"
+date: "2019-02-03"
 output: rmarkdown::html_vignette
+geometry: "left=4cm,right=3cm,top=3cm,bottom=4cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,7 +13,7 @@ vignette: >
 
 
 # Taxon Hominidae
-
+\raggedright
 There are 7 species in the Open Tree of Life Taxonomy for the taxon Hominidae.
 Information on time of divergence is available for 
 all
@@ -25,13 +26,10 @@ of these species across 8 published and peer-reviewed chronograms from the follo
 **3. Springer, Mark S., Robert W. Meredith, John Gatesy, Christopher A. Emerling, Jong Park, Daniel L. Rabosky, Tanja Stadler, Cynthia Steiner, Oliver A. Ryder, Jan E. Janečka, Colleen A. Fisher, William J. Murphy. 2012. Macroevolutionary dynamics and historical biogeography of primate diversification inferred from a species supermatrix. PLoS ONE 7 (11): e49521.**
 
 Species are distributed across chronograms as follows:
-[1] FALSE
 
-Plot unit: period
-Stage 1: 17
-Stage 2: 12quartz_off_screen 
-                2 
 
+
+![Hominidae Species Presence across chronograms in DateLife Data Base](datedotol_Hominidae.pdf)
 
 
 

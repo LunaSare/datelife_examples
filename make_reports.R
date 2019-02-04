@@ -4,6 +4,7 @@ knitr::opts_knit$set(root.dir = "docs")
 knitr::opts_knit$set(base.dir = "docs")
 getwd()
 source("R/global_functions.R")
+source("R/multi2di_test.R")
 source("R/plan.R")
 
 make(Cetacea)
