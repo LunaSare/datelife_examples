@@ -1,21 +1,33 @@
-    # i <- 4
-    # for(i in seq(length(taxa))){
-    #   pdf(file = paste0("docs/treefromtax_1_", taxa[i], ".pdf"), height = 10)
-    #   plot.phylo(tax_treefromtaxall[[4]]$phy, cex =0.75, plot = FALSE)
-    #   dev.off()
-    #   tree <- ape::multi2di(tax_treefromtaxall[[5]]$phy)
-    #   pdf(file = paste0("docs/treefromtax_2_", taxa[i], ".pdf"), height = 10)
-    #   plot.phylo(tree, cex =0.75)
-    #   dev.off()
-    # }
+# i <- 1
+# for(i in seq(length(taxa))){
+#   print(taxa[i])
+#   if(multi2di_test(tax_treefromtaxall[[i]]$phy)){
+#       print("Can be plotted")
+#       pdf(file = paste0("docs/treefromtax_1_", taxa[i], ".pdf"), height = 10)
+#       plot.phylo(tax_treefromtaxall[[i]]$phy, cex = 0.75)
+#       dev.off()
+#       make_plot2(tax_treefromtaxall[[i]]$phy, title = NULL, taxon = taxa[i], omi3 = 0, filename = "simmap_1")
+#       tree <- ape::compute.brlen(tax_treefromtaxall[[i]]$phy)
+#       pdf(file = paste0("docs/treefromtax_2_", taxa[i], ".pdf"), height = 10)
+#       plot.phylo(tree, cex = 0.75)
+#       dev.off()
+#       make_plot2(tree, title = NULL, taxon = taxa[i], omi3 = 0, filename = "simmap_2")
+#       tree <- ape::multi2di(tax_treefromtaxall[[i]]$phy)
+#       tree <- ape::compute.brlen(tree)
+#       pdf(file = paste0("docs/treefromtax_3_", taxa[i], ".pdf"), height = 10)
+#       plot.phylo(tree, cex = 0.75)
+#       dev.off()
+#       make_plot2(tree, title = NULL, taxon = taxa[i], omi3 = 0, filename = "simmap_3")
+#   }
+# }
 # phy <- tax_treefromtaxall[[4]]$phy
 # for(i in seq(taxa)){
 #   print(multi2di_test(tax_treefromtaxall[[i]]$phy))
 # }
-multi2di_test <- function(phy, random = TRUE){
+multi2di_test <- function(phy = tree, random = TRUE){
     degree <- tabulate(phy$edge[, 1])
     target <- which(degree > 2)
-    if (!length(target)) return(phy)
+    if (!length(target)) return(TRUE)
     n <- length(phy$tip.label)
     nb.edge <- dim(phy$edge)[1]
     nextnode <- n + phy$Nnode + 1L
