@@ -1,4 +1,60 @@
 #functions
+make_lttplot <- function(taxon, tax_phyloall, tax_sdm_bladj, tax_med_bladj, tax_datedotol){
+  if(!inherits(tree, "phylo")){
+    return(NA)
+  }
+  file_name = paste0("docs/", taxon, "_", filename, ".pdf")
+  grDevices::pdf(file = file_name, height = 7, width = 6)
+  trees <- c(tax_phyloall, tax_sdm_bladj, tax_med_bladj, tax_datedotol)
+  max(ape::branching.times(tax_sdm_bladj))
+  max(ape::branching.times(tax_sdm))
+  max(ape::branching.times(tax_phylomedian$phylo_median))
+  plot(tax_sdm_bladj, cex = 0.1)
+  plot(tax_datedotol, cex = 0.1)
+  XLIM <- max(sapply(trees, function(x) max(ape::branching.times(x))))
+  maxage_sdmall <- sapply(tax_sdmall, function(x) max(ape::branching.times(x)))
+  clustmeth_sdmall <- sapply(tax_sdmall, "[", "clustering_method")
+  maxage_phyloallall <- sapply(tax_phyloallall, function(y) max(sapply(y, function(x) max(ape::branching.times(x)))))
+  ape::ltt.plot()
+  
+}
+get_bladjtree <- function(dated_tree, backbone){
+  res <- tryCatch(tree_add_dates(dated_tree = dated_tree, 
+                                 missing_taxa = backbone, 
+                                 dating_method = "bladj"),
+                  error = function(e) NA)
+  return(res)
+}
+get_treefromtax <- function(tax_dq){
+  # tree_from_taxonomy(taxa = tax_dqall[[i]]$cleaned_names, sources = "Open Tree of Life Reference Taxonomy")
+  # using sources = "Open Tree of Life Reference Taxonomy" gives an error, using NCBI for now
+  # taxonomy trees are not well resolved at all, so its not even possible to plot them sometimes
+  tree_from_taxonomy(taxa = tax_dqall[[5]]$cleaned_names, sources = "NCBI")
+  res <- tryCatch(tree_from_taxonomy(taxa = tax_dq$cleaned_names, sources = "Catalogue of Life"),
+                    error = function(e) NA)
+  return(res)
+}
+rm_brlen <- function(tree){
+  res <- tree[c("edge", "tip.label", "Nnode")]
+  class(res) <- "phylo"
+  res
+}
+rm_brlen.multiPhylo <- function(trees){
+  res <- lapply(trees, rm_brlen)
+  class(res) <- "multiPhylo"
+  res
+}
+use_eachcal_crossval <- function(trees, eachcal){
+  res <- lapply(seq(trees), function(i) use_each_cal(tree = trees[[i]], eachcal))
+  res
+}
+use_each_cal <- function(tree, eachcal){
+  res <- lapply(seq(eachcal), function(i){
+    xx <- suppressMessages(suppressWarnings(use_all_calibrations(tree, eachcal[[i]])))
+    return(xx$phy)
+  })
+  !sapply(res, is.null)
+}
 compute_ape_brlens <- function(tree){
     if(!multi2di_test(tree)){
       return(NA)
@@ -152,16 +208,10 @@ make_report <- function(mdname){
 render_pdf <- function(reportname, dir, placeholder) {
     original.dir <- getwd()
     setwd(dir)
-    system(paste0("pandoc ", paste0(reportname, ".md"), " -o ", paste0(reportname, ".pdf")))
+    system(paste0('pandoc ', paste0(reportname, '.md'), ' -o ', paste0(reportname, '.pdf --pdf-engine=xelatex -V mainfonts="DejaVu Sans"')))
     setwd(original.dir)
-}
-
-datelife_source <- function(taxon){
-    tax_dq = make_datelife_query(input = taxon, get_spp_from_taxon = TRUE)
-  	tax_dr = get_datelife_result(input = tax_dq)
-    tax_phyloall = suppressMessages(summarize_datelife_result(datelife_query = tax_dq, datelife_result = tax_dr, summary_format = "phylo_all"))
-    res <- list(tax_dq, tax_dr, tax_phyloall)
-    return(res)
+    # pandoc -o emoji.pdf --pdf-engine=lualatex -V mainfonts="DejaVu Sans"
+    # pandoc -o emoji.pdf --pdf-engine=xelatex  -V mainfonts="DejaVu Sans"
 }
 #function from phunding package:
 sum_tips <-  function(tree, values) {

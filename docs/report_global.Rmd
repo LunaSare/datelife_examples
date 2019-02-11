@@ -25,17 +25,24 @@ loadd(tax_dq)
 loadd(tax_dr)
 loadd(tax_summ)
 loadd(tax_phyloall)
+phyloall_success <- ape::is.ultrametric(tax_phyloall, option = 2)
 loadd(tax_phylomedian)
 loadd(tax_sdm)
 loadd(tax_datedotol)
 loadd(tax_otol)
-loadd(tax_treefromtax)
+# loadd(tax_treefromtax)
+loadd(tax_phyloall)
+loadd(tax_eachcal_datedotol)
+loadd(tax_crossval)
+loadd(tax_crossval2)
 figcap1 <- paste0(taxon, " Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.")
 figcap2 <- paste0(taxon, " Species Tree from Taxonomy. This tree was obtained with `tree_from_taxonomy()` function.")
 ```
+\raggedright
 
 # Taxon `r taxon`
-\raggedright
+
+## I. Query data
 There are `r length(tax_dq$cleaned_names)` species in the Open Tree of Life Taxonomy for the taxon `r taxon`.
 Information on time of divergence is available for
 ```{r echo = FALSE, results = 'asis'}
@@ -54,8 +61,12 @@ citations <- as.matrix(unique(names(tax_phyloall)))
 for (i in seq(nrow(citations))){
   cat(paste0("**", i, ". ", citations[i,], "**\n\n"))
 }
+if(all(phyloall_success)){
+  cat("All source chronograms are fully ultrametric.\n")
+} else {
+  cat("Not all source chronograms are fully ultrametric. This cant't be right, CHECK THIS!!\n")
+}
 ```
-
 Species are distributed across chronograms as follows:
 ```{r echo=FALSE, message = FALSE, results = 'asis'}
 # distributions <- tax_phylomedian$taxon_distribution
@@ -65,14 +76,29 @@ Species are distributed across chronograms as follows:
 # the table does not look good, so map the percentage to a tree
 # title1 = paste0(taxon, " Species Presence across chronograms in DateLife Data Base")
 # make_plot_global(tax_datedotol, title1, taxon, tax_summ)
-treesall <- list(tax_treefromtax$phy, tax_otol, tax_datedotol, tax_phylomedian$phy, tax_sdm)
+treesall <- list(#tax_treefromtax$phy, 
+                 tax_otol, tax_datedotol,
+                 tax_phylomedian$phy, 
+                 tax_sdm)
 resolved_nodes <- sapply(seq(treesall), function(i) treesall[[i]]$Nnode/ape::Ntip(treesall[[i]]))*100
 resolved_nodes[resolved_nodes < 0] <- 0
-table1 <- data.frame(Trees = c("Tree from NCBI Taxonomy", "Open Tree of Life Subtree", "Dated Open Tree of Life Subtree", "Median Summary Chronogram", "SDM Summary Chronogram"), Tips = sapply(treesall, ape::Ntip),
-Resolved = paste0(round(resolved_nodes), "%"))
+table1 <- data.frame(Trees = 
+                       c(#"Tree from NCBI Taxonomy", 
+                        "Open Tree of Life Subtree", 
+                        "Dated Open Tree of Life Subtree", 
+                        "Median Summary Chronogram", 
+                        "SDM Summary Chronogram"), 
+                    Tips = sapply(treesall, ape::Ntip),
+                    Resolved = paste0(round(resolved_nodes), "%"))
 # table1 <- my_table_format(table1)
-knitr::kable(table1, caption = "A table", row.names = FALSE, format = "markdown")
-# %>%
+table1 <- as.matrix(table1)
+dimnames(table1) <- list(seq(nrow(table1)), c("Trees", "Tips", "Resolved"))
+# tried to convert to matrix and give dimnames to table 1 to be able to print it as table 2, on the left, but if I change fomat from "markdown" to "latex" OR if I assign it to an object (such as tt) it's giving me 
+# Error producing PDF.
+# ! Undefined control sequence.
+# l.124 \toprule
+knitr::kable(table1, caption = "First table", row.names = TRUE, format = "markdown", booktabs = TRUE) 
+# %>% kableExtra::kable_styling(kable_input = tt, position = "left") this also gives me that error
 #           row_spec(0, color = c(rep("white", 3), rep("black", 5)))
 ```
 
@@ -86,7 +112,54 @@ if(!inherits(tax_datedotol, "phylo")){
 cat(plot1)
 ```
 
-# Summary
+\newpage
+## II. Create new data
+
+As an example, we're gonna try to date the Open Tree Synthetic tree (mainly because the taxonomic tree is usually less well resolved.)
+```{r echo = FALSE}
+loadd(tax_allcal_datedotol)
+if(is.null(tax_allcal_datedotol$phy)){
+  txtA <- paste(taxon, "and they do not agree, so no tree could be contructed.")
+} else {
+  if(all(is.na(tax_allcal_datedotol$phy$edge.length))){
+    txtA <- paste(taxon, "and a tree was constructed, but all branch lengths are NA.")
+  } else {
+      txtA <- paste(taxon, "and a tree with", ape::Ntip(tax_allcal_datedotol$phy), "tips,", 
+                    round(tax_allcal_datedotol$phy$Nnode/ape::Ntip(tax_allcal_datedotol$phy)*100), 
+                    "% resolved nodes and a MRCA of",
+                    round(max(ape::branching.times(tax_allcal_datedotol$phy))),"was constructed.")
+  }
+}
+```
+
+Now, let's say you like the Open Tree of Life Taxonomy and you want to stick to that tree. Dates from available studies were tested over the Open Tree of Life Synthetic tree of `r txtA`
+We also tried  each source chronogram independently, with the Dated OToL and with each other, as a form of cross validation:
+
+
+```{r echo = FALSE}
+table_cap <- "Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?"
+table2 <- cbind(tax_eachcal_datedotol, do.call(cbind, tax_crossval))
+dimnames(table2) <- list(paste0("Calibrations", seq(tax_crossval)), c("dOToL", paste0("Chrono", seq(tax_crossval))))
+if(ncol(table2) < 7) fs <- 10
+if(ncol(table2) == 7 | ncol(table2) == 8) fs <- 9
+if(ncol(table2) >= 9) fs <- 7
+if(ncol(table2) > 10) {
+  table2ori <- table2
+  table2[table2 == TRUE] <- "yes" # "&#x2611;"  # :tick:
+  table2[table2 == "FALSE"] <- "no"  # "&#x2612;"  
+  dimnames(table2) <- list(paste0("Calib", seq(tax_crossval)), 
+                           c("dOToL", paste0("Chr", seq(tax_crossval))))
+}
+tt <- knitr::kable(table2, caption = table_cap, row.names = TRUE, format = "latex", booktabs = TRUE) 
+kableExtra::kable_styling(kable_input = tt, position = "left", font_size = fs)
+```
+\newpage
+## III. Simulate data
+An alternative to generate a dated tree from a set of taxa is to take the available information and simulate into it the missing data.
+We will take the median and sdm summary chronograms to date the Synthetic tree of Life:
+
+\newpage
+## Appendix
 ```{r echo = FALSE, results = 'asis'}
 absent <- levels(tax_phylomedian$absent_taxa$taxon)
 if(!"None" %in% absent){
