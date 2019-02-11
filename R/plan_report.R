@@ -1,0 +1,55 @@
+loadd(taxa)
+loadd(tax_dqall)
+loadd(tax_drall)
+loadd(tax_summall)
+loadd(tax_phylomedall)
+loadd(tax_phyloallall)
+loadd(tax_sdmall)
+loadd(tax_datedotolall)
+# loadd(tax_treefromtaxall)  # it errors frequently with segfault
+loadd(tax_otolall)
+loadd(tax_allcalall)
+loadd(tax_allcal_datedotolall)
+loadd(tax_crossvalall)
+loadd(tax_crossval2all)
+loadd(tax_eachcalall)
+loadd(tax_eachcal_datedotolall)
+loadd(tax_med_bladjall)
+loadd(tax_sdm_bladjall)
+
+for(i in seq(taxa)){
+    print(taxa[i])
+    plan_report <- drake_plan(
+    	taxon = taxa[i],
+    	tax_dq = tax_dqall[[i]],
+    	tax_dr = tax_drall[[i]],
+    	tax_summ = tax_summall[[i]],
+    	tax_phyloall = tax_phyloallall[[i]],
+      # tax_phyloall = suppressMessages(summarize_datelife_result(datelife_query = tax_dq, datelife_result = tax_dr, summary_format = "phylo_all")),
+      tax_phylomedian = tax_phylomedall[[i]],
+      tax_sdm = tax_sdmall[[i]],
+    	tax_datedotol = tax_datedotolall[[i]],
+      tax_otol = tax_otolall[[i]],
+      # tax_treefromtax = tax_treefromtaxall[[i]],
+    	plot1 = make_plot_global(tree = tax_datedotolall[[i]], title = NULL, taxon = taxa[i], tax_summ = tax_summall[[i]], omi3 = 0, filename = "datedotol"),
+        # plot2 = make_plot_global(tree = tax_treefromtaxall[[i]]$phy, title = NULL, taxon = taxa[i], tax_summall[[i]], omi3 = 0, filename = "treefromtax"),
+        plot3 = make_plot_global(tree = tax_otolall[[i]], title = NULL, taxon = taxa[i], tax_summall[[i]], omi3 = 0, filename = "otol"),
+        # plot1 = make_plot1(tree = tax_datedotolall[[i]], title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "datedotol"),
+        # plot2 = make_plot1(tree = tax_treefromtaxall[[i]]$phy, title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "treefromtax"),
+        # plot3 = make_plot1(tree = tax_otolall[[i]], title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "otol"),
+    	tax_allcal_datedotol = tax_allcal_datedotolall[[i]],
+    	tax_eachcal_datedotol = tax_eachcal_datedotolall[[i]],
+    	tax_crossval = tax_crossvalall[[i]],
+    	tax_crossval2 = tax_crossval2all[[i]],
+    	tax_sdm_bladj = tax_sdm_bladjall[[i]],
+    	tax_med_bladj = tax_med_bladjall[[i]],
+    	lttplot1 = make_lttplot(taxon, tax_phyloall, tax_sdm_bladj, tax_med_bladj, tax_datedotol),
+    	reportname = paste0(taxa[i], "_report"),
+    	mdname = paste0("docs/", reportname, ".md"),
+    	report = make_report(mdname),
+        summary_pdf_report = render_pdf(reportname, "docs", report)
+    )
+    assign(value = plan_report, x = taxa[i])
+    make(get(taxa[i]))
+    # make(Cetacea)
+}
