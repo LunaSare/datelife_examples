@@ -31,35 +31,49 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_datedotol, tax_phylom
          cex = 0.5, pch = 19, bty = "n")
   dev.off()
 }
-make_lttplot_sdm <- function(taxon, tax_phyloall, tax_phycluster, tax_sdm_bladj, tax_med_bladj, tax_datedotol){
+# , tax_sdm_bladj, tax_med_bladj
+make_lttplot_sdm <- function(taxon, tax_phyloall, tax_phycluster, tax_datedotol, filename = "LTTplot_sdm"){
   file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
-  grDevices::pdf(file = file_name, height = 3, width = 7)
-  par(mai = c(1.02, 0.82, 0.2, 0.42))
-  trees <- c(tax_phyloall, tax_datedotol, tax_phylomedian$phylo_median)
-  class(trees) <- "multiPhylo"
-  # class(tax_phyloall)
-  # ape::is.ultrametric(tax_phyloall)
+  class(tax_phycluster) <- "multiPhylo"
+  trees <- c(tax_phyloall, tax_datedotol, tax_phycluster)
+  trees <- trees[!sapply(trees, is.null)]
   max_age <- max(sapply(trees, function(x) max(ape::branching.times(x))))
   max_tips <- max(sapply(trees, function(x) max(ape::Ntip(x))))
   # ape::is.ultrametric(tax_datedotol)
   # ape::is.binary(tax_datedotol)
   tax_datedotol <- ape::collapse.singles(tax_datedotol)
   tax_datedotol <- phytools::force.ultrametric(tax_datedotol)
-  col_datedotol <- "#ff0000"
-  col_phylomedian <- "#0080ff"
+  col_datedotol <- "#808080" #gray
   col_phyloall <- "#cce5ff"
+  col_nj <- "#ff3399"
+  col_upgma <- "#b266ff"
+  leg <- paste(taxon, c("Dated OToL", "Source Chronograms"))
+  grDevices::pdf(file = file_name, height = 3, width = 7)
+  par(mai = c(1.02, 0.82, 0.2, 0.42))
   ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips), 
                 col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"), 
                 xlab = "Time (myrs)")
-  ape::ltt.lines(phy = tax_phylomedian$phylo_median, col = paste0(col_phylomedian, "80"))
   for (i in seq(length(tax_phyloall))){
     ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall, "80"))
   }
-  leg <- paste(taxon, c("Dated OToL", "Median Summary Chronogram", 
-                        "Source Chronograms"))
+  col_leg_sdm <- c()
+  for(i in seq(tax_phycluster)){
+    if(!is.null(tax_phycluster[[i]])){
+      if(any(grepl("nj", names(tax_phycluster[i])))){
+        col_sdm <- col_nj
+      }
+      if(any(grepl("upgma", names(tax_phycluster[i])))){
+        col_sdm <- col_upgma
+      }
+      col_leg_sdm <- c(col_leg_sdm, col_sdm)
+      leg <- c(leg, paste(taxon, "SDM", names(tax_phycluster[i])))
+      ape::ltt.lines(phy = tax_phycluster[[i]], col = paste0(col_sdm, "80"))
+    }
+  }
+
   legend(x = "topleft", #round(-max_age, digits = -1), 
          # y = round(max_tips, digits = -2), 
-         legend = leg, col = c(col_datedotol, col_phylomedian, col_phyloall),
+         legend = leg, col = c(col_datedotol, col_phyloall, col_leg_sdm),
          cex = 0.5, pch = 19, bty = "n")
   dev.off()
 

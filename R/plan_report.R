@@ -46,7 +46,7 @@ for(i in seq(taxa)){
     	tax_sdm_bladj = tax_sdm_bladjall[[i]],
     	tax_med_bladj = tax_med_bladjall[[i]],
     	lttplot_phyloall = make_lttplot_phyloall(taxon, tax_phyloall, tax_datedotol, tax_phylomedian),
-    	# lttplot1 = make_lttplot(taxon, tax_phyloall, tax_phycluster, tax_phyloall, tax_sdm_bladj, tax_med_bladj, tax_datedotol),
+    	lttplot_sdm = make_lttplot_sdm(taxon, tax_phyloall, tax_phycluster, tax_datedotol),
     	reportname = paste0(taxa[i], "_report"),
     	mdname = paste0("docs/", reportname, ".md"),
     	report = make_report(mdname),

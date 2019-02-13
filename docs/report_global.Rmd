@@ -40,6 +40,7 @@ loadd(tax_phycluster)
 figcap1 <- paste(taxon, "Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.")
 figcap2 <- paste(taxon, "Species Tree from Taxonomy. This tree was obtained with `tree_from_taxonomy()` function.")
 figcap_lttplot_phyloall <- paste(taxon, "lineage through time (LTT) plots from source chronograms, summary median chronogram and dated Open Tree of Life chronogram.")
+figcap_lttplot_sdm <- paste(taxon, "lineage through time (LTT) plots from source chronograms and SDM output converted to phylo with different methods (NJ and UPGMA).")
 ```
 \raggedright
 
@@ -169,7 +170,10 @@ kableExtra::kable_styling(kable_input = tt, position = "left", font_size = fs)
 ## III. Simulate data
 An alternative to generate a dated tree from a set of taxa is to take the available information and simulate into it the missing data.
 We will take the median and sdm summary chronograms to date the Synthetic tree of Life:
-
+```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
+lttplot_sdm <- paste0("\n![", figcap_lttplot_sdm, "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
+cat(lttplot_sdm)
+```
 \newpage
 ## Appendix
 ```{r echo = FALSE, results = 'asis'}
