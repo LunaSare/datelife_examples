@@ -1,36 +1,92 @@
 #functions
-make_lttplot <- function(taxon, tax_phyloall, tax_sdm_bladj, tax_med_bladj, tax_datedotol){
-  if(!inherits(tree, "phylo")){
-    return(NA)
+make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_datedotol, tax_phylomedian, filename = "LTTplot_phyloall"){
+  file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
+  grDevices::pdf(file = file_name, height = 3, width = 7)
+  par(mai = c(1.02, 0.82, 0.2, 0.42))
+  trees <- c(tax_phyloall, tax_datedotol, tax_phylomedian$phylo_median)
+  class(trees) <- "multiPhylo"
+  # class(tax_phyloall)
+  # ape::is.ultrametric(tax_phyloall)
+  max_age <- max(sapply(trees, function(x) max(ape::branching.times(x))))
+  max_tips <- max(sapply(trees, function(x) max(ape::Ntip(x))))
+  # ape::is.ultrametric(tax_datedotol)
+  # ape::is.binary(tax_datedotol)
+  tax_datedotol <- ape::collapse.singles(tax_datedotol)
+  tax_datedotol <- phytools::force.ultrametric(tax_datedotol)
+  col_datedotol <- "#ff0000"
+  col_phylomedian <- "#0080ff"
+  col_phyloall <- "#cce5ff"
+  ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips), 
+                col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"), 
+                xlab = "Time (myrs)")
+  ape::ltt.lines(phy = tax_phylomedian$phylo_median, col = paste0(col_phylomedian, "80"))
+  for (i in seq(length(tax_phyloall))){
+    ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall, "80"))
   }
-  file_name = paste0("docs/", taxon, "_", filename, ".pdf")
-  grDevices::pdf(file = file_name, height = 7, width = 6)
-  trees <- c(tax_phyloall, tax_sdm_bladj, tax_med_bladj, tax_datedotol)
-  max(ape::branching.times(tax_sdm_bladj))
-  max(ape::branching.times(tax_sdm))
-  max(ape::branching.times(tax_phylomedian$phylo_median))
-  plot(tax_sdm_bladj, cex = 0.1)
-  plot(tax_datedotol, cex = 0.1)
-  XLIM <- max(sapply(trees, function(x) max(ape::branching.times(x))))
-  maxage_sdmall <- sapply(tax_sdmall, function(x) max(ape::branching.times(x)))
-  clustmeth_sdmall <- sapply(tax_sdmall, "[", "clustering_method")
-  maxage_phyloallall <- sapply(tax_phyloallall, function(y) max(sapply(y, function(x) max(ape::branching.times(x)))))
-  ape::ltt.plot()
-  
+  leg <- paste(taxon, c("Dated OToL", "Median Summary Chronogram", 
+                        "Source Chronograms"))
+  legend(x = "topleft", #round(-max_age, digits = -1), 
+         # y = round(max_tips, digits = -2), 
+         legend = leg, col = c(col_datedotol, col_phylomedian, col_phyloall),
+         cex = 0.5, pch = 19, bty = "n")
+  dev.off()
+}
+make_lttplot_sdm <- function(taxon, tax_phyloall, tax_phycluster, tax_sdm_bladj, tax_med_bladj, tax_datedotol){
+  file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
+  grDevices::pdf(file = file_name, height = 3, width = 7)
+  par(mai = c(1.02, 0.82, 0.2, 0.42))
+  trees <- c(tax_phyloall, tax_datedotol, tax_phylomedian$phylo_median)
+  class(trees) <- "multiPhylo"
+  # class(tax_phyloall)
+  # ape::is.ultrametric(tax_phyloall)
+  max_age <- max(sapply(trees, function(x) max(ape::branching.times(x))))
+  max_tips <- max(sapply(trees, function(x) max(ape::Ntip(x))))
+  # ape::is.ultrametric(tax_datedotol)
+  # ape::is.binary(tax_datedotol)
+  tax_datedotol <- ape::collapse.singles(tax_datedotol)
+  tax_datedotol <- phytools::force.ultrametric(tax_datedotol)
+  col_datedotol <- "#ff0000"
+  col_phylomedian <- "#0080ff"
+  col_phyloall <- "#cce5ff"
+  ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips), 
+                col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"), 
+                xlab = "Time (myrs)")
+  ape::ltt.lines(phy = tax_phylomedian$phylo_median, col = paste0(col_phylomedian, "80"))
+  for (i in seq(length(tax_phyloall))){
+    ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall, "80"))
+  }
+  leg <- paste(taxon, c("Dated OToL", "Median Summary Chronogram", 
+                        "Source Chronograms"))
+  legend(x = "topleft", #round(-max_age, digits = -1), 
+         # y = round(max_tips, digits = -2), 
+         legend = leg, col = c(col_datedotol, col_phylomedian, col_phyloall),
+         cex = 0.5, pch = 19, bty = "n")
+  dev.off()
+
+}
+get_sdm_matrix <- function(datelife_result){
+  unpadded.matrices <- lapply(datelife_result, patristic_matrix_unpad)
+  good.matrix.indices <- get_goodmatrices(unpadded.matrices, verbose = TRUE)
+  if(length(good.matrix.indices) > 1) {
+    unpadded.matrices <- unpadded.matrices[good.matrix.indices]
+    sdm_matrix <- get_sdm(unpadded.matrices, weighting = "flat", verbose = TRUE)
+  }
+  return(sdm_matrix)
 }
 get_bladjtree <- function(dated_tree, backbone){
-  res <- tryCatch(tree_add_dates(dated_tree = dated_tree, 
-                                 missing_taxa = backbone, 
+  res <- tryCatch(tree_add_dates(dated_tree = dated_tree,
+                                 missing_taxa = backbone,
                                  dating_method = "bladj"),
                   error = function(e) NA)
   return(res)
 }
-get_treefromtax <- function(tax_dq){
+get_treefromtax <- function(tax_dq, source){
   # tree_from_taxonomy(taxa = tax_dqall[[i]]$cleaned_names, sources = "Open Tree of Life Reference Taxonomy")
   # using sources = "Open Tree of Life Reference Taxonomy" gives an error, using NCBI for now
   # taxonomy trees are not well resolved at all, so its not even possible to plot them sometimes
-  tree_from_taxonomy(taxa = tax_dqall[[5]]$cleaned_names, sources = "NCBI")
-  res <- tryCatch(tree_from_taxonomy(taxa = tax_dq$cleaned_names, sources = "Catalogue of Life"),
+  # tree_from_taxonomy(taxa = tax_dqall[[1]]$cleaned_names, sources = "Catalogue of Life")
+  # unname(tax_dqall[[5]]$cleaned_names)
+  res <- tryCatch(tree_from_taxonomy(taxa = tax_dq$cleaned_names, sources = source),
                     error = function(e) NA)
   return(res)
 }
@@ -50,7 +106,7 @@ use_eachcal_crossval <- function(trees, eachcal){
 }
 use_each_cal <- function(tree, eachcal){
   res <- lapply(seq(eachcal), function(i){
-    xx <- suppressMessages(suppressWarnings(use_all_calibrations(tree, eachcal[[i]])))
+    xx <- suppressMessages(suppressWarnings(use_all_calibrations(phy = tree, eachcal[[i]])))
     return(xx$phy)
   })
   !sapply(res, is.null)
@@ -98,7 +154,7 @@ make_plot1 <- function(tree, title = NULL, taxon, filename = "test", time_depth 
     cex = graphics::par("cex"), mai4 = NULL, write = "pdf", GTS = strat2012,
     height = 7, width = 6){
   # plot_phylo(tree = tree, title = title, write = "pdf", file_name = paste0("docs/", taxon, "_", filename, ".pdf"), cex = 0.75)
-  file_name = paste0("docs/", taxon, "_", filename, ".pdf")
+  file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
   if(is.null(time_depth) & !is.null(tree$edge.length)){
     if(is.null(tree$root.edge)){
       time_depth <- round(max(ape::branching.times(tree)) + 5, digits = -1)
@@ -177,7 +233,7 @@ make_plot2 <- function(tree, title, taxon, tax_summ, omi3, filename, cex = 0.75)
   if(!multi2di_test(tree)){ # trees giving C seg fault error cannot be plotted as fan, this tests that
     return(NA)
   }
-  file_name <- paste0("docs/", taxon, "_", filename, ".pdf")
+  file_name <- paste0("docs/plots/", taxon, "_", filename, ".pdf")
   tree <- ape::collapse.singles(tree) # this is very important to match edges accurately
   prob <- 0.5
   names(prob) <- "black"
