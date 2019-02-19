@@ -32,7 +32,7 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_datedotol, tax_phylom
   dev.off()
 }
 # , tax_sdm_bladj, tax_med_bladj
-make_lttplot_sdm <- function(taxon, tax_phyloall, tax_phycluster, tax_datedotol, filename = "LTTplot_sdm"){
+make_lttplot_sdm <- function(taxon, tax_phyloall, tax_phycluster, tax_datedotol, negs, sdm_matrix, filename = "LTTplot_sdm"){
   file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
   class(tax_phycluster) <- "multiPhylo"
   trees <- c(tax_phyloall, tax_datedotol, tax_phycluster)
@@ -48,6 +48,7 @@ make_lttplot_sdm <- function(taxon, tax_phyloall, tax_phycluster, tax_datedotol,
   col_nj <- "#ff3399"
   col_upgma <- "#b266ff"
   leg <- paste(taxon, c("Dated OToL", "Source Chronograms"))
+  linetype <- c(1, 1)
   grDevices::pdf(file = file_name, height = 3, width = 7)
   par(mai = c(1.02, 0.82, 0.2, 0.42))
   ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips), 
@@ -65,16 +66,39 @@ make_lttplot_sdm <- function(taxon, tax_phyloall, tax_phycluster, tax_datedotol,
       if(any(grepl("upgma", names(tax_phycluster[i])))){
         col_sdm <- col_upgma
       }
-      col_leg_sdm <- c(col_leg_sdm, col_sdm)
-      leg <- c(leg, paste(taxon, "SDM", names(tax_phycluster[i])))
       ape::ltt.lines(phy = tax_phycluster[[i]], col = paste0(col_sdm, "80"))
+      leg <- c(leg, paste(taxon, "SDM", names(tax_phycluster[i])))
+      col_leg_sdm <- c(col_leg_sdm, col_sdm)
+      linetype <- c(linetype, 1)
     }
+  }
+  if(length(negs) >0){
+    # plot lttlines of corrected sdm_matrix, both from nj and upgma
+    # add to legend text leg and color col_leg_sdm (which is not transparent)
+    sdm_matrix[which(sdm_matrix < 0)] <- 0.01
+    tax_phycluster <- cluster_patristicmatrix(sdm_matrix)
+    col_leg_sdm0 <- c()
+    for(i in seq(tax_phycluster)){
+      if(!is.null(tax_phycluster[[i]])){
+        if(any(grepl("nj", names(tax_phycluster[i])))){
+          col_sdm <- col_nj
+        }
+        if(any(grepl("upgma", names(tax_phycluster[i])))){
+          col_sdm <- col_upgma
+        }
+        ape::ltt.lines(phy = tax_phycluster[[i]], col = paste0(col_sdm, "80"), lty = 5)
+        col_leg_sdm0 <- c(col_leg_sdm0, col_sdm)
+        leg <- c(leg, paste(taxon, "SDM", names(tax_phycluster[i]), "no negative values"))
+        linetype <- c(linetype, 5)      
+      }
+    }
+    col_leg_sdm <- c(col_leg_sdm, col_leg_sdm0)
   }
 
   legend(x = "topleft", #round(-max_age, digits = -1), 
          # y = round(max_tips, digits = -2), 
          legend = leg, col = c(col_datedotol, col_phyloall, col_leg_sdm),
-         cex = 0.5, pch = 19, bty = "n")
+         cex = 0.5, lty = linetype, bty = "n") # pch = 19
   dev.off()
 
 }
