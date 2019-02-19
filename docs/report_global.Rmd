@@ -28,7 +28,7 @@ loadd(tax_phyloall)
 phyloall_success <- ape::is.ultrametric(tax_phyloall, option = 2)
 loadd(tax_phylomedian)
 loadd(tax_sdm)
-loadd(tax_sdmmatrix)
+loadd(sdm_matrix)
 loadd(tax_datedotol)
 loadd(tax_allcal_datedotol)
 loadd(tax_otol)
@@ -126,7 +126,7 @@ cat(lttplot_phyloall)
 \newpage
 
 
-## 1.a) Summarize query results: diagnosing SDM issues.
+## I.A. Summarize query results: diagnosing SDM issues.
 ```{r eval = TRUE, echo = F, results = 'asis'}
 negs <- which(sdm_matrix < 0)
 if(length(negs)>0){
@@ -137,6 +137,10 @@ if(length(negs)>0){
 }
 ```
 
+```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
+lttplot_sdm <- paste0("\n![", figcap_lttplot_sdm, "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
+cat(lttplot_sdm)
+```
 
 \newpage
 ## II. Create new data
@@ -187,11 +191,13 @@ kableExtra::kable_styling(kable_input = tt, position = "left", font_size = fs)
 ## III. Simulate data
 An alternative to generate a dated tree from a set of taxa is to take the available information and simulate into it the missing data.
 We will take the median and sdm summary chronograms to date the Synthetic tree of Life:
-```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
-lttplot_sdm <- paste0("\n![", figcap_lttplot_sdm, "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
-cat(lttplot_sdm)
+```{r LTTplot-sims, echo = F, results = 'asis', fig.cap= ""}
+lttplot <- paste0("\n![", figcap_lttplot_sdm, "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
+cat(lttplot)
 ```
+
 \newpage
+
 ## Appendix
 ```{r echo = FALSE, results = 'asis'}
 absent <- levels(tax_phylomedian$absent_taxa$taxon)
