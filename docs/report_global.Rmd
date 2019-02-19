@@ -28,6 +28,7 @@ loadd(tax_phyloall)
 phyloall_success <- ape::is.ultrametric(tax_phyloall, option = 2)
 loadd(tax_phylomedian)
 loadd(tax_sdm)
+loadd(tax_sdmmatrix)
 loadd(tax_datedotol)
 loadd(tax_allcal_datedotol)
 loadd(tax_otol)
@@ -120,6 +121,22 @@ cat(plot1)
 lttplot_phyloall <- paste0("\n![", figcap_lttplot_phyloall, "](plots/", taxon, "_LTTplot_phyloall.pdf)\n")
 cat(lttplot_phyloall)
 ```
+
+
+\newpage
+
+
+## 1.a) Summarize query results: diagnosing SDM issues.
+```{r eval = TRUE, echo = F, results = 'asis'}
+negs <- which(sdm_matrix < 0)
+if(length(negs)>0){
+  xx <- rownames(sdm_matrix)[ceiling(negs/nrow(sdm_matrix))]
+  cat(paste0("This SDM matrix has some negative values in the following taxa *", paste(xx, collapse = "*, *"), "*."))
+} else {
+  cat("This SDM matrix has NO negative values. ")
+}
+```
+
 
 \newpage
 ## II. Create new data

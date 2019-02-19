@@ -71,7 +71,7 @@ loadd(tax_drall)
 loadd(tax_sdmall)
 loadd(tax_phylomedall)
 loadd(tax_sdmmatrixall)
-tax_sdmmatrixall[[4]]
+loadd(tax_otolall)
 # length(tax_sdmall)
 # class(tax_sdmall) <- "multiPhylo"
 # ape::is.ultrametric(tax_sdmall)

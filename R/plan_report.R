@@ -17,7 +17,7 @@ loadd(tax_eachcal_datedotolall)
 loadd(tax_med_bladjall)
 loadd(tax_sdm_bladjall)
 loadd(tax_phyclusterall)
-
+loadd(tax_sdmmatrixall)
 for(i in seq(taxa)){
     print(taxa[i])
     plan_report <- drake_plan(
@@ -28,6 +28,7 @@ for(i in seq(taxa)){
     	tax_phyloall = tax_phyloallall[[i]],
       # tax_phyloall = suppressMessages(summarize_datelife_result(datelife_query = tax_dq, datelife_result = tax_dr, summary_format = "phylo_all")),
       tax_phylomedian = tax_phylomedall[[i]],
+    	sdm_matrix = tax_sdmmatrixall[[i]],
       tax_sdm = tax_sdmall[[i]],
     	tax_datedotol = tax_datedotolall[[i]],
       tax_otol = tax_otolall[[i]],
