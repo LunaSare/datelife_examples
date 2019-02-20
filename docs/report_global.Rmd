@@ -37,6 +37,7 @@ loadd(tax_phyloall)
 loadd(tax_eachcal_datedotol)
 loadd(tax_crossval)
 loadd(tax_phycluster)
+loadd(sdm2phylo_bladj)
 # loadd(tax_crossval2)
 fig_lttplot_sdm <- "Fig. 3"
 figcap2 <- paste(taxon, "Species Tree from Taxonomy. This tree was obtained with `tree_from_taxonomy()` function.")
@@ -131,7 +132,7 @@ cat(lttplot_phyloall)
 
 ## I.A. Summarize query results: diagnosing SDM issues.
 
-We identified some issues with summary chronograms from SDM. First, clustering algorithms implemented to go from a distance matrix to a tree return trees that are too aold or non-ultrametric. In all studied cases, UPGMA returns fully ultrametric trees but with very old ages (we had to multiply the matrix by 0.25 to get ages approximate to source chronograms, however this is a number chosen at random, it was just the number that worked well. NJ returned reasonable ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`.
+We identified some issues with summary chronograms from SDM. First, clustering algorithms implemented to go from a distance matrix to a tree return trees that are too old or non-ultrametric. In all studied cases, UPGMA returns fully ultrametric trees but with very old ages (we had to multiply the matrix by 0.25 to get ages approximate to source chronograms, however this is a number chosen at random, it was just the number that worked well. NJ returned reasonable ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`.
 
 ```{r eval = TRUE, echo = F, results = 'asis'}
 negs <- which(sdm_matrix < 0)

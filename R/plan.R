@@ -79,6 +79,7 @@ loadd(tax_otolall)
 # names(tax_sdmall[[3]])
 # plot(tax_sdmall, cex = 0.1)
 plan_sim <- drake_plan(
+  
   tax_sdm_bladjall = lapply(seq(tax_sdmall), function(i)
     get_bladjtree(dated_tree = tax_sdmall[[i]], backbone = tax_otolall[[i]])),
   tax_med_bladjall = lapply(seq(tax_phylomedall), function(i)
