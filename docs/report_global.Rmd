@@ -28,6 +28,7 @@ loadd(tax_phyloall)
 phyloall_success <- ape::is.ultrametric(tax_phyloall, option = 2)
 loadd(tax_phylomedian)
 loadd(tax_sdm)
+loadd(sdm_matrix)
 loadd(tax_datedotol)
 loadd(tax_allcal_datedotol)
 loadd(tax_otol)
@@ -36,11 +37,11 @@ loadd(tax_phyloall)
 loadd(tax_eachcal_datedotol)
 loadd(tax_crossval)
 loadd(tax_phycluster)
+loadd(sdm2phylo_bladj)
 # loadd(tax_crossval2)
-figcap1 <- paste(taxon, "Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.")
+fig_lttplot_sdm <- "Fig. 3"
 figcap2 <- paste(taxon, "Species Tree from Taxonomy. This tree was obtained with `tree_from_taxonomy()` function.")
-figcap_lttplot_phyloall <- paste(taxon, "lineage through time (LTT) plots from source chronograms, summary median chronogram and dated Open Tree of Life chronogram.")
-figcap_lttplot_sdm <- paste(taxon, "lineage through time (LTT) plots from source chronograms and SDM output converted to phylo with different methods (NJ and UPGMA).")
+table_crossval <- "Table 2"
 ```
 \raggedright
 
@@ -108,23 +109,54 @@ knitr::kable(table1, caption = "First table", row.names = TRUE, format = "markdo
 
 ```{r myfile-1-plot, echo = F, results = 'asis', fig.cap= ""}
 # knitr::include_graphics(paste0("docs/datedotol_", taxon, ".pdf"))
+figcap <- paste(taxon, "Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.")
+
 if(!inherits(tax_datedotol, "phylo")){
   plot1 <- paste0("Dated induced subtree could not be obtained for the ", taxon, ".\n")
 } else {
-  plot1 <- paste0("\n![", figcap1, "](plots/", taxon, "_datedotol.pdf)\n")
+  plot1 <- paste0("\n![", figcap, "](plots/", taxon, "_datedotol.pdf)\n")
 }
 cat(plot1)
 ```
 
 ```{r LTTplot-phyloall, echo = F, results = 'asis', fig.cap= ""}
+figcap_lttplot_phyloall <- paste(taxon, "lineage through time (LTT) plots from source chronograms, summary median chronogram and dated Open Tree of Life chronogram.")
+
 lttplot_phyloall <- paste0("\n![", figcap_lttplot_phyloall, "](plots/", taxon, "_LTTplot_phyloall.pdf)\n")
 cat(lttplot_phyloall)
+```
+
+
+\newpage
+
+
+## I.A. Summarize query results: diagnosing SDM issues.
+
+We identified some issues with summary chronograms from SDM. First, clustering algorithms implemented to go from a distance matrix to a tree return trees that are too old or non-ultrametric. In all studied cases, UPGMA returns fully ultrametric trees but with very old ages (we had to multiply the matrix by 0.25 to get ages approximate to source chronograms, however this is a number chosen at random, it was just the number that worked well. NJ returned reasonable ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`.
+
+```{r eval = TRUE, echo = F, results = 'asis'}
+negs <- which(sdm_matrix < 0)
+if(length(negs)>0){
+  xx <- rownames(sdm_matrix)[ceiling(negs/nrow(sdm_matrix))]
+  cat(paste0("This SDM matrix has some negative values in the following taxa: *", paste(xx, collapse = "*, *"), "*."))
+  figcapextra <- "As you can note, dashed lines and solid lines from trees coming out from both types of clustering algorithms implemented are mostly overlapping. This means that removing negative values does not change results from clustering algorithms much."
+} else {
+  cat("This SDM matrix has NO negative values. ")
+    figcapextra <- ""
+}
+```
+
+```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
+figcap_lttplot_sdm <- paste(taxon, "lineage through time (LTT) plots from source chronograms and SDM output converted to phylo with different methods (NJ and UPGMA).", figcapextra, "Clustering algorithms used here are returning non-ultrametric trees that are too old. So we developped an alternative algorithm to go from an SDM matrix to a fully ultrametric tree in `datelife`.")
+
+lttplot_sdm <- paste0("\n![", figcap_lttplot_sdm, "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
+cat(lttplot_sdm)
 ```
 
 \newpage
 ## II. Create new data
 
-As an example, we're gonna try to date the Open Tree Synthetic tree (mainly because the taxonomic tree is usually less well resolved.)
+As an example, we're gonna date the Open Tree Synthetic tree (mainly because the taxonomic tree is usually less well resolved.)
 ```{r echo = FALSE}
 txtA <- toupper("Something is missing.")
 if(!inherits(tax_allcal_datedotol, "list")){
@@ -146,7 +178,7 @@ if(!inherits(tax_allcal_datedotol, "list")){
 ```
 
 Now, let's say you like the Open Tree of Life Taxonomy and you want to stick to that tree. Dates from available studies were tested over the Open Tree of Life Synthetic tree of `r txtA`
-We also tried  each source chronogram independently, with the Dated OToL and with each other, as a form of cross validation in Table2. this is not working perfectly yet, but we are developping new ways to use all calibrations efficiently.
+We also tried  each source chronogram independently, with the Dated OToL and with each other, as a form of cross validation in `r table_crossval`. this is not working perfectly yet, but we are developping new ways to use all calibrations efficiently.
 
 \newpage
 ```{r echo = FALSE}
@@ -170,11 +202,13 @@ kableExtra::kable_styling(kable_input = tt, position = "left", font_size = fs)
 ## III. Simulate data
 An alternative to generate a dated tree from a set of taxa is to take the available information and simulate into it the missing data.
 We will take the median and sdm summary chronograms to date the Synthetic tree of Life:
-```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
-lttplot_sdm <- paste0("\n![", figcap_lttplot_sdm, "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
-cat(lttplot_sdm)
+```{r LTTplot-sims, echo = F, results = 'asis', fig.cap= ""}
+lttplot <- paste0("\n![", figcap_lttplot_sdm, "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
+cat(lttplot)
 ```
+
 \newpage
+
 ## Appendix
 ```{r echo = FALSE, results = 'asis'}
 absent <- levels(tax_phylomedian$absent_taxa$taxon)

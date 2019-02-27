@@ -75,6 +75,8 @@ make(plan_data)
 loadd(tax_drall)
 loadd(tax_sdmall)
 loadd(tax_phylomedall)
+loadd(tax_sdmmatrixall)
+loadd(tax_otolall)
 # length(tax_sdmall)
 # class(tax_sdmall) <- "multiPhylo"
 # ape::is.ultrametric(tax_sdmall)
@@ -82,6 +84,7 @@ loadd(tax_phylomedall)
 # names(tax_sdmall[[3]])
 # plot(tax_sdmall, cex = 0.1)
 plan_sim <- drake_plan(
+
   tax_sdm_bladjall = lapply(seq(tax_sdmall), function(i)
     get_bladjtree(dated_tree = tax_sdmall[[i]], backbone = tax_otolall[[i]])),
   tax_med_bladjall = lapply(seq(tax_phylomedall), function(i)
