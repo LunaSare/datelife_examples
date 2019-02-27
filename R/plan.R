@@ -6,19 +6,12 @@ plan_query <- drake_plan(
     # lapply(tax_drall, length)
     tax_summall = lapply(seq(length(taxa)), function(i)
                       get_taxon_summary(datelife_query = tax_dqall[[i]],
-                                        datelife_result = tax_drall[[i]]))
-)
-loadd(taxa)
-loadd(tax_dqall)
-loadd(tax_drall)
-plan_summ <- drake_plan(
+                                        datelife_result = tax_drall[[i]])),
     tax_phylomedall = lapply(seq(length(taxa)), function(i)
                       summarize_datelife_result(datelife_query = tax_dqall[[i]],
                                                 datelife_result = tax_drall[[i]],
                                                 summary_format = "phylo_median",
                                                 taxon_summary = "summary")),
-    tax_sdmmatrixall = lapply(tax_drall, get_sdm_matrix),
-    tax_phyclusterall = lapply(tax_sdmmatrixall, cluster_patristicmatrix),
     tax_sdmall = lapply(seq(length(taxa)), function(i)
                       summarize_datelife_result(datelife_query = tax_dqall[[i]],
                                                 datelife_result = tax_drall[[i]],
@@ -33,20 +26,33 @@ plan_summ <- drake_plan(
                         get_dated_otol_induced_subtree(input = tax_dqall[[i]],
                           ott_id = tax_dqall[[i]]$ott_ids)),
     # length(tax_dqall)
-    # get_treefromtax(tax_dq = tax_dqall[[5]]) # still seg fault when using CoL
-    tax_treefromtaxall = lapply(tax_dqall, get_treefromtax, source = "NCBI"),
+    # get_treefromtax(tax_dq = tax_dqall[[5]]) # seg fault
+    tax_treefromtaxall = lapply(tax_dqall, get_treefromtax),
     # do we need to resolve tax tree to compute brlens? No. So we're plotting them unresolved with compute.brlens inside the plotting functions
     tax_otolall = lapply(seq(length(taxa)), function(i)
                         get_otol_synthetic_tree(input = tax_dqall[[i]]))
 )
-make(plan_summ)
+make(plan_query)
 # sapply(tax_datedotolall[[5]], is.binary) none of them are binary and yet they are fully plotted with plotSimmap
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+loadd(taxa)
+loadd(tax_drall)
+plan_summ <- drake_plan(
+  tax_bestgroveall = lapply(seq(length(taxa)), function(i)
+                      get_best_grove(datelife_result = tax_drall[[i]])),
+  tax_medianmatrixall = lapply(seq(length(taxa)), function(i)
+                      datelife_result_median_matrix(tax_bestgroveall[[i]]$best_grove)),
+  tax_phyclustermedianall = lapply(tax_medianmatrixall, cluster_patristicmatrix),
+  tax_sdmmatrixall = lapply(seq(length(taxa)), function(i)
+                      get_sdm_matrix(tax_bestgroveall[[i]]$best_grove)),
+  tax_phyclustersdmall = lapply(tax_sdmmatrixall, cluster_patristicmatrix)
+)
+make(plan_summ)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 loadd(tax_phyloallall)
 loadd(tax_datedotolall)
 loadd(tax_otolall)
 loadd(tax_dqall)
-taxon_names <- unname(tax_dqall[[5]]$cleaned_names)
 plan_data <- drake_plan(
   tax_allcalall = lapply(tax_phyloallall, get_all_calibrations),
   tax_allcal_datedotolall = lapply(seq(tax_datedotolall), function(i)
@@ -59,19 +65,16 @@ plan_data <- drake_plan(
   # sapply(tax_eachcalall, function(x) sapply(x, class))
   # sapply(tax_eachcalall, length)
   tax_crossvalall = lapply(seq(tax_phyloallall), function(i)
-                        use_eachcal_crossval(trees = tax_phyloallall[[i]], eachcal = tax_eachcalall[[i]]))
-  # we absolutely need a dated tree for use_all_calibrations
-  # tax_phyloall_wobrlenall = lapply(tax_phyloallall, rm_brlen.multiPhylo)
-  # tax_crossval2all = lapply(seq(tax_phyloall_wobrlenall), function(i)
-  #                       use_eachcal_crossval(trees = tax_phyloall_wobrlenall[[i]], eachcal = tax_eachcalall[[i]]))
+                        use_eachcal_crossval(trees = tax_phyloallall[[i]], eachcal = tax_eachcalall[[i]])),
+  tax_phyloall_wobrlenall = lapply(tax_phyloallall, rm_brlen.multiPhylo),
+  tax_crossval2all = lapply(seq(tax_phyloall_wobrlenall), function(i)
+                        use_eachcal_crossval(trees = tax_phyloall_wobrlenall[[i]], eachcal = tax_eachcalall[[i]]))
 )
 make(plan_data)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 loadd(tax_drall)
 loadd(tax_sdmall)
 loadd(tax_phylomedall)
-loadd(tax_sdmmatrixall)
-tax_sdmmatrixall[[4]]
 # length(tax_sdmall)
 # class(tax_sdmall) <- "multiPhylo"
 # ape::is.ultrametric(tax_sdmall)
