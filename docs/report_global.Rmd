@@ -72,7 +72,7 @@ if(all(phyloall_success)){
   cat("Not all source chronograms are fully ultrametric. This cant't be right, CHECK THIS!!\n")
 }
 ```
-Species are distributed across chronograms as follows:
+The proportion of `r taxon` queried species found across source chronograms is as follows:
 ```{r echo=FALSE, message = FALSE, results = 'asis'}
 # distributions <- tax_phylomedian$taxon_distribution
 # print(knitr::kable(distributions, caption = NULL, row.names = FALSE,
