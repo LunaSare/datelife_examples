@@ -8,7 +8,7 @@ make_lttplot_summ <- function(taxon, tax_phyloall, tax_datedotol, tax_phylosumma
     col_phylosummary <- col2hex(col_phylosummary)
   }
   file_name = paste0("docs/plots/", taxon, "_", filename, legend_phylosumm, ".pdf")
-  print(file_name)
+  # print(file_name)
   trees <- c(tax_phyloall, tax_datedotol)
   if(inherits(tax_phylosummary, "phylo")){
     trees <- c(trees, tax_phylosummary)
@@ -44,9 +44,7 @@ make_lttplot_summ <- function(taxon, tax_phyloall, tax_datedotol, tax_phylosumma
   ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips), 
                 col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"), 
                 xlab = "Time (myrs)")
-  x0 <- x1 <- -max(ape::branching.times(tax_datedotol))
-  arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_datedotol, "80"), lwd = lwd_arrows)
-  # points(x = -max(ape::branching.times(tax_datedotol)),  y = 2, pch = 25, col = paste0(col_datedotol, "60"), lwd = 0.75)
+  # we will plot dated otol arrows at the end bc its too light
   for (i in seq(length(tax_phyloall))){
     ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall, "80"))
     # points(x = -max(ape::branching.times(tax_phyloall[[i]])),  y = 2, pch = 25, col = paste0(col_phyloall, "60"), lwd = 0.75)
@@ -113,12 +111,17 @@ make_lttplot_summ <- function(taxon, tax_phyloall, tax_datedotol, tax_phylosumma
     cols <- c(cols, col_sdm2phy)
     linetype <- c(linetype, 1)
   }
+  # dated otol arrow (max branching time):
+  x0 <- x1 <- -max(ape::branching.times(tax_datedotol))
+  arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_datedotol, "80"), lwd = lwd_arrows)
+  # points(x = -max(ape::branching.times(tax_datedotol)),  y = 2, pch = 25, col = paste0(col_datedotol, "60"), lwd = 0.75)
+
   legend(x = "topleft", #round(-max_age, digits = -1), 
          # y = round(max_tips, digits = -2), 
          legend = leg, col = cols,
          cex = 0.5, lty = linetype, bty = "n") # pch = 19
   dev.off()
-  print(file_name)
+  # print(file_name)
 }
 
 

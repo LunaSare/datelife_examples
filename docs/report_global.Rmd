@@ -27,7 +27,7 @@ loadd(tax_summ)
 loadd(tax_phyloall)
 phyloall_success <- ape::is.ultrametric(tax_phyloall, option = 2)
 loadd(tax_median_phylo)
-loadd(tax_sdm)
+loadd(tax_sdm_phylo)
 loadd(tax_sdm_matrix)
 loadd(tax_datedotol)
 loadd(tax_allcal_datedotol)
@@ -40,6 +40,7 @@ loadd(tax_phycluster)
 loadd(sdm2phylo_bladj)
 # loadd(tax_crossval2)
 fig_lttplot_sdm <- "Fig. 3"
+fig_lttplot_median <- "Fig. 4"
 figcap2 <- paste(taxon, "Species Tree from Taxonomy. This tree was obtained with `tree_from_taxonomy()` function.")
 table_crossval <- "Table 2"
 ```
@@ -51,11 +52,11 @@ table_crossval <- "Table 2"
 There are `r length(tax_dq$cleaned_names)` species in the Open Tree of Life Taxonomy for the taxon `r taxon`.
 Information on time of divergence is available for
 ```{r echo = FALSE, results = 'asis'}
-tt <- nrow(tax_phylomedian$taxon_distribution)
+tt <- nrow(tax_median_phylo$taxon_distribution)
 if(tt == length(tax_dq$cleaned_names)){
   cat("all")
 } else {
-  cat(nrow(tax_phylomedian$taxon_distribution))
+  cat(nrow(tax_median_phylo$taxon_distribution))
 }
 ```
 of these species across `r length(tax_phyloall)` published and peer-reviewed chronograms from the following studies:
@@ -74,35 +75,35 @@ if(all(phyloall_success)){
 ```
 The proportion of `r taxon` queried species found across source chronograms is as follows:
 ```{r echo=FALSE, message = FALSE, results = 'asis'}
-# distributions <- tax_phylomedian$taxon_distribution
+# distributions <- tax_median_phylo$taxon_distribution
 # print(knitr::kable(distributions, caption = NULL, row.names = FALSE,
 #                    booktabs = T, col.names = colnames(distributions),
 #                    align = "c"))
 # the table does not look good, so map the percentage to a tree
 # title1 = paste0(taxon, " Species Presence across chronograms in DateLife Data Base")
 # make_plot_global(tax_datedotol, title1, taxon, tax_summ)
-treesall <- list(#tax_treefromtax$phy, 
+treesall <- list(#tax_treefromtax$phy,
                  tax_otol, tax_datedotol,
-                 tax_phylomedian$phy, 
-                 tax_sdm)
+                 tax_median_phylo$phy,
+                 tax_sdm_phylo)
 resolved_nodes <- sapply(seq(treesall), function(i) treesall[[i]]$Nnode/ape::Ntip(treesall[[i]]))*100
 resolved_nodes[resolved_nodes < 0] <- 0
-table1 <- data.frame(Trees = 
-                       c(#"Tree from NCBI Taxonomy", 
-                        "Open Tree of Life Subtree", 
-                        "Dated Open Tree of Life Subtree", 
-                        "Median Summary Chronogram", 
-                        "SDM Summary Chronogram"), 
+table1 <- data.frame(Trees =
+                       c(#"Tree from NCBI Taxonomy",
+                        "Open Tree of Life Subtree",
+                        "Dated Open Tree of Life Subtree",
+                        "Median Summary Chronogram",
+                        "SDM Summary Chronogram"),
                     Tips = sapply(treesall, ape::Ntip),
                     Resolved = paste0(round(resolved_nodes), "%"))
 # table1 <- my_table_format(table1)
 table1 <- as.matrix(table1)
 dimnames(table1) <- list(seq(nrow(table1)), c("Trees", "Tips", "Resolved"))
-# tried to convert to matrix and give dimnames to table 1 to be able to print it as table 2, on the left, but if I change fomat from "markdown" to "latex" OR if I assign it to an object (such as tt) it's giving me 
+# tried to convert to matrix and give dimnames to table 1 to be able to print it as table 2, on the left, but if I change fomat from "markdown" to "latex" OR if I assign it to an object (such as tt) it's giving me
 # Error producing PDF.
 # ! Undefined control sequence.
 # l.124 \toprule
-knitr::kable(table1, caption = "First table", row.names = TRUE, format = "markdown", booktabs = TRUE) 
+knitr::kable(table1, caption = "First table", row.names = TRUE, format = "markdown", booktabs = TRUE)
 # %>% kableExtra::kable_styling(kable_input = tt, position = "left") this also gives me that error
 #           row_spec(0, color = c(rep("white", 3), rep("black", 5)))
 ```
@@ -133,40 +134,55 @@ cat(lttplot_phyloall)
 ## II. Summarize results.
 ### II.A. Diagnosing clustering issues.
 
-We identified some issues with chronograms coming from SDM and median summary matrices. First, clustering algorithms implemented to go from a distance matrix to a tree return trees that are too old or non-ultrametric. In all studied cases, UPGMA returns fully ultrametric trees but with very old ages (we had to multiply the matrix by 0.25 to get ages approximate to source chronograms ages, however this is a number chosen at random, it was just the number that worked well. NJ returned reasonable ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`.
+We identified some issues with chronograms coming from SDM and Median summary matrices.
+First, clustering algorithms implemented to go from a summary distance matrix to
+a tree return trees that are too old (generally with UPGMA algorithms) or non-ultrametric
+(generally with Neighbour Joining algorithms). In most studied cases, UPGMA returns
+fully ultrametric trees but with very old ages (we had to multiply the matrix by
+0.25 to get ages approximate to source chronograms ages, however this is a number
+chosen at random, it was just the number that worked well. NJ returned reasonable
+ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`
+and `r fig_lttplot_median`.
 
 ```{r eval = TRUE, echo = F, results = 'asis'}
-negs_list <- list(SDM = which(tax_sdm_matrix < 0), 
+negs_list <- list(SDM = which(tax_sdm_matrix < 0),
                  Median = which(tax_median_matrix < 0))
 tax_summ_matrix <- list(tax_sdm_matrix, tax_median_matrix)
-figcapextra <- vector(mode = "list", length = 2)
-for (i in negs_list){
+figcap_lttplot_summ <- rep(list(""), 2)
+for (i in seq_along(negs_list)){
   if(length(negs_list[[i]])>0){
-    xx <- rownames(tax_summ_matrix[[i]])[ceiling(negs/nrow(tax_summ_matrix[[i]]))]
-    cat(paste0("This taxon's", names(negs_list)[i], " matrix has some negative values in the following taxa: *", paste(xx, collapse = "*, *"), "*."))
-    figcapextra[[i]] <- "As you can note, dashed lines and solid lines from trees coming out from both types of clustering algorithms implemented are mostly overlapping. This means that removing negative values does not change results from clustering algorithms much."
+    xx <- rownames(tax_summ_matrix[[i]])[ceiling(negs_list[[i]]/nrow(tax_summ_matrix[[i]]))]
+    figcapextra <- "As you can note, dashed lines and solid lines from trees coming out from both types of clustering algorithms implemented are mostly overlapping. This means that removing negative values does not change results from clustering algorithms much."
+    cat(paste0("This taxon's ", names(negs_list)[i], " matrix has some negative values in the following taxa: *", paste(xx, collapse = "*, *"), "*. "))
   } else {
-    cat("This taxon's",  names(negs_list)[i], " matrix has NO negative values. ")
-      figcapextra[[i]] <- ""
+    figcapextra <- ""
+    cat(paste("This taxon's",  names(negs_list)[i], "matrix has NO negative values."))
   }
+  figcap_lttplot_summ[[i]] <- paste(taxon, "lineage through time (LTT) plots from source chronograms and", names(negs_list)[i], "summary matrix converted to phylo with different methods (NJ and UPGMA).", figcapextra, "Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off (too old or too young). So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.")
 }
 
 ```
 
 ```{r LTTplot-median, echo = F, results = 'asis', fig.cap= ""}
-figcap_lttplot_median <- paste(taxon, "lineage through time (LTT) plots from source chronograms and median summary matrix converted to phylo with different methods (NJ and UPGMA).", figcapextra[[1]], "Clustering algorithms used here are returning non-ultrametric trees that are too old. So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.")
-
-lttplot_median <- paste0("\n![", figcap_lttplot_median, "](plots/", taxon, "_LTTplot_Median.pdf)\n")
+lttplot_median <- paste0("\n![", figcap_lttplot_summ[[2]], "](plots/", taxon, "_LTTplot_Median.pdf)\n")
 cat(lttplot_median)
 ```
-```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
-figcap_lttplot_sdm <- paste(taxon, "lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with different methods (NJ and UPGMA).", figcapextra[[1]], "Clustering algorithms used here are returning non-ultrametric trees that are too old. So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.")
 
-lttplot_sdm <- paste0("\n![", figcap_lttplot_sdm, "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
+
+```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
+lttplot_sdm <- paste0("\n![", figcap_lttplot_summ[[1]], "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
 cat(lttplot_sdm)
 ```
+
+### II.B. Age distributions form Median and SDM summary trees.
+
+
+
 \newpage
+
+
 ## III. Create new data
+
 
 As an example, we're gonna date the Open Tree Synthetic tree (mainly because the taxonomic tree is usually less well resolved.)
 ```{r echo = FALSE}
@@ -180,8 +196,8 @@ if(!inherits(tax_allcal_datedotol, "list")){
       if(all(is.na(tax_allcal_datedotol$phy$edge.length))){
         txtA <- paste(taxon, "and a tree was constructed, but all branch lengths are NA.")
       } else {
-          txtA <- paste(taxon, "and a tree with", ape::Ntip(tax_allcal_datedotol$phy), "tips,", 
-                        round(tax_allcal_datedotol$phy$Nnode/ape::Ntip(tax_allcal_datedotol$phy)*100), 
+          txtA <- paste(taxon, "and a tree with", ape::Ntip(tax_allcal_datedotol$phy), "tips,",
+                        round(tax_allcal_datedotol$phy$Nnode/ape::Ntip(tax_allcal_datedotol$phy)*100),
                         "% resolved nodes and a MRCA of",
                         round(max(ape::branching.times(tax_allcal_datedotol$phy))),"was constructed.")
       }
@@ -190,7 +206,7 @@ if(!inherits(tax_allcal_datedotol, "list")){
 ```
 
 Now, let's say you like the Open Tree of Life Taxonomy and you want to stick to that tree. Dates from available studies were tested over the Open Tree of Life Synthetic tree of `r txtA`
-We also tried  each source chronogram independently, with the Dated OToL and with each other, as a form of cross validation in `r table_crossval`. this is not working perfectly yet, but we are developping new ways to use all calibrations efficiently.
+We also tried  each source chronogram independently, with the Dated OToL and with each other, as a form of cross validation in `r table_crossval`. This is not working perfectly yet, but we are developping new ways to use all calibrations efficiently.
 
 \newpage
 ```{r echo = FALSE}
@@ -203,11 +219,11 @@ if(ncol(table2) >= 9) fs <- 7
 if(ncol(table2) > 10) {
   table2ori <- table2
   table2[table2 == TRUE] <- "yes" # "&#x2611;"  # :tick:
-  table2[table2 == "FALSE"] <- "no"  # "&#x2612;"  
-  dimnames(table2) <- list(paste0("Calib", seq(tax_crossval)), 
+  table2[table2 == "FALSE"] <- "no"  # "&#x2612;"
+  dimnames(table2) <- list(paste0("Calib", seq(tax_crossval)),
                            c("dOToL", paste0("Chr", seq(tax_crossval))))
 }
-tt <- knitr::kable(table2, caption = table_cap, row.names = TRUE, format = "latex", booktabs = TRUE) 
+tt <- knitr::kable(table2, caption = table_cap, row.names = TRUE, format = "latex", booktabs = TRUE)
 kableExtra::kable_styling(kable_input = tt, position = "left", font_size = fs)
 ```
 \newpage
@@ -223,8 +239,8 @@ cat(lttplot)
 
 ## Appendix
 ```{r echo = FALSE, results = 'asis'}
-absent <- levels(tax_phylomedian$absent_taxa$taxon)
+absent <- levels(tax_median_phylo$absent_taxa$taxon)
 if(!"None" %in% absent){
-  cat("The following species were completely absent from the chronogram data base: ", paste0("*", levels(tax_phylomedian$absent_taxa$taxon), collapse = "*, *", "*"))
+  cat("The following species were completely absent from the chronogram data base: ", paste0("*", levels(tax_median_phylo$absent_taxa$taxon), collapse = "*, *", "*"))
 }
 ```
