@@ -130,9 +130,10 @@ cat(lttplot_phyloall)
 \newpage
 
 
-## I.A. Summarize query results: diagnosing SDM issues.
+## II. Summarize results.
+### II.A. Diagnosing clustering issues.
 
-We identified some issues with summary chronograms from SDM. First, clustering algorithms implemented to go from a distance matrix to a tree return trees that are too old or non-ultrametric. In all studied cases, UPGMA returns fully ultrametric trees but with very old ages (we had to multiply the matrix by 0.25 to get ages approximate to source chronograms, however this is a number chosen at random, it was just the number that worked well. NJ returned reasonable ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`.
+We identified some issues with chronograms coming from SDM and median summary matrices. First, clustering algorithms implemented to go from a distance matrix to a tree return trees that are too old or non-ultrametric. In all studied cases, UPGMA returns fully ultrametric trees but with very old ages (we had to multiply the matrix by 0.25 to get ages approximate to source chronograms ages, however this is a number chosen at random, it was just the number that worked well. NJ returned reasonable ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`.
 
 ```{r eval = TRUE, echo = F, results = 'asis'}
 negs <- which(sdm_matrix < 0)

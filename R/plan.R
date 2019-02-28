@@ -1,22 +1,17 @@
+# utils::data(subset2_taxa)
+# length(unique(subset2_taxa))
+
 taxaall <- c("Spheniscidae","Cetacea", "Fringilidae", "Hominidae", "Phyllostomidae", "Anolis", "Primates")
+spp_from_taxon <- c(rep(TRUE, length(taxaall)))
 plan_query <- drake_plan(
     taxa = taxaall,
-    tax_dqall = lapply(taxa, make_datelife_query, get_spp_from_taxon = TRUE),
+    tax_dqall = lapply(seq_along(taxa), function(i)
+                make_datelife_query(taxa[i], get_spp_from_taxon = spp_from_taxon[i])),
     tax_drall = lapply(tax_dqall, get_datelife_result),
     # lapply(tax_drall, length)
     tax_summall = lapply(seq(length(taxa)), function(i)
                       get_taxon_summary(datelife_query = tax_dqall[[i]],
                                         datelife_result = tax_drall[[i]])),
-    tax_phylomedall = lapply(seq(length(taxa)), function(i)
-                      summarize_datelife_result(datelife_query = tax_dqall[[i]],
-                                                datelife_result = tax_drall[[i]],
-                                                summary_format = "phylo_median",
-                                                taxon_summary = "summary")),
-    tax_sdmall = lapply(seq(length(taxa)), function(i)
-                      summarize_datelife_result(datelife_query = tax_dqall[[i]],
-                                                datelife_result = tax_drall[[i]],
-                                                summary_format = "phylo_sdm",
-                                                taxon_summary = "none")),
     tax_phyloallall = lapply(seq(length(taxa)), function(i)
                       summarize_datelife_result(datelife_query = tax_dqall[[i]],
                                                 datelife_result = tax_drall[[i]],
@@ -37,17 +32,31 @@ make(plan_query)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 loadd(taxa)
 loadd(tax_drall)
+loadd(tax_dqall)
 plan_summ <- drake_plan(
   tax_bestgroveall = lapply(seq(length(taxa)), function(i)
                       get_best_grove(datelife_result = tax_drall[[i]])),
-  tax_medianmatrixall = lapply(seq(length(taxa)), function(i)
+  tax_median_matrixall = lapply(seq(length(taxa)), function(i)
                       datelife_result_median_matrix(tax_bestgroveall[[i]]$best_grove)),
-  tax_phyclustermedianall = lapply(tax_medianmatrixall, cluster_patristicmatrix),
-  tax_sdmmatrixall = lapply(seq(length(taxa)), function(i)
+  tax_median_phyclusterall = lapply(tax_median_matrixall, cluster_patristicmatrix),
+  tax_median_phyloall = lapply(seq(length(taxa)), function(i)
+                      summarize_datelife_result(
+                        datelife_query = tax_dqall[[i]],
+                        datelife_result = tax_drall[[i]],
+                        summary_format = "phylo_median",
+                        taxon_summary = "summary")),
+  tax_sdm_matrixall = lapply(seq(length(taxa)), function(i)
                       get_sdm_matrix(tax_bestgroveall[[i]]$best_grove)),
-  tax_phyclustersdmall = lapply(tax_sdmmatrixall, cluster_patristicmatrix)
+  tax_sdm_phyclusterall = lapply(tax_sdmmatrixall, cluster_patristicmatrix),
+  tax_sdm_phyloall = lapply(seq(length(taxa)), function(i)
+                      summarize_datelife_result(
+                        datelife_query = tax_dqall[[i]],
+                        datelife_result = tax_drall[[i]],
+                        summary_format = "phylo_sdm",
+                        taxon_summary = "none"))
 )
 make(plan_summ)
+loadd(tax_sdm_phyclusterall)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 loadd(tax_phyloallall)
 loadd(tax_datedotolall)
@@ -73,20 +82,20 @@ plan_data <- drake_plan(
 make(plan_data)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 loadd(tax_drall)
-loadd(tax_sdmall)
-loadd(tax_phylomedall)
-loadd(tax_sdmmatrixall)
+loadd(tax_sdm_phyloall)
+loadd(tax_median_phyloall)
+loadd(tax_sdm_matrixall)
 loadd(tax_otolall)
-# length(tax_sdmall)
-# class(tax_sdmall) <- "multiPhylo"
-# ape::is.ultrametric(tax_sdmall)
-# sapply(tax_sdmall, "[", "clustering_method")
-# names(tax_sdmall[[3]])
-# plot(tax_sdmall, cex = 0.1)
+# length(tax_sdm_phyloall)
+# class(tax_sdm_phyloall) <- "multiPhylo"
+# ape::is.ultrametric(tax_sdm_phyloall)
+# sapply(tax_sdm_phyloall, "[", "clustering_method")
+# names(tax_sdm_phyloall[[3]])
+# plot(tax_sdm_phyloall, cex = 0.1)
 plan_sim <- drake_plan(
-  tax_sdm_bladjall = lapply(seq(tax_sdmall), function(i)
-    get_bladjtree(dated_tree = tax_sdmall[[i]], backbone = tax_otolall[[i]])),
-  tax_med_bladjall = lapply(seq(tax_phylomedall), function(i)
-    get_bladjtree(dated_tree = tax_phylomedall[[i]]$phylo_median, backbone = tax_otolall[[i]]))
+  tax_sdm_bladjall = lapply(seq(tax_sdm_phyloall), function(i)
+    get_bladjtree(dated_tree = tax_sdm_phyloall[[i]], backbone = tax_otolall[[i]])),
+  tax_med_bladjall = lapply(seq(tax_median_phyloall), function(i)
+    get_bladjtree(dated_tree = tax_median_phyloall[[i]], backbone = tax_otolall[[i]]))
 )
 make(plan_sim)
