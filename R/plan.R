@@ -1,12 +1,12 @@
 # utils::data(subset2_taxa)
 # length(unique(subset2_taxa))
 
-taxaall <- c("Spheniscidae","Cetacea", "Fringilidae", "Hominidae", "Phyllostomidae", "Anolis", "Primates")
-spp_from_taxon <- c(rep(TRUE, length(taxaall)))
+# taxaall <- c("Spheniscidae","Cetacea", "Fringilidae", "Hominidae", "Phyllostomidae", "Anolis", "Primates")
+# spp_from_taxon <- c(rep(TRUE, length(taxaall)))
 plan_query <- drake_plan(
-    taxa = taxaall,
+    taxa = c("Spheniscidae","Cetacea", "Fringilidae", "Hominidae", "Phyllostomidae", "Anolis", "Primates"),
     tax_dqall = lapply(seq_along(taxa), function(i)
-                make_datelife_query(taxa[i], get_spp_from_taxon = spp_from_taxon[i])),
+                make_datelife_query(taxa[i], get_spp_from_taxon = TRUE)),
     tax_drall = lapply(tax_dqall, get_datelife_result),
     # lapply(tax_drall, length)
     tax_summall = lapply(seq(length(taxa)), function(i)
@@ -47,7 +47,7 @@ plan_summ <- drake_plan(
                         taxon_summary = "summary")),
   tax_sdm_matrixall = lapply(seq(length(taxa)), function(i)
                       get_sdm_matrix(tax_bestgroveall[[i]]$best_grove)),
-  tax_sdm_phyclusterall = lapply(tax_sdmmatrixall, cluster_patristicmatrix),
+  tax_sdm_phyclusterall = lapply(tax_sdm_matrixall, cluster_patristicmatrix),
   tax_sdm_phyloall = lapply(seq(length(taxa)), function(i)
                       summarize_datelife_result(
                         datelife_query = tax_dqall[[i]],
@@ -62,6 +62,11 @@ loadd(tax_phyloallall)
 loadd(tax_datedotolall)
 loadd(tax_otolall)
 loadd(tax_dqall)
+loadd(tax_eachcalall)
+if(all(is.na(tax_datedotolall))){
+  tax_datedotolall <- lapply(seq(tax_datedotolall), function(i)
+    ape::compute.brlen(tax_otolall[[i]]))
+}
 plan_data <- drake_plan(
   tax_allcalall = lapply(tax_phyloallall, get_all_calibrations),
   tax_allcal_datedotolall = lapply(seq(tax_datedotolall), function(i)
@@ -70,14 +75,17 @@ plan_data <- drake_plan(
                         lapply(tax_phyloallall[[i]], get_all_calibrations)),
   tax_eachcal_datedotolall = lapply(seq(tax_datedotolall), function(i)
                         use_each_cal(tree = tax_datedotolall[[i]], tax_eachcalall[[i]])),
+  
   # use_all_calibrations(phy = tax_datedotolall[[i]], eachcal[[1]])
   # sapply(tax_eachcalall, function(x) sapply(x, class))
   # sapply(tax_eachcalall, length)
   tax_crossvalall = lapply(seq(tax_phyloallall), function(i)
-                        use_eachcal_crossval(trees = tax_phyloallall[[i]], eachcal = tax_eachcalall[[i]])),
-  tax_phyloall_wobrlenall = lapply(tax_phyloallall, rm_brlen.multiPhylo),
-  tax_crossval2all = lapply(seq(tax_phyloall_wobrlenall), function(i)
-                        use_eachcal_crossval(trees = tax_phyloall_wobrlenall[[i]], eachcal = tax_eachcalall[[i]]))
+                        use_eachcal_crossval(trees = tax_phyloallall[[i]], eachcal = tax_eachcalall[[i]]))
+  # this was just to chck that it was the same with our without branch lengths as input.
+  # it is the same output so we are not running it again
+  # tax_phyloall_wobrlenall = lapply(tax_phyloallall, rm_brlen.multiPhylo),
+  # tax_crossval2all = lapply(seq(tax_phyloall_wobrlenall), function(i)
+  #                       use_eachcal_crossval(trees = tax_phyloall_wobrlenall[[i]], eachcal = tax_eachcalall[[i]]))
 )
 make(plan_data)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -96,6 +104,9 @@ plan_sim <- drake_plan(
   tax_sdm_bladjall = lapply(seq(tax_sdm_phyloall), function(i)
     get_bladjtree(dated_tree = tax_sdm_phyloall[[i]], backbone = tax_otolall[[i]])),
   tax_med_bladjall = lapply(seq(tax_median_phyloall), function(i)
-    get_bladjtree(dated_tree = tax_median_phyloall[[i]], backbone = tax_otolall[[i]]))
+    get_bladjtree(dated_tree = tax_median_phyloall[[i]]$phylo_median, backbone = tax_otolall[[i]]))
 )
 make(plan_sim)
+# loadd(tax_med_bladjall)
+# tax_med_bladjall[[1]]
+# loadd(tax_sdm_bladjall)

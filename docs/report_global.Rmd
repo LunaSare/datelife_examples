@@ -26,9 +26,9 @@ loadd(tax_dr)
 loadd(tax_summ)
 loadd(tax_phyloall)
 phyloall_success <- ape::is.ultrametric(tax_phyloall, option = 2)
-loadd(tax_phylomedian)
+loadd(tax_median_phylo)
 loadd(tax_sdm)
-loadd(sdm_matrix)
+loadd(tax_sdm_matrix)
 loadd(tax_datedotol)
 loadd(tax_allcal_datedotol)
 loadd(tax_otol)
@@ -136,26 +136,37 @@ cat(lttplot_phyloall)
 We identified some issues with chronograms coming from SDM and median summary matrices. First, clustering algorithms implemented to go from a distance matrix to a tree return trees that are too old or non-ultrametric. In all studied cases, UPGMA returns fully ultrametric trees but with very old ages (we had to multiply the matrix by 0.25 to get ages approximate to source chronograms ages, however this is a number chosen at random, it was just the number that worked well. NJ returned reasonable ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`.
 
 ```{r eval = TRUE, echo = F, results = 'asis'}
-negs <- which(sdm_matrix < 0)
-if(length(negs)>0){
-  xx <- rownames(sdm_matrix)[ceiling(negs/nrow(sdm_matrix))]
-  cat(paste0("This SDM matrix has some negative values in the following taxa: *", paste(xx, collapse = "*, *"), "*."))
-  figcapextra <- "As you can note, dashed lines and solid lines from trees coming out from both types of clustering algorithms implemented are mostly overlapping. This means that removing negative values does not change results from clustering algorithms much."
-} else {
-  cat("This SDM matrix has NO negative values. ")
-    figcapextra <- ""
+negs_list <- list(SDM = which(tax_sdm_matrix < 0), 
+                 Median = which(tax_median_matrix < 0))
+tax_summ_matrix <- list(tax_sdm_matrix, tax_median_matrix)
+figcapextra <- vector(mode = "list", length = 2)
+for (i in negs_list){
+  if(length(negs_list[[i]])>0){
+    xx <- rownames(tax_summ_matrix[[i]])[ceiling(negs/nrow(tax_summ_matrix[[i]]))]
+    cat(paste0("This taxon's", names(negs_list)[i], " matrix has some negative values in the following taxa: *", paste(xx, collapse = "*, *"), "*."))
+    figcapextra[[i]] <- "As you can note, dashed lines and solid lines from trees coming out from both types of clustering algorithms implemented are mostly overlapping. This means that removing negative values does not change results from clustering algorithms much."
+  } else {
+    cat("This taxon's",  names(negs_list)[i], " matrix has NO negative values. ")
+      figcapextra[[i]] <- ""
+  }
 }
+
 ```
 
+```{r LTTplot-median, echo = F, results = 'asis', fig.cap= ""}
+figcap_lttplot_median <- paste(taxon, "lineage through time (LTT) plots from source chronograms and median summary matrix converted to phylo with different methods (NJ and UPGMA).", figcapextra[[1]], "Clustering algorithms used here are returning non-ultrametric trees that are too old. So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.")
+
+lttplot_median <- paste0("\n![", figcap_lttplot_median, "](plots/", taxon, "_LTTplot_Median.pdf)\n")
+cat(lttplot_median)
+```
 ```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
-figcap_lttplot_sdm <- paste(taxon, "lineage through time (LTT) plots from source chronograms and SDM output converted to phylo with different methods (NJ and UPGMA).", figcapextra, "Clustering algorithms used here are returning non-ultrametric trees that are too old. So we developped an alternative algorithm to go from an SDM matrix to a fully ultrametric tree in `datelife`.")
+figcap_lttplot_sdm <- paste(taxon, "lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with different methods (NJ and UPGMA).", figcapextra[[1]], "Clustering algorithms used here are returning non-ultrametric trees that are too old. So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.")
 
 lttplot_sdm <- paste0("\n![", figcap_lttplot_sdm, "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
 cat(lttplot_sdm)
 ```
-
 \newpage
-## II. Create new data
+## III. Create new data
 
 As an example, we're gonna date the Open Tree Synthetic tree (mainly because the taxonomic tree is usually less well resolved.)
 ```{r echo = FALSE}
