@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-02-28"
+date: "2019-03-01"
 output: rmarkdown::html_vignette
 geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
 vignette: >
@@ -63,11 +63,22 @@ and Fig. 4.
 This taxon's SDM matrix has NO negative values.This taxon's Median matrix has NO negative values.
 
 
-![Primates lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off. So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Primates_LTTplot_Median.pdf)
+![Primates lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off (too old or too young). So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Primates_LTTplot_Median.pdf)
 
 
 
-![Primates lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off. So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Primates_LTTplot_sdm.pdf)
+![Primates lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off (too old or too young). So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Primates_LTTplot_SDM.pdf)
+
+### II.B. Age distributions form Median and SDM summary trees.
+
+Comparison of summary chronograms reconstructed with min and max ages.
+
+
+![Primates lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with `datelife` algorithm.](plots/Primates_LTTplot_summtrees_Median.pdf)
+
+
+
+![Primates lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Primates_LTTplot_summtrees_SDM.pdf)
 
 
 \newpage
@@ -80,7 +91,7 @@ As an example, we're gonna date the Open Tree Synthetic tree (mainly because the
 
 
 Now, let's say you like the Open Tree of Life Taxonomy and you want to stick to that tree. Dates from available studies were tested over the Open Tree of Life Synthetic tree of Primates and a tree was constructed, but all branch lengths are NA.
-We also tried  each source chronogram independently, with the Dated OToL and with each other, as a form of cross validation in Table 2. this is not working perfectly yet, but we are developping new ways to use all calibrations efficiently.
+We also tried  each source chronogram independently, with the Dated OToL and with each other, as a form of cross validation in Table 2. This is not working perfectly yet, but we are developping new ways to use all calibrations efficiently.
 
 \newpage
 \begin{table}[t]

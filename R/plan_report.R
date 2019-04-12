@@ -20,6 +20,7 @@ loadd(tax_median_phyloall)
 loadd(tax_sdm_matrixall)
 loadd(tax_sdm_phyclusterall)
 loadd(tax_sdm_phyloall)
+loadd(tax_bestgroveall)
 
 for(i in seq(taxa)){
     print(taxa[i])
@@ -59,7 +60,7 @@ for(i in seq(taxa)){
     	                                   tax_phylosummary = tax_median_phyloall[[i]]$phylo_median,
     	                                   tax_phycluster = tax_median_phyclusterall[[i]], 
     	                                   legend_phylosumm = "Median", 
-    	                                   col_phylosummary = "orange",
+    	                                   col_phylosummary = "blue",
     	                                   negs = which(tax_median_matrix < 0), 
     	                                   summ_matrix = tax_median_matrixall[[i]]),
     	lttplot_summ_sdm = make_lttplot_summ(taxa[i], tax_phyloall, tax_datedotol, 
@@ -69,6 +70,14 @@ for(i in seq(taxa)){
     	                                   col_phylosummary = "blue",
     	                                   negs = negs_sdm, 
     	                                   summ_matrix = tax_sdm_matrixall[[i]]),
+    	sdm_summtrees = get_summ_trees(tax_sdm_matrixall[[i]]),
+    	median_summtrees = get_summ_trees(tax_median_matrixall[[i]]),
+    	lttplot_sumtrees_sdm = make_lttplot_summtrees(taxa[i], tax_phyloall, tax_datedotol, 
+    	                                   summ_trees = sdm_summtrees,
+    	                                   legend_summtrees = "SDM"),
+    	lttplot_sumtrees_median = make_lttplot_summtrees(taxa[i], tax_phyloall, tax_datedotol, 
+    	                                   summ_trees = median_summtrees,
+    	                                   legend_summtrees = "Median"),
     	reportname = paste0(taxa[i], "_report"),
     	mdname = paste0("docs/", reportname, ".md"),
     	report = make_report(mdname),

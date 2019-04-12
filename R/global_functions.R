@@ -1,47 +1,24 @@
-#functions
-make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_datedotol, tax_phylomedian, filename = "LTTplot_phyloall"){
-  file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
-  grDevices::pdf(file = file_name, height = 3, width = 7)
-  par(mai = c(1.02, 0.82, 0.2, 0.42))
-  trees <- c(tax_phyloall, tax_datedotol, tax_phylomedian$phylo_median)
-  class(trees) <- "multiPhylo"
-  # class(tax_phyloall)
-  # ape::is.ultrametric(tax_phyloall)
-  max_age <- max(sapply(trees, function(x) max(ape::branching.times(x))))
-  max_tips <- max(sapply(trees, function(x) max(ape::Ntip(x))))
-  # ape::is.ultrametric(tax_datedotol)
-  # ape::is.binary(tax_datedotol)
-  tax_datedotol <- ape::collapse.singles(tax_datedotol)
-  tax_datedotol <- phytools::force.ultrametric(tax_datedotol)
-  col_datedotol <- "#808080" #gray
-  col_phylomedian <- "#ffa500"  # orange
-  col_phyloall <- "#cce5ff"
-  ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips), 
-                col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"), 
-                xlab = "Time (myrs)")
-  ape::ltt.lines(phy = tax_phylomedian$phylo_median, col = paste0(col_phylomedian, "80"))
-  for (i in seq(length(tax_phyloall))){
-    ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall, "80"))
-  }
-  leg <- paste(taxon, c("Dated OToL", "Median Summary Chronogram", 
-                        "Source Chronograms"))
-  legend(x = "topleft", #round(-max_age, digits = -1), 
-         # y = round(max_tips, digits = -2), 
-         legend = leg, col = c(col_datedotol, col_phylomedian, col_phyloall),
-         cex = 0.5, pch = 19, bty = "n")
-  dev.off()
-}
-# , tax_sdm_bladj, tax_med_bladj
+# global functions
 
-get_sdm_matrix <- function(datelife_result){
-  unpadded.matrices <- lapply(datelife_result, patristic_matrix_unpad)
-  good.matrix.indices <- get_goodmatrices(unpadded.matrices, verbose = TRUE)
-  if(length(good.matrix.indices) > 1) {
-    unpadded.matrices <- unpadded.matrices[good.matrix.indices]
-    sdm_matrix <- get_sdm(unpadded.matrices, weighting = "flat", verbose = TRUE)
-  }
-  return(sdm_matrix)
+get_summ_trees <- function(summ_matrix){
+  tmean <- summary_matrix_to_phylo(summ_matrix , use = "mean", target_tree = NULL)
+  tmin <- summary_matrix_to_phylo(summ_matrix , use = "min", target_tree = NULL)
+  tmax <- summary_matrix_to_phylo(summ_matrix , use = "max", target_tree = NULL)
+  res <- c(tmean, tmin, tmax)
+  names(res) <- c("mean_tree", "min_tree", "max_tree")
+  return(res)
 }
+
+# now in datelife:
+# get_sdm_matrix <- function(datelife_result){
+#   unpadded.matrices <- lapply(datelife_result, patristic_matrix_unpad)
+#   good.matrix.indices <- get_goodmatrices(unpadded.matrices, verbose = TRUE)
+#   if(length(good.matrix.indices) > 1) {
+#     unpadded.matrices <- unpadded.matrices[good.matrix.indices]
+#     sdm_matrix <- get_sdm(unpadded.matrices, weighting = "flat", verbose = TRUE)
+#   }
+#   return(sdm_matrix)
+# }
 get_bladjtree <- function(dated_tree, backbone){
   res <- tryCatch(tree_add_dates(dated_tree = dated_tree,
                                  missing_taxa = backbone,

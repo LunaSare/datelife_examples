@@ -1,3 +1,71 @@
+# make_phylobars_plot <- 
+# colors()[grep("blue", colors())]
+make_lttplot_summtrees <- function(taxon, tax_phyloall, tax_datedotol, 
+                               summ_trees,
+                               legend_summtrees = "Median",
+                               col_summtrees = c("blue", "green", "forestgreen"), 
+                               filename = "LTTplot_summtrees_"){
+  is.hex <- tryCatch(suppressWarnings(plotrix::color.id(col_summtrees)), error = function(e) FALSE)
+  # if it is valid it is converted to hex so it can be transparent in some parts of the plot:
+  if(!inherits(is.hex, "logical")){
+    col_summtrees <- col2hex(col_summtrees)
+  }
+  file_name = paste0("docs/plots/", taxon, "_", filename, legend_summtrees, ".pdf")
+  # print(file_name)
+  trees <- c(tax_phyloall, tax_datedotol)
+  if(inherits(summ_trees, "phylo")){
+    trees <- c(trees, summ_trees)
+  }  
+  if(inherits(summ_trees, "list")){
+    class(summ_trees) <- "multiPhylo"
+    trees <- c(trees, summ_trees)
+  }
+  trees <- trees[!sapply(trees, is.null)]
+  max_age <- max(sapply(trees, function(x) max(ape::branching.times(x))))
+  max_tips <- max(sapply(trees, function(x) max(ape::Ntip(x))))
+  tax_datedotol <- ape::collapse.singles(tax_datedotol)
+  tax_datedotol <- phytools::force.ultrametric(tax_datedotol)
+  col_datedotol <- "#808080" #gray
+  col_phyloall <- "#cce5ff" # light blue
+  cols <- c(col_datedotol, col_phyloall, col_summtrees)
+  leg_summ <- paste(legend_summtrees, gsub("_", " ", names(summ_trees)))
+  leg <- paste(taxon, c("Dated OToL", "Source Chronograms", leg_summ))
+  linetype <- rep(1, 5)
+  
+  y1 <- max_tips*0.05
+  y0 <- max_tips*0.15
+  lwd_arrows <- 2
+  length_arrowhead <- 0.075
+  grDevices::pdf(file = file_name, height = 3, width = 7)
+  par(mai = c(1.02, 0.82, 0.2, 0.42))
+  ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips), 
+                col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"), 
+                xlab = "Time (myrs)")
+  # we will plot dated otol arrows at the end bc its too light
+  for (i in seq(length(tax_phyloall))){
+    ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall, "80"))
+    # points(x = -max(ape::branching.times(tax_phyloall[[i]])),  y = 2, pch = 25, col = paste0(col_phyloall, "60"), lwd = 0.75)
+    x0 <- x1 <- -max(ape::branching.times(tax_phyloall[[i]]))
+    arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_phyloall, "99"), lwd = lwd_arrows)
+  }  
+  for(i in seq_along(summ_trees)){
+    ape::ltt.lines(phy = summ_trees[[i]], col = paste0(col_summtrees[i], "80"), lty = 1)
+    x0 <- x1 <- -max(ape::branching.times(summ_trees[[i]]))
+    arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_summtrees[i], "80"), lwd = lwd_arrows)
+  }
+  # dated otol arrow (max branching time):
+  x0 <- x1 <- -max(ape::branching.times(tax_datedotol))
+  arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_datedotol, "80"), lwd = lwd_arrows)
+
+  legend(x = "topleft", #round(-max_age, digits = -1), 
+         # y = round(max_tips, digits = -2), 
+         legend = leg, col = cols,
+         cex = 0.5, lty = linetype, bty = "n") # pch = 19
+  dev.off()
+}  
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 make_lttplot_summ <- function(taxon, tax_phyloall, tax_datedotol, tax_phylosummary = NULL, col_phylosummary = "#ff0", legend_phylosumm = "Median", tax_phycluster = NULL, negs = c(), summ_matrix, sdm2phylo = NULL, filename = "LTTplot_"){
   # orange "#ffa500"
   # blue
@@ -52,7 +120,9 @@ make_lttplot_summ <- function(taxon, tax_phyloall, tax_datedotol, tax_phylosumma
     arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_phyloall, "99"), lwd = lwd_arrows)
   }
   if(inherits(tax_phylosummary, "phylo")){
-    ape::ltt.lines(phy = tax_phylosummary, col = paste0(col_phylosummary, "80"))
+    ape::ltt.lines(phy = tax_phylosummary, 
+                   col = paste0(col_phylosummary, "80"),
+                   lwd = 1.5)
     x0 <- x1 <- -max(ape::branching.times(tax_phylosummary))
     arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_phylosummary, "80"), lwd = lwd_arrows)
     leg <- c(leg, paste(legend_phylosumm, "Summary Chronogram"))
@@ -114,7 +184,6 @@ make_lttplot_summ <- function(taxon, tax_phyloall, tax_datedotol, tax_phylosumma
   # dated otol arrow (max branching time):
   x0 <- x1 <- -max(ape::branching.times(tax_datedotol))
   arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_datedotol, "80"), lwd = lwd_arrows)
-  # points(x = -max(ape::branching.times(tax_datedotol)),  y = 2, pch = 25, col = paste0(col_datedotol, "60"), lwd = 0.75)
 
   legend(x = "topleft", #round(-max_age, digits = -1), 
          # y = round(max_tips, digits = -2), 
@@ -124,8 +193,8 @@ make_lttplot_summ <- function(taxon, tax_phyloall, tax_datedotol, tax_phylosumma
   # print(file_name)
 }
 
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 make_lttplot_sdm <- function(taxon, tax_phyloall, tax_datedotol, tax_phylomed = NULL, tax_phycluster = NULL, negs = c(), sdm_matrix, sdm2phylo = NULL, filename = "LTTplot_sdm"){
   file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
   trees <- c(tax_phyloall, tax_datedotol)
@@ -238,4 +307,39 @@ make_lttplot_sdm <- function(taxon, tax_phyloall, tax_datedotol, tax_phylomed = 
          cex = 0.5, lty = linetype, bty = "n") # pch = 19
   dev.off()
 
+}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_datedotol, tax_phylomedian, filename = "LTTplot_phyloall"){
+  file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
+  grDevices::pdf(file = file_name, height = 3, width = 7)
+  par(mai = c(1.02, 0.82, 0.2, 0.42))
+  trees <- c(tax_phyloall, tax_datedotol, tax_phylomedian$phylo_median)
+  class(trees) <- "multiPhylo"
+  # class(tax_phyloall)
+  # ape::is.ultrametric(tax_phyloall)
+  max_age <- max(sapply(trees, function(x) max(ape::branching.times(x))))
+  max_tips <- max(sapply(trees, function(x) max(ape::Ntip(x))))
+  # ape::is.ultrametric(tax_datedotol)
+  # ape::is.binary(tax_datedotol)
+  tax_datedotol <- ape::collapse.singles(tax_datedotol)
+  tax_datedotol <- phytools::force.ultrametric(tax_datedotol)
+  col_datedotol <- "#808080" #gray
+  col_phylomedian <- "#ffa500"  # orange
+  col_phyloall <- "#cce5ff"
+  ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips), 
+                col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"), 
+                xlab = "Time (myrs)")
+  ape::ltt.lines(phy = tax_phylomedian$phylo_median, col = paste0(col_phylomedian, "80"))
+  for (i in seq(length(tax_phyloall))){
+    ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall, "80"))
+  }
+  leg <- paste(taxon, c("Dated OToL", "Median Summary Chronogram", 
+                        "Source Chronograms"))
+  legend(x = "topleft", #round(-max_age, digits = -1), 
+         # y = round(max_tips, digits = -2), 
+         legend = leg, col = c(col_datedotol, col_phylomedian, col_phyloall),
+         cex = 0.5, pch = 19, bty = "n")
+  dev.off()
 }
