@@ -1,9 +1,9 @@
 # global functions
 
 get_summ_trees <- function(summ_matrix){
-  tmean <- summary_matrix_to_phylo(summ_matrix , use = "mean", target_tree = NULL)
-  tmin <- summary_matrix_to_phylo(summ_matrix , use = "min", target_tree = NULL)
-  tmax <- summary_matrix_to_phylo(summ_matrix , use = "max", target_tree = NULL)
+  tmean <- summary_matrix_to_phylo(summ_matrix = best_grove, use = "mean", target_tree = NULL)
+  tmin <- summary_matrix_to_phylo(summ_matrix = best_grove, use = "min", target_tree = NULL)
+  tmax <- summary_matrix_to_phylo(summ_matrix = best_grove, use = "max", target_tree = NULL)
   res <- c(tmean, tmin, tmax)
   names(res) <- c("mean_tree", "min_tree", "max_tree")
   return(res)

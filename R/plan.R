@@ -62,11 +62,10 @@ loadd(tax_phyloallall)
 loadd(tax_datedotolall)
 loadd(tax_otolall)
 loadd(tax_dqall)
-loadd(tax_eachcalall)
-if(all(is.na(tax_datedotolall))){
-  tax_datedotolall <- lapply(seq(tax_datedotolall), function(i)
-    ape::compute.brlen(tax_otolall[[i]]))
-}
+# if(all(is.na(tax_datedotolall))){
+#   tax_datedotolall <- lapply(seq(tax_datedotolall), function(i)
+#     ape::compute.brlen(tax_otolall[[i]]))
+# }
 plan_data <- drake_plan(
   tax_allcalall = lapply(tax_phyloallall, get_all_calibrations),
   tax_allcal_datedotolall = lapply(seq(tax_datedotolall), function(i)
@@ -75,7 +74,7 @@ plan_data <- drake_plan(
                         lapply(tax_phyloallall[[i]], get_all_calibrations)),
   tax_eachcal_datedotolall = lapply(seq(tax_datedotolall), function(i)
                         use_each_cal(tree = tax_datedotolall[[i]], tax_eachcalall[[i]])),
-  
+
   # use_all_calibrations(phy = tax_datedotolall[[i]], eachcal[[1]])
   # sapply(tax_eachcalall, function(x) sapply(x, class))
   # sapply(tax_eachcalall, length)

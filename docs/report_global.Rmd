@@ -135,12 +135,12 @@ cat(lttplot_phyloall)
 ### II.A. Diagnosing clustering issues.
 
 We identified some issues with chronograms coming from SDM and Median summary matrices.
-First, clustering algorithms implemented to go from a summary distance matrix to
+First, clustering algorithms used to go from a summary distance matrix to
 a tree return trees that are too old (generally with UPGMA algorithms) or non-ultrametric
 (generally with Neighbour Joining algorithms). In most studied cases, UPGMA returns
 fully ultrametric trees but with very old ages (we had to multiply the matrix by
 0.25 to get ages approximate to source chronograms ages, however this is a number
-chosen at random, it was just the number that worked well. NJ returned reasonable
+chosen at random, it was just the number that worked well). NJ returned reasonable
 ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`
 and `r fig_lttplot_median`.
 
