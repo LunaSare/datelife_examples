@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-03-01"
+date: "2019-04-15"
 output: rmarkdown::html_vignette
 geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
 vignette: >
@@ -19,29 +19,25 @@ vignette: >
 There are 458 species in the Open Tree of Life Taxonomy for the taxon Anolis.
 Information on time of divergence is available for
 302
-of these species across 6 published and peer-reviewed chronograms from the following studies:
+of these species across 6 published and peer-reviewed chronograms.
+Original study citations as well as proportion of Anolis species found across those source
+chronograms is shown in Table 1.
 
-**1. Yuchi Zheng, John J. Wiens, 2016, 'Combining phylogenomic and supermatrix approaches, and a time-calibrated phylogeny for squamate reptiles (lizards and snakes) based on 52 genes and 4162 species', Molecular Phylogenetics and Evolution, vol. 94, pp. 537-547**
 
-**2. Pyron, R. Alexander, Frank T. Burbrink. 2013. Early origin of viviparity and multiple reversions to oviparity in squamate reptiles. Ecology Letters 17 (1): 13-21**
-
-**3. Steven Poe, Adrián Nieto-montes de oca, Omar Torres-carvajal, Kevin De Queiroz, Julián A. Velasco, Brad Truett, Levi N. Gray, Mason J. Ryan, Gunther Köhler, Fernando Ayala-varela, Ian Latella, 2017, 'A Phylogenetic, Biogeographic, and Taxonomic study of all Extant Species of Anolis (Squamata; Iguanidae)', Systematic Biology, vol. 66, no. 5, pp. 663-697**
-
-**4. Wright, April M., Kathleen M. Lyons, Matthew C. Brandley, David M. Hillis. 2015. Which came first: The lizard or the egg? Robustness in phylogenetic reconstruction of ancestral states. Journal of Experimental Zoology Part B: Molecular and Developmental Evolution 324 (6): 504-516**
-
-**5. Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845**
-
-**6. Mahler, D. L., T. Ingram, L. J. Revell, J. B. Losos. 2013. Exceptional Convergence on the Macroevolutionary Landscape in Island Lizard Radiations. Science 341 (6143): 292-295.**
+|   |Original_Studies                                                                                                                                                                                                                                                                                                                                                   |Taxa    |
+|:--|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------|
+|1  |Yuchi Zheng, John J. Wiens, 2016, 'Combining phylogenomic and supermatrix approaches, and a time-calibrated phylogeny for squamate reptiles (lizards and snakes) based on 52 genes and 4162 species', Molecular Phylogenetics and Evolution, vol. 94, pp. 537-547                                                                                                  |202/458 |
+|2  |Pyron, R. Alexander, Frank T. Burbrink. 2013. Early origin of viviparity and multiple reversions to oviparity in squamate reptiles. Ecology Letters 17 (1): 13-21                                                                                                                                                                                                  |205/458 |
+|3  |Steven Poe, Adrián Nieto-montes de oca, Omar Torres-carvajal, Kevin De Queiroz, Julián A. Velasco, Brad Truett, Levi N. Gray, Mason J. Ryan, Gunther Köhler, Fernando Ayala-varela, Ian Latella, 2017, 'A Phylogenetic, Biogeographic, and Taxonomic study of all Extant Species of Anolis (Squamata; Iguanidae)', Systematic Biology, vol. 66, no. 5, pp. 663-697 |289/458 |
+|4  |Wright, April M., Kathleen M. Lyons, Matthew C. Brandley, David M. Hillis. 2015. Which came first: The lizard or the egg? Robustness in phylogenetic reconstruction of ancestral states. Journal of Experimental Zoology Part B: Molecular and Developmental Evolution 324 (6): 504-516                                                                            |203/458 |
+|5  |Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845                                                                                                                                                               |192/458 |
+|6  |Mahler, D. L., T. Ingram, L. J. Revell, J. B. Losos. 2013. Exceptional Convergence on the Macroevolutionary Landscape in Island Lizard Radiations. Science 341 (6143): 292-295.                                                                                                                                                                                    |98/458  |
 
 All source chronograms are fully ultrametric.
-The proportion of Anolis queried species found across source chronograms is as follows:
 
-|   |Trees                           |Tips |Resolved |
-|:--|:-------------------------------|:----|:--------|
-|1  |Open Tree of Life Subtree       |458  |100%     |
-|2  |Dated Open Tree of Life Subtree |458  |44%      |
-|3  |Median Summary Chronogram       |302  |100%     |
-|4  |SDM Summary Chronogram          |302  |100%     |
+```
+#> Error in knitr::kable(table1, caption = "Second table", row.names = TRUE, : object 'table1' not found
+```
 
 
 ![Anolis Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Anolis_datedotol.pdf)
@@ -57,12 +53,12 @@ The proportion of Anolis queried species found across source chronograms is as f
 ### II.A. Diagnosing clustering issues.
 
 We identified some issues with chronograms coming from SDM and Median summary matrices.
-First, clustering algorithms implemented to go from a summary distance matrix to
+First, clustering algorithms used to go from a summary distance matrix to
 a tree return trees that are too old (generally with UPGMA algorithms) or non-ultrametric
 (generally with Neighbour Joining algorithms). In most studied cases, UPGMA returns
 fully ultrametric trees but with very old ages (we had to multiply the matrix by
 0.25 to get ages approximate to source chronograms ages, however this is a number
-chosen at random, it was just the number that worked well. NJ returned reasonable
+chosen at random, it was just the number that worked well). NJ returned reasonable
 ages, but trees are way non ultrametric, as you can see in Fig. 3
 and Fig. 4.
 
@@ -102,7 +98,7 @@ We also tried  each source chronogram independently, with the Dated OToL and wit
 \newpage
 \begin{table}[t]
 
-\caption{\label{tab:unnamed-chunk-6}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
+\caption{\label{tab:unnamed-chunk-5}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
 \fontsize{9}{11}\selectfont
 \begin{tabular}{llllllll}
 \toprule

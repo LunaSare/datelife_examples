@@ -22,7 +22,11 @@ plan_summ <- drake_plan(
                         datelife_query = tax_dqall[[i]],
                         datelife_result = tax_drall[[i]],
                         summary_format = "phylo_sdm",
-                        taxon_summary = "none"))
+                        taxon_summary = "none")),
+    sdm_summtreesall = lapply(seq(length(taxa)), function(i)
+        get_summ_trees(tax_sdm_matrixall[[i]])),
+    median_summtreesall = lapply(seq(length(taxa)), function(i)
+        get_summ_trees(tax_median_matrixall[[i]]))
 )
 make(plan_summ)
 loadd(tax_sdm_phyclusterall)

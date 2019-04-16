@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-03-01"
+date: "2019-04-15"
 output: rmarkdown::html_vignette
 geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
 vignette: >
@@ -19,25 +19,11 @@ vignette: >
 There are 198 species in the Open Tree of Life Taxonomy for the taxon Cetacea.
 Information on time of divergence is available for
 89
-of these species across 6 published and peer-reviewed chronograms from the following studies:
-
-**1. Toljagi&#263; O., Voje K.L., Matschiner M., Liow L., & Hansen T.F. 2017. Millions of Years Behind: Slow Adaptation of Ruminants to Grasslands. Systematic Biology, .**
-
-**2. Bininda-Emonds, Olaf R. P., Marcel Cardillo, Kate E. Jones, Ross D. E. MacPhee, Robin M. D. Beck, Richard Grenyer, Samantha A. Price, Rutger A. Vos, John L. Gittleman, Andy Purvis. 2007. The delayed rise of present-day mammals. Nature 446 (7135): 507-512**
-
-**3. Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845**
-
-**4. Steeman, M., Hebsgaard M., Fordyce R., Ho S., Rabosky D., Nielsen R., Rahbek C., Glenner H., Sørensen M., & Willerslev E. 2009. Radiation of Extant Cetaceans Driven by Restructuring of the Oceans. Systematic Biology 58 (6): 573-585.**
+of these species across 6 published and peer-reviewed chronograms.
+Original study citations as well as proportion of Cetacea species found across those source
+chronograms is shown in Table 1.
 
 All source chronograms are fully ultrametric.
-The proportion of Cetacea queried species found across source chronograms is as follows:
-
-|   |Trees                           |Tips |Resolved |
-|:--|:-------------------------------|:----|:--------|
-|1  |Open Tree of Life Subtree       |198  |99%      |
-|2  |Dated Open Tree of Life Subtree |198  |60%      |
-|3  |Median Summary Chronogram       |89   |99%      |
-|4  |SDM Summary Chronogram          |89   |99%      |
 
 
 ![Cetacea Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Cetacea_datedotol.pdf)
@@ -53,12 +39,12 @@ The proportion of Cetacea queried species found across source chronograms is as 
 ### II.A. Diagnosing clustering issues.
 
 We identified some issues with chronograms coming from SDM and Median summary matrices.
-First, clustering algorithms implemented to go from a summary distance matrix to
+First, clustering algorithms used to go from a summary distance matrix to
 a tree return trees that are too old (generally with UPGMA algorithms) or non-ultrametric
 (generally with Neighbour Joining algorithms). In most studied cases, UPGMA returns
 fully ultrametric trees but with very old ages (we had to multiply the matrix by
 0.25 to get ages approximate to source chronograms ages, however this is a number
-chosen at random, it was just the number that worked well. NJ returned reasonable
+chosen at random, it was just the number that worked well). NJ returned reasonable
 ages, but trees are way non ultrametric, as you can see in Fig. 3
 and Fig. 4.
 
@@ -98,7 +84,7 @@ We also tried  each source chronogram independently, with the Dated OToL and wit
 \newpage
 \begin{table}[t]
 
-\caption{\label{tab:unnamed-chunk-6}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
+\caption{\label{tab:unnamed-chunk-5}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
 \fontsize{9}{11}\selectfont
 \begin{tabular}{llllllll}
 \toprule

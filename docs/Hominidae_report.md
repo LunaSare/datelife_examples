@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-03-01"
+date: "2019-04-15"
 output: rmarkdown::html_vignette
 geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
 vignette: >
@@ -19,23 +19,11 @@ vignette: >
 There are 7 species in the Open Tree of Life Taxonomy for the taxon Hominidae.
 Information on time of divergence is available for
 all
-of these species across 8 published and peer-reviewed chronograms from the following studies:
-
-**1. Bininda-Emonds, Olaf R. P., Marcel Cardillo, Kate E. Jones, Ross D. E. MacPhee, Robin M. D. Beck, Richard Grenyer, Samantha A. Price, Rutger A. Vos, John L. Gittleman, Andy Purvis. 2007. The delayed rise of present-day mammals. Nature 446 (7135): 507-512**
-
-**2. Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845**
-
-**3. Springer, Mark S., Robert W. Meredith, John Gatesy, Christopher A. Emerling, Jong Park, Daniel L. Rabosky, Tanja Stadler, Cynthia Steiner, Oliver A. Ryder, Jan E. Janečka, Colleen A. Fisher, William J. Murphy. 2012. Macroevolutionary dynamics and historical biogeography of primate diversification inferred from a species supermatrix. PLoS ONE 7 (11): e49521.**
+of these species across 8 published and peer-reviewed chronograms.
+Original study citations as well as proportion of Hominidae species found across those source
+chronograms is shown in Table 1.
 
 All source chronograms are fully ultrametric.
-The proportion of Hominidae queried species found across source chronograms is as follows:
-
-|   |Trees                           |Tips |Resolved |
-|:--|:-------------------------------|:----|:--------|
-|1  |Open Tree of Life Subtree       |6    |83%      |
-|2  |Dated Open Tree of Life Subtree |6    |150%     |
-|3  |Median Summary Chronogram       |7    |86%      |
-|4  |SDM Summary Chronogram          |7    |86%      |
 
 
 ![Hominidae Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Hominidae_datedotol.pdf)
@@ -51,12 +39,12 @@ The proportion of Hominidae queried species found across source chronograms is a
 ### II.A. Diagnosing clustering issues.
 
 We identified some issues with chronograms coming from SDM and Median summary matrices.
-First, clustering algorithms implemented to go from a summary distance matrix to
+First, clustering algorithms used to go from a summary distance matrix to
 a tree return trees that are too old (generally with UPGMA algorithms) or non-ultrametric
 (generally with Neighbour Joining algorithms). In most studied cases, UPGMA returns
 fully ultrametric trees but with very old ages (we had to multiply the matrix by
 0.25 to get ages approximate to source chronograms ages, however this is a number
-chosen at random, it was just the number that worked well. NJ returned reasonable
+chosen at random, it was just the number that worked well). NJ returned reasonable
 ages, but trees are way non ultrametric, as you can see in Fig. 3
 and Fig. 4.
 
@@ -96,7 +84,7 @@ We also tried  each source chronogram independently, with the Dated OToL and wit
 \newpage
 \begin{table}[t]
 
-\caption{\label{tab:unnamed-chunk-6}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
+\caption{\label{tab:unnamed-chunk-5}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
 \fontsize{7}{9}\selectfont
 \begin{tabular}{llllllllll}
 \toprule

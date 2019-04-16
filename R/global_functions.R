@@ -1,24 +1,14 @@
 # global functions
 
 get_summ_trees <- function(summ_matrix){
-  tmean <- summary_matrix_to_phylo(summ_matrix = best_grove, use = "mean", target_tree = NULL)
-  tmin <- summary_matrix_to_phylo(summ_matrix = best_grove, use = "min", target_tree = NULL)
-  tmax <- summary_matrix_to_phylo(summ_matrix = best_grove, use = "max", target_tree = NULL)
+  tmean <- summary_matrix_to_phylo(summ_matrix = summ_matrix, use = "mean", target_tree = NULL)
+  tmin <- summary_matrix_to_phylo(summ_matrix = summ_matrix, use = "min", target_tree = NULL)
+  tmax <- summary_matrix_to_phylo(summ_matrix = summ_matrix, use = "max", target_tree = NULL)
   res <- c(tmean, tmin, tmax)
   names(res) <- c("mean_tree", "min_tree", "max_tree")
   return(res)
 }
 
-# now in datelife:
-# get_sdm_matrix <- function(datelife_result){
-#   unpadded.matrices <- lapply(datelife_result, patristic_matrix_unpad)
-#   good.matrix.indices <- get_goodmatrices(unpadded.matrices, verbose = TRUE)
-#   if(length(good.matrix.indices) > 1) {
-#     unpadded.matrices <- unpadded.matrices[good.matrix.indices]
-#     sdm_matrix <- get_sdm(unpadded.matrices, weighting = "flat", verbose = TRUE)
-#   }
-#   return(sdm_matrix)
-# }
 get_bladjtree <- function(dated_tree, backbone){
   res <- tryCatch(tree_add_dates(dated_tree = dated_tree,
                                  missing_taxa = backbone,
