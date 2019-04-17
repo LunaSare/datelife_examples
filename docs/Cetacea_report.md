@@ -1,13 +1,19 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-15"
+date: "2019-04-16"
 output: rmarkdown::html_vignette
+header-includes:
+- \usepackage{booktabs}
+- \usepackage{makecell}
+- \usepackage{multirow}
+- \usepackage{longtable}
 geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+
 ---
 
 
@@ -24,6 +30,25 @@ Original study citations as well as proportion of Cetacea species found across t
 chronograms is shown in Table 1.
 
 All source chronograms are fully ultrametric.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.5cm}>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{12cm}}
+\caption{\label{tab:unnamed-chunk-2}Cetacea source chronograms.}\\
+\toprule
+\multicolumn{1}{>{\centering\arraybackslash}p{0.5cm}}{\textbf{   }} & \multicolumn{1}{>{\centering\arraybackslash}p{2cm}}{\textbf{Taxon Presence}} & \multicolumn{1}{>{\centering\arraybackslash}p{12cm}}{\textbf{Original Study Citation}}\\
+\midrule
+\multicolumn{1}{r}{\em{\textbf{1.}}} & \multicolumn{1}{c}{32/198} & Toljagi&#263; O., Voje K.L., Matschiner M., Liow L., & Hansen T.F. 2017. Millions of Years Behind: Slow Adaptation of Ruminants to Grasslands. Systematic Biology, .\\
+\cmidrule{1-3}
+\multicolumn{1}{r}{\em{\textbf{2.}}} & \multicolumn{1}{c}{78/198} &  & \multicolumn{1}{r}{\em{\textbf{2.}}}\\
+
+\multicolumn{1}{r}{\em{\textbf{3.}}} & \multicolumn{1}{c}{78/198} &  & \multicolumn{1}{r}{\em{\textbf{3.}}}\\
+
+\multicolumn{1}{r}{\em{\textbf{4.}}} & \multicolumn{1}{c}{78/198} & \multirow{-3}{12cm}{\raggedright\arraybackslash Bininda-Emonds, Olaf R. P., Marcel Cardillo, Kate E. Jones, Ross D. E. MacPhee, Robin M. D. Beck, Richard Grenyer, Samantha A. Price, Rutger A. Vos, John L. Gittleman, Andy Purvis. 2007. The delayed rise of present-day mammals. Nature 446 (7135): 507-512} & \multicolumn{1}{r}{\em{\textbf{4.}}}\\
+\cmidrule{1-3}
+\multicolumn{1}{r}{\em{\textbf{5.}}} & \multicolumn{1}{c}{79/198} & Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845 & \multicolumn{1}{r}{\em{\textbf{5.}}}\\
+\cmidrule{1-3}
+\multicolumn{1}{r}{\em{\textbf{6.}}} & \multicolumn{1}{c}{86/198} & Steeman, M., Hebsgaard M., Fordyce R., Ho S., Rabosky D., Nielsen R., Rahbek C., Glenner H., Sørensen M., & Willerslev E. 2009. Radiation of Extant Cetaceans Driven by Restructuring of the Oceans. Systematic Biology 58 (6): 573-585.\\
+\bottomrule
+\end{longtable}
 
 
 ![Cetacea Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Cetacea_datedotol.pdf)

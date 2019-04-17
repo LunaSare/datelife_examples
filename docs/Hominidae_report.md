@@ -1,13 +1,19 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-15"
+date: "2019-04-16"
 output: rmarkdown::html_vignette
+header-includes:
+- \usepackage{booktabs}
+- \usepackage{makecell}
+- \usepackage{multirow}
+- \usepackage{longtable}
 geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+
 ---
 
 
@@ -24,6 +30,10 @@ Original study citations as well as proportion of Hominidae species found across
 chronograms is shown in Table 1.
 
 All source chronograms are fully ultrametric.
+
+```
+#> Error in gsub("\\\\", "\\\\textbackslash", x): object 'Col1' not found
+```
 
 
 ![Hominidae Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Hominidae_datedotol.pdf)

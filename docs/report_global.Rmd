@@ -3,14 +3,21 @@ title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+header-includes:
+- \usepackage{booktabs}
+- \usepackage{makecell}
+- \usepackage{multirow}
+- \usepackage{longtable}
 geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+
 ---
 
 ```{r setup, include = FALSE}
+# - \usepackage{tabu}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -64,37 +71,20 @@ of these species across `r length(tax_dr)` published and peer-reviewed chronogra
 Original study citations as well as proportion of `r taxon` species found across those source
 chronograms is shown in `r table_chronograms`.
 
-```{r echo = FALSE, results = 'asis', warning=FALSE, message = FALSE}
+```{r echo = FALSE, warning=FALSE, message = FALSE, results = 'asis'}
 if(all(phyloall_success)){
   cat("All source chronograms are fully ultrametric.\n")
 } else {
   cat("Not all source chronograms are fully ultrametric. This cant't be right, CHECK THIS!!\n")
 }
 
-# treesall <- list(#tax_treefromtax$phy,
-#                  tax_otol, tax_datedotol,
-#                  tax_median_phylo$phy,
-#                  tax_sdm_phylo)
-# resolved_nodes <- sapply(seq(treesall), function(i) treesall[[i]]$Nnode/ape::Ntip(treesall[[i]]))*100
-# resolved_nodes[resolved_nodes < 0] <- 0
-# table1 <- data.frame(Trees =
-#                        c(#"Tree from NCBI Taxonomy",
-#                         "Open Tree of Life Subtree",
-#                         "Dated Open Tree of Life Subtree",
-#                         "Median Summary Chronogram",
-#                         "SDM Summary Chronogram"),
-#                     Tips = sapply(treesall, ape::Ntip),
-#                     Resolved = paste0(round(resolved_nodes), "%"))
-# # table1 <- my_table_format(table1)
-# table1 <- as.matrix(table1)
-# dimnames(table1) <- list(seq(nrow(table1)), c("Trees", "Tips", "Resolved"))
-# tried to convert to matrix and give dimnames to table 1 to be able to print it as table 2, on the left, but if I change fomat from "markdown" to "latex" OR if I assign it to an object (such as tt) it's giving me
 # Error producing PDF.
 # ! Undefined control sequence.
 # l.124 \toprule
-# knitr::kable(table1, caption = "Second table", row.names = TRUE, format = "markdown", booktabs = TRUE)
-# %>% kableExtra::kable_styling(kable_input = tt, position = "left") this also gives me that error
-#           row_spec(0, color = c(rep("white", 3), rep("black", 5)))
+# this occurs when the latex package is not specified in the yaml ^^
+table_caption <- paste(taxon, "source chronograms.")
+make_table0(tax_dr, tax_summ, tax_dq, table_caption)
+# results = 'asis', messes this up
 ```
 
 ```{r myfile-1-plot, echo = F, results = 'asis', fig.cap= ""}

@@ -1,13 +1,19 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-15"
+date: "2019-04-16"
 output: rmarkdown::html_vignette
+header-includes:
+- \usepackage{booktabs}
+- \usepackage{makecell}
+- \usepackage{multirow}
+- \usepackage{longtable}
 geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+
 ---
 
 
@@ -24,6 +30,39 @@ Original study citations as well as proportion of Fringilidae species found acro
 chronograms is shown in Table 1.
 
 All source chronograms are fully ultrametric.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.5cm}>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{12cm}}
+\caption{\label{tab:unnamed-chunk-2}Fringilidae source chronograms.}\\
+\toprule
+\multicolumn{1}{>{\centering\arraybackslash}p{0.5cm}}{\textbf{   }} & \multicolumn{1}{>{\centering\arraybackslash}p{2cm}}{\textbf{Taxon Presence}} & \multicolumn{1}{>{\centering\arraybackslash}p{12cm}}{\textbf{Original Study Citation}}\\
+\midrule
+\multicolumn{1}{r}{\em{\textbf{1.}}} & \multicolumn{1}{c}{47/475} & Hooper, Daniel M., Trevor D. Price. 2017. Chromosomal inversion differences correlate with range overlap in passerine birds. Nature Ecology & Evolution 1 (10): 1526-1534\\
+\cmidrule{1-3}
+\multicolumn{1}{r}{\em{\textbf{2.}}} & \multicolumn{1}{c}{250/475} &  & \multicolumn{1}{r}{\em{\textbf{2.}}}\\
+
+\multicolumn{1}{r}{\em{\textbf{3.}}} & \multicolumn{1}{c}{192/475} & \multirow{-2}{12cm}{\raggedright\arraybackslash Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845} & \multicolumn{1}{r}{\em{\textbf{3.}}}\\
+\cmidrule{1-3}
+\multicolumn{1}{r}{\em{\textbf{4.}}} & \multicolumn{1}{c}{3/475} & Claramunt, Santiago, Joel Cracraft. 2015. A new time tree reveals Earth historys imprint on the evolution of modern birds. Science Advances 1 (11): e1501005-e1501005 & \multicolumn{1}{r}{\em{\textbf{4.}}}\\
+\cmidrule{1-3}
+\multicolumn{1}{r}{\em{\textbf{5.}}} & \multicolumn{1}{c}{7/475} & Gibb, Gillian C., Ryan England, Gerrit Hartig, P.A. (Trish) McLenachan, Briar L. Taylor Smith, Bennet J. McComish, Alan Cooper, David Penny. 2015. New Zealand passerines help clarify the diversification of major songbird lineages during the Oligocene. Genome Biology and Evolution 7 (11): 2983-2995. & \multicolumn{1}{r}{\em{\textbf{5.}}}\\
+\cmidrule{1-3}
+\multicolumn{1}{r}{\em{\textbf{6.}}} & \multicolumn{1}{c}{102/475} &  & \multicolumn{1}{r}{\em{\textbf{6.}}}\\
+
+\multicolumn{1}{r}{\em{\textbf{7.}}} & \multicolumn{1}{c}{102/475} & \multirow{-2}{12cm}{\raggedright\arraybackslash Barker, F. Keith, Kevin J. Burns, John Klicka, Scott M. Lanyon, Irby J. Lovette. 2015. New insights into New World biogeography: An integrated view from the phylogeny of blackbirds, cardinals, sparrows, tanagers, warblers, and allies. The Auk 132 (2): 333-348.} & \multicolumn{1}{r}{\em{\textbf{7.}}}\\
+\cmidrule{1-3}
+\multicolumn{1}{r}{\em{\textbf{8.}}} & \multicolumn{1}{c}{215/475} &  & \multicolumn{1}{r}{\em{\textbf{8.}}}\\
+
+\multicolumn{1}{r}{\em{\textbf{9.}}} & \multicolumn{1}{c}{215/475} & \multirow{-2}{12cm}{\raggedright\arraybackslash Jetz, W., G. H. Thomas, J. B. Joy, K. Hartmann, A. O. Mooers. 2012. The global diversity of birds in space and time. Nature 491 (7424): 444-448} & \multicolumn{1}{r}{\em{\textbf{9.}}}\\
+\cmidrule{1-3}
+\multicolumn{1}{r}{\em{\textbf{10.}}} & \multicolumn{1}{c}{29/475} & Barker, F. K., K. J. Burns, J. Klicka, S. M. Lanyon, I. J. Lovette. 2013. Going to extremes: contrasting rates of diversification in a recent radiation of New World passerine birds. Systematic Biology 62 (2): 298-320. & \multicolumn{1}{r}{\em{\textbf{10.}}}\\
+\cmidrule{1-3}
+\multicolumn{1}{r}{\em{\textbf{11.}}} & \multicolumn{1}{c}{27/475} & Burns, Kevin J., Allison J. Shultz, Pascal O. Title, Nicholas A. Mason, F. Keith Barker, John Klicka, Scott M. Lanyon, Irby J. Lovette. 2014. Phylogenetics and diversification of tanagers (Passeriformes: Thraupidae), the largest radiation of Neotropical songbirds. Molecular Phylogenetics and Evolution 75: 41-77. & \multicolumn{1}{r}{\em{\textbf{11.}}}\\
+\cmidrule{1-3}
+\multicolumn{1}{r}{\em{\textbf{12.}}} & \multicolumn{1}{c}{2/475} &  & \multicolumn{1}{r}{\em{\textbf{12.}}}\\
+
+\multicolumn{1}{r}{\em{\textbf{13.}}} & \multicolumn{1}{c}{43/475} & \multirow{-2}{12cm}{\raggedright\arraybackslash Price, Trevor D., Daniel M. Hooper, Caitlyn D. Buchanan, Ulf S. Johansson, D. Thomas Tietze, Per Alström, Urban Olsson, Mousumi Ghosh-Harihar, Farah Ishtiaq, Sandeep K. Gupta, Jochen Martens, Bettina Harr, Pratap Singh, Dhananjai Mohan. 2014. Niche filling slows the diversification of Himalayan songbirds. Nature 509: 222-225.} & \multicolumn{1}{r}{\em{\textbf{13.}}}\\
+\bottomrule
+\end{longtable}
 
 
 ![Fringilidae Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Fringilidae_datedotol.pdf)

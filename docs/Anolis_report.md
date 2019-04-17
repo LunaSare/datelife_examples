@@ -1,13 +1,19 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-15"
+date: "2019-04-16"
 output: rmarkdown::html_vignette
+header-includes:
+- \usepackage{booktabs}
+- \usepackage{makecell}
+- \usepackage{multirow}
+- \usepackage{longtable}
 geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+
 ---
 
 
@@ -23,20 +29,10 @@ of these species across 6 published and peer-reviewed chronograms.
 Original study citations as well as proportion of Anolis species found across those source
 chronograms is shown in Table 1.
 
-
-|   |Original_Studies                                                                                                                                                                                                                                                                                                                                                   |Taxa    |
-|:--|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------|
-|1  |Yuchi Zheng, John J. Wiens, 2016, 'Combining phylogenomic and supermatrix approaches, and a time-calibrated phylogeny for squamate reptiles (lizards and snakes) based on 52 genes and 4162 species', Molecular Phylogenetics and Evolution, vol. 94, pp. 537-547                                                                                                  |202/458 |
-|2  |Pyron, R. Alexander, Frank T. Burbrink. 2013. Early origin of viviparity and multiple reversions to oviparity in squamate reptiles. Ecology Letters 17 (1): 13-21                                                                                                                                                                                                  |205/458 |
-|3  |Steven Poe, Adrián Nieto-montes de oca, Omar Torres-carvajal, Kevin De Queiroz, Julián A. Velasco, Brad Truett, Levi N. Gray, Mason J. Ryan, Gunther Köhler, Fernando Ayala-varela, Ian Latella, 2017, 'A Phylogenetic, Biogeographic, and Taxonomic study of all Extant Species of Anolis (Squamata; Iguanidae)', Systematic Biology, vol. 66, no. 5, pp. 663-697 |289/458 |
-|4  |Wright, April M., Kathleen M. Lyons, Matthew C. Brandley, David M. Hillis. 2015. Which came first: The lizard or the egg? Robustness in phylogenetic reconstruction of ancestral states. Journal of Experimental Zoology Part B: Molecular and Developmental Evolution 324 (6): 504-516                                                                            |203/458 |
-|5  |Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845                                                                                                                                                               |192/458 |
-|6  |Mahler, D. L., T. Ingram, L. J. Revell, J. B. Losos. 2013. Exceptional Convergence on the Macroevolutionary Landscape in Island Lizard Radiations. Science 341 (6143): 292-295.                                                                                                                                                                                    |98/458  |
-
 All source chronograms are fully ultrametric.
 
 ```
-#> Error in knitr::kable(table1, caption = "Second table", row.names = TRUE, : object 'table1' not found
+#> Error in gsub("\\\\", "\\\\textbackslash", x): object 'Col1' not found
 ```
 
 
