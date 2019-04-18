@@ -5,6 +5,7 @@ make_table0 <- function(tax_dr, tax_summ, tax_dq, table_caption = ""){
     # and there are several chronograms in the same publication that have different taxon sampling
     # a way to incorporate them would be putting the taxon presence of all source chronograms from the same publication in the same vector, separated by "\n"
     taxon_number <- sapply(seq(nrow(tax_summ$matrix))[dd], function(x) sum(tax_summ$matrix[x,]))
+    taxon_number <- taxon_number[order(names(tax_dr)[dd])] #order taxon_number in the same order as names from table
     xx <- table(names(tax_dr))
     table0 <- data.frame(var1 = paste0(seq(length(xx)), "."),
         var2 = names(xx), var3 = as.numeric(unname(xx)),
