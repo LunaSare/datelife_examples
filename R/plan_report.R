@@ -55,7 +55,7 @@ for(i in seq(taxa)){
     	# tax_sdm_bladj = tax_sdm_bladjall[[i]],
     	# tax_med_bladj = tax_med_bladjall[[i]],
         tax_summary = tax_summaryall[[i]],
-    	lttplot_phyloall = make_lttplot_phyloall(taxa[i], tax_phyloall, tax_datedotol, tax_summary),
+    	lttplot_phyloall = make_lttplot_phyloall(taxa[i], tax_phyloall, tax_summary), #tax_datedotol, 
     	lttplot_sdm = make_lttplot_sdm(taxa[i], tax_phyloall, tax_datedotol, tax_phycluster = tax_sdm_phyclusterall[[i]],
     	                               negs = negs_sdm, sdm_matrix = tax_sdm_matrix),
     	lttplot_sdm2phy = make_lttplot_sdm(taxa[i], tax_phyloall, tax_datedotol, tax_phylomed = tax_median_phyloall[[i]]$phylo_median,

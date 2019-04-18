@@ -87,35 +87,25 @@ chosen at random, it was just the number that worked well). NJ returned reasonab
 ages, but trees are way non ultrametric, as you can see in Fig. 3
 and Fig. 4.
 
-
-```
-#> Error in which(tax_median_matrix < 0): object 'tax_median_matrix' not found
-#> Error in eval(expr, envir, enclos): object 'tax_median_matrix' not found
-#> Error in eval(expr, envir, enclos): object 'negs_list' not found
-```
+This taxon's SDM matrix has some negative values in the following taxa: *Eudyptes chrysocome*, *Eudyptes filholi*. This taxon's Median matrix has NO negative values.
 
 
-![](plots/Spheniscidae_LTTplot_Median.pdf)
+![Spheniscidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off (too old or too young). So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Spheniscidae_LTTplot_Median.pdf)
 
 
 
-![](plots/Spheniscidae_LTTplot_SDM.pdf)
+![Spheniscidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with different methods (NJ and UPGMA). As you can note, dashed lines and solid lines from trees coming out from both types of clustering algorithms implemented are mostly overlapping. This means that removing negative values does not change results from clustering algorithms much. Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off (too old or too young). So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Spheniscidae_LTTplot_SDM.pdf)
 
 ### II.B. Age distributions form Median and SDM summary trees.
 
 Comparison of summary chronograms reconstructed with min and max ages.
 
 
-```
-#> Error in paste(taxon, "lineage through time (LTT) plots from source chronograms and", : object 'negs_list' not found
-```
-
-
-![](plots/Spheniscidae_LTTplot_summtrees_Median.pdf)
+![Spheniscidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with `datelife` algorithm.](plots/Spheniscidae_LTTplot_summtrees_Median.pdf)
 
 
 
-![](plots/Spheniscidae_LTTplot_summtrees_SDM.pdf)
+![Spheniscidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Spheniscidae_LTTplot_summtrees_SDM.pdf)
 
 
 \newpage
