@@ -1,14 +1,25 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-16"
+date: "2019-04-17"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{makecell}
 - \usepackage{multirow}
 - \usepackage{longtable}
-geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
+- \usepackage{caption}
+- \usepackage{array}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{xcolor}
+geometry: "left=2.5cm,right=2.5cm,top=2cm,bottom=2cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,7 +32,7 @@ vignette: >
 
 # Taxon Cetacea
 
-## I. Query data
+## I. Query source data
 There are 198 species in the Open Tree of Life Taxonomy for the taxon Cetacea.
 Information on time of divergence is available for
 89
@@ -31,27 +42,25 @@ chronograms is shown in Table 1.
 
 All source chronograms are fully ultrametric.
 
-\begin{longtable}{>{\raggedright\arraybackslash}p{0.5cm}>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{12cm}}
-\caption{\label{tab:unnamed-chunk-2}Cetacea source chronograms.}\\
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{11cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.8cm}}
+\caption{\label{tab:unnamed-chunk-2}Cetacea source chronogram studies information.}\\
 \toprule
-\multicolumn{1}{>{\centering\arraybackslash}p{0.5cm}}{\textbf{   }} & \multicolumn{1}{>{\centering\arraybackslash}p{2cm}}{\textbf{Taxon Presence}} & \multicolumn{1}{>{\centering\arraybackslash}p{12cm}}{\textbf{Original Study Citation}}\\
+\multicolumn{1}{>{\centering\arraybackslash}p{0.4cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{   }}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{11cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Citation}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.5cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Source N}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.8cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Taxon N}}\endgroup}\\
 \midrule
-\multicolumn{1}{r}{\em{\textbf{1.}}} & \multicolumn{1}{c}{32/198} & Toljagi&#263; O., Voje K.L., Matschiner M., Liow L., & Hansen T.F. 2017. Millions of Years Behind: Slow Adaptation of Ruminants to Grasslands. Systematic Biology, .\\
-\cmidrule{1-3}
-\multicolumn{1}{r}{\em{\textbf{2.}}} & \multicolumn{1}{c}{78/198} &  & \multicolumn{1}{r}{\em{\textbf{2.}}}\\
-
-\multicolumn{1}{r}{\em{\textbf{3.}}} & \multicolumn{1}{c}{78/198} &  & \multicolumn{1}{r}{\em{\textbf{3.}}}\\
-
-\multicolumn{1}{r}{\em{\textbf{4.}}} & \multicolumn{1}{c}{78/198} & \multirow{-3}{12cm}{\raggedright\arraybackslash Bininda-Emonds, Olaf R. P., Marcel Cardillo, Kate E. Jones, Ross D. E. MacPhee, Robin M. D. Beck, Richard Grenyer, Samantha A. Price, Rutger A. Vos, John L. Gittleman, Andy Purvis. 2007. The delayed rise of present-day mammals. Nature 446 (7135): 507-512} & \multicolumn{1}{r}{\em{\textbf{4.}}}\\
-\cmidrule{1-3}
-\multicolumn{1}{r}{\em{\textbf{5.}}} & \multicolumn{1}{c}{79/198} & Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845 & \multicolumn{1}{r}{\em{\textbf{5.}}}\\
-\cmidrule{1-3}
-\multicolumn{1}{r}{\em{\textbf{6.}}} & \multicolumn{1}{c}{86/198} & Steeman, M., Hebsgaard M., Fordyce R., Ho S., Rabosky D., Nielsen R., Rahbek C., Glenner H., Sørensen M., & Willerslev E. 2009. Radiation of Extant Cetaceans Driven by Restructuring of the Oceans. Systematic Biology 58 (6): 573-585.\\
+\multicolumn{1}{r}{\em{\textbf{1.}}} & \bgroup\fontsize{8}{10}\selectfont Bininda-Emonds, Olaf R. P., Marcel Cardillo, Kate E. Jones, Ross D. E. MacPhee, Robin M. D. Beck, Richard Grenyer, Samantha A. Price, Rutger A. Vos, John L. Gittleman, Andy Purvis. 2007. The delayed rise of present-day mammals. Nature 446 (7135): 507-512\egroup{} & \multicolumn{1}{c}{3} & \multicolumn{1}{c}{32/198}\\
+\multicolumn{1}{r}{\em{\textbf{2.}}} & \bgroup\fontsize{8}{10}\selectfont Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{78/198}\\
+\multicolumn{1}{r}{\em{\textbf{3.}}} & \bgroup\fontsize{8}{10}\selectfont Steeman, M., Hebsgaard M., Fordyce R., Ho S., Rabosky D., Nielsen R., Rahbek C., Glenner H., Sørensen M., \& Willerslev E. 2009. Radiation of Extant Cetaceans Driven by Restructuring of the Oceans. Systematic Biology 58 (6): 573-585.\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{79/198}\\
+\multicolumn{1}{r}{\em{\textbf{4.}}} & \bgroup\fontsize{8}{10}\selectfont Toljagi\&\#263; O., Voje K.L., Matschiner M., Liow L., \& Hansen T.F. 2017. Millions of Years Behind: Slow Adaptation of Ruminants to Grasslands. Systematic Biology, .\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{86/198}\\
 \bottomrule
+\multicolumn{4}{l}{{\textbf{\textit{Source N}}}: Number of source chronograms reported in study.}\\
+\multicolumn{4}{l}{{\textbf{\textit{Taxon N}}}: Number of queried taxa found in source chronograms.}\\
 \end{longtable}
 
+Source chronograms maximum age range from 33.5 to
+55.5 million years ago (MYA).
+As a means for comparison, lineage through time plots of all source chronograms
+available are shown in Fig. 1
 
-![Cetacea Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Cetacea_datedotol.pdf)
 
 
 ![Cetacea lineage through time (LTT) plots from source chronograms, summary median chronogram and dated Open Tree of Life chronogram.](plots/Cetacea_LTTplot_phyloall.pdf)
@@ -139,3 +148,5 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 
 ## Appendix
 The following species were completely absent from the chronogram data base:  *Amphiptera pacifica**, **Balaena agamachschik**, **Balaena mangidach**, **Balaenoptera andrejewi**, **Balaenoptera caerulescens**, **Balaenoptera emargenata**, **Balaenoptera grimmi**, **Balaenoptera maculata**, **Balaenoptera nigra**, **Balaenoptera punctulata**, **Catodon polycyphus**, **Catodon polyscyphus**, **Catodon svineval**, **Cephalorhyncus commersonii**, **Cephalorhyncus heavisidii**, **Clymenia gadamu**, **Delphinapterus senedetta**, **Delphinorhynchus maculatus**, **Delphinorhynchus pernettyi**, **Delphinorhynchus santonicus**, **Delphinus abusalam**, **Delphinus anarnacus**, **Delphinus attenuatus**, **Delphinus bertini**, **Delphinus bonnaterrei**, **Delphinus boryi**, **Delphinus caerulescens**, **Delphinus carbonarius**, **Delphinus coronatus**, **Delphinus cymodice**, **Delphinus cymodoce**, **Delphinus epiodon**, **Delphinus eurynome**, **Delphinus fabricii**, **Delphinus feres**, **Delphinus gadamu**, **Delphinus hamatus**, **Delphinus harlani**, **Delphinus leucocephalus**, **Delphinus livittatus**, **Delphinus maculatus**, **Delphinus maculiventer**, **Delphinus minimus**, **Delphinus nesarnac**, **Delphinus niger**, **Delphinus pernettyensis**, **Delphinus pernetyi**, **Delphinus perniger**, **Delphinus rappii**, **Delphinus rhinoceros**, **Delphinus salam**, **Delphinus siculus**, **Delphinus symodice**, **Delphinus walkeri**, **Epiodon rafinesque**, **Epiodon urganantus**, **Eudelphinus tasmaniensis**, **Globicephala macrorhyncus**, **Globicephalus fuscus**, **Globicephalus uneidens**, **Globiocephalus chinensis**, **Inia araguaiaensis**, **Inia boliviensis**, **Lagenodelphis australis**, **Lagenodelphis obliquidens**, **Lagenoelphis hosei**, **Lagenorhynchus bombifrons**, **Lagenorhynchus nilssonii**, **Lagenorhynchus posidonia**, **Lagenorhynchus superciliosus**, **Lagenorhyncus acutus**, **Lagenorhyncus albirostris**, **Lagenorhyncus australis**, **Lagenorhyncus cruciger**, **Lagenorhyncus obliquidens**, **Lagenorhyncus obscurus**, **Mesoplodon hotaula**, **Mesoplodon lazardii**, **Monodon spurius**, **Neophocaena asiaeorientalis**, **Phocaena posidonia**, **Physeter gibbosus**, **Physeter katadon**, **Physeter krefftii**, **Physeter polycephus**, **Physeter polycystus**, **Physeter pterodon**, **Platanista indi**, **Prodelphinus malayanus**, **Sotalia gadamu**, **Sotalia maculiventer**, **Sotalia perniger**, **Sotalia santonicus**, **Sousa gadamu**, **Sousa plumbea**, **Sousa sahulensis**, **Steno fuscus**, **Steno gadamu**, **Steno malayanus**, **Steno perniger**, **Tursio catalania**, **Tursio cymodoce**, **Tursio eurynome**, **Tursiops australis**, **Tursiops catalania**, **Tursiops cymodice**, **Tursiops dawsoni**, **Tursiops fergusoni**, **Tursiops nesarnack*
+
+![Cetacea Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Cetacea_datedotol.pdf)

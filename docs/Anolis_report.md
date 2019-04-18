@@ -1,14 +1,25 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-16"
+date: "2019-04-17"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{makecell}
 - \usepackage{multirow}
 - \usepackage{longtable}
-geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
+- \usepackage{caption}
+- \usepackage{array}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{xcolor}
+geometry: "left=2.5cm,right=2.5cm,top=2cm,bottom=2cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,7 +32,7 @@ vignette: >
 
 # Taxon Anolis
 
-## I. Query data
+## I. Query source data
 There are 458 species in the Open Tree of Life Taxonomy for the taxon Anolis.
 Information on time of divergence is available for
 302
@@ -31,12 +42,27 @@ chronograms is shown in Table 1.
 
 All source chronograms are fully ultrametric.
 
-```
-#> Error in gsub("\\\\", "\\\\textbackslash", x): object 'Col1' not found
-```
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{11cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.8cm}}
+\caption{\label{tab:unnamed-chunk-2}Anolis source chronogram studies information.}\\
+\toprule
+\multicolumn{1}{>{\centering\arraybackslash}p{0.4cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{   }}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{11cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Citation}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.5cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Source N}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.8cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Taxon N}}\endgroup}\\
+\midrule
+\multicolumn{1}{r}{\em{\textbf{1.}}} & \bgroup\fontsize{8}{10}\selectfont Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{202/458}\\
+\multicolumn{1}{r}{\em{\textbf{2.}}} & \bgroup\fontsize{8}{10}\selectfont Mahler, D. L., T. Ingram, L. J. Revell, J. B. Losos. 2013. Exceptional Convergence on the Macroevolutionary Landscape in Island Lizard Radiations. Science 341 (6143): 292-295.\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{205/458}\\
+\multicolumn{1}{r}{\em{\textbf{3.}}} & \bgroup\fontsize{8}{10}\selectfont Pyron, R. Alexander, Frank T. Burbrink. 2013. Early origin of viviparity and multiple reversions to oviparity in squamate reptiles. Ecology Letters 17 (1): 13-21\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{289/458}\\
+\multicolumn{1}{r}{\em{\textbf{4.}}} & \bgroup\fontsize{8}{10}\selectfont Steven Poe, Adrián Nieto-montes de oca, Omar Torres-carvajal, Kevin De Queiroz, Julián A. Velasco, Brad Truett, Levi N. Gray, Mason J. Ryan, Gunther Köhler, Fernando Ayala-varela, Ian Latella, 2017, 'A Phylogenetic, Biogeographic, and Taxonomic study of all Extant Species of Anolis (Squamata; Iguanidae)', Systematic Biology, vol. 66, no. 5, pp. 663-697\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{203/458}\\
+\multicolumn{1}{r}{\em{\textbf{5.}}} & \bgroup\fontsize{8}{10}\selectfont Wright, April M., Kathleen M. Lyons, Matthew C. Brandley, David M. Hillis. 2015. Which came first: The lizard or the egg? Robustness in phylogenetic reconstruction of ancestral states. Journal of Experimental Zoology Part B: Molecular and Developmental Evolution 324 (6): 504-516\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{192/458}\\
+\multicolumn{1}{r}{\em{\textbf{6.}}} & \bgroup\fontsize{8}{10}\selectfont Yuchi Zheng, John J. Wiens, 2016, 'Combining phylogenomic and supermatrix approaches, and a time-calibrated phylogeny for squamate reptiles (lizards and snakes) based on 52 genes and 4162 species', Molecular Phylogenetics and Evolution, vol. 94, pp. 537-547\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{98/458}\\
+\bottomrule
+\multicolumn{4}{l}{{\textbf{\textit{Source N}}}: Number of source chronograms reported in study.}\\
+\multicolumn{4}{l}{{\textbf{\textit{Taxon N}}}: Number of queried taxa found in source chronograms.}\\
+\end{longtable}
 
+Source chronograms maximum age range from 47.843 to
+72.578 million years ago (MYA).
+As a means for comparison, lineage through time plots of all source chronograms
+available are shown in Fig. 1
 
-![Anolis Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Anolis_datedotol.pdf)
 
 
 ![Anolis lineage through time (LTT) plots from source chronograms, summary median chronogram and dated Open Tree of Life chronogram.](plots/Anolis_LTTplot_phyloall.pdf)
@@ -124,3 +150,5 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 
 ## Appendix
 The following species were completely absent from the chronogram data base:  *Anolis alocomyos**, **Anolis altavelensis**, **Anolis anfiloquioi**, **Anolis anisolepis**, **Anolis attenuatus**, **Anolis bellipeniculus**, **Anolis birama**, **Anolis breedlovei**, **Anolis caquetae**, **Anolis carlliebi**, **Anolis carlostoddi**, **Anolis cf. alocomyos GK-2015**, **Anolis cf. humilis JJK-2013**, **Anolis cf. polylepis**, **Anolis charlesmyersi**, **Anolis chlorocyaneus**, **Anolis chrysops**, **Anolis concolor**, **Anolis cuscoensis**, **Anolis damulus**, **Anolis delafuentei**, **Anolis deltae**, **Anolis desiradei**, **Anolis dissimilis**, **Anolis eewi**, **Anolis fairchildi**, **Anolis forbesorum**, **Anolis fugitivus**, **Anolis gibbiceps**, **Anolis haguei**, **Anolis ibague**, **Anolis immaculogularis**, **Anolis impetigosus**, **Anolis incredulus**, **Anolis juangundlachi**, **Anolis kreutzi**, **Anolis laevis**, **Anolis lamari**, **Anolis landestoyi**, **Anolis leditzigorum**, **Anolis lemniscatus**, **Anolis limon**, **Anolis menta**, **Anolis microlepis**, **Anolis mirus**, **Anolis morazani**, **Anolis muralla**, **Anolis nasofrontalis**, **Anolis nietoi**, **Anolis nigrolineatus**, **Anolis osa**, **Anolis paravertebralis**, **Anolis philopunctatus**, **Anolis phyllorhinus**, **Anolis pigmaequestris**, **Anolis pijolense**, **Anolis pinchoti**, **Anolis propinquus**, **Anolis pseudotigrinus**, **Anolis purpurescens**, **Anolis radulinus**, **Anolis rhombifer**, **Anolis rimarum**, **Anolis rivalis**, **Anolis roosevelti**, **Anolis ruibali**, **Anolis ruizi**, **Anolis rupinae**, **Anolis sacamecatensis**, **Anolis santamartae**, **Anolis scapularis**, **Anolis schiedei**, **Anolis schmidti**, **Anolis sierramaestrae**, **Anolis simmonsi**, **Anolis solitarius**, **Anolis spectrum**, **Anolis squamulatus**, **Anolis stevepoei**, **Anolis tenorioensis**, **Anolis terueli**, **Anolis tetarii**, **Anolis toldo**, **Anolis umbrivagus**, **Anolis utowanae**, **Anolis vaupesianus**, **Anolis vescus**, **Anolis vicarius**, **Anolis villai**, **Anolis wampuensis**, **Anolis wattsii**, **Anolis wermuthi**, **Anolis williamsii**, **Anolis zapotecorum**, **Ctenonotus cybotes**, **Ctenonotus ferreus**, **Ctenonotus pulchellus**, **Norops alvarezdeltoroi**, **Norops anisolepis**, **Norops antonii**, **Norops baccatus**, **Norops birama**, **Norops bocourtii**, **Norops bouvierii**, **Norops breedlovei**, **Norops chrysolepis**, **Norops cobanensis**, **Norops concolor**, **Norops conspersus**, **Norops cumingii**, **Norops cuprinus**, **Norops cymbops**, **Norops damulus**, **Norops delafuentei**, **Norops dollfusianus**, **Norops exsul**, **Norops forbesi**, **Norops fungosus**, **Norops gibbiceps**, **Norops granuliceps**, **Norops haguei**, **Norops hobartsmithi**, **Norops ibague**, **Norops imias**, **Norops johnmeyeri**, **Norops lemniscatus**, **Norops lineatus**, **Norops lynchi**, **Norops macrolepis**, **Norops macrophallus**, **Norops maculiventris**, **Norops mariarum**, **Norops matudai**, **Norops microlepis**, **Norops milleri**, **Norops notopholis**, **Norops opalinus**, **Norops parvicirculatus**, **Norops pentaprion**, **Norops petersii**, **Norops pinchoti**, **Norops pygmaeus**, **Norops rhombifer**, **Norops rivalis**, **Norops salvini**, **Norops scapularis**, **Norops schiedei**, **Norops schmidti**, **Norops simmonsi**, **Norops sulcifrons**, **Norops tolimensis**, **Norops utowanae**, **Norops vicarius**, **Norops villai**, **Norops vittigerus**, **Norops vociferans*
+
+![Anolis Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Anolis_datedotol.pdf)

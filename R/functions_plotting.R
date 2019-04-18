@@ -8,7 +8,7 @@ make_lttplot_summtrees <- function(taxon, tax_phyloall, tax_datedotol,
   is.hex <- tryCatch(suppressWarnings(plotrix::color.id(col_summtrees)), error = function(e) FALSE)
   # if it is valid it is converted to hex so it can be transparent in some parts of the plot:
   if(!inherits(is.hex, "logical")){
-    col_summtrees <- ggplots::col2hex(col_summtrees)
+    col_summtrees <- gplots::col2hex(col_summtrees)
   }
   file_name = paste0("docs/plots/", taxon, "_", filename, legend_summtrees, ".pdf")
   # print(file_name)
@@ -40,7 +40,7 @@ make_lttplot_summtrees <- function(taxon, tax_phyloall, tax_datedotol,
   par(mai = c(1.02, 0.82, 0.2, 0.42))
   ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips),
                 col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"),
-                xlab = "Time (myrs)")
+                xlab = "Time (MYA)")
   # we will plot dated otol arrows at the end bc its too light
   for (i in seq(length(tax_phyloall))){
     ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall, "80"))
@@ -73,7 +73,7 @@ make_lttplot_summ <- function(taxon, tax_phyloall, tax_datedotol, tax_phylosumma
   is.hex <- tryCatch(suppressWarnings(plotrix::color.id(col_phylosummary)), error = function(e) FALSE)
   # if it is valid it is converted to hex so it can be transparent in some parts of the plot:
   if(!inherits(is.hex, "logical")){
-    col_phylosummary <- ggplots::col2hex(col_phylosummary)
+    col_phylosummary <- gplots::col2hex(col_phylosummary)
   }
   file_name = paste0("docs/plots/", taxon, "_", filename, legend_phylosumm, ".pdf")
   # print(file_name)
@@ -111,7 +111,7 @@ make_lttplot_summ <- function(taxon, tax_phyloall, tax_datedotol, tax_phylosumma
   par(mai = c(1.02, 0.82, 0.2, 0.42))
   ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips),
                 col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"),
-                xlab = "Time (myrs)")
+                xlab = "Time (MYA)")
   # we will plot dated otol arrows at the end bc its too light
   for (i in seq(length(tax_phyloall))){
     ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall, "80"))
@@ -231,7 +231,7 @@ make_lttplot_sdm <- function(taxon, tax_phyloall, tax_datedotol, tax_phylomed = 
   par(mai = c(1.02, 0.82, 0.2, 0.42))
   ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips),
                 col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"),
-                xlab = "Time (myrs)")
+                xlab = "Time (MYA)")
   x0 <- x1 <- -max(ape::branching.times(tax_datedotol))
   arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_datedotol, "80"), lwd = lwd_arrows)
   # points(x = -max(ape::branching.times(tax_datedotol)),  y = 2, pch = 25, col = paste0(col_datedotol, "60"), lwd = 0.75)
@@ -311,10 +311,11 @@ make_lttplot_sdm <- function(taxon, tax_phyloall, tax_datedotol, tax_phylomed = 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_datedotol, tax_phylomedian, filename = "LTTplot_phyloall"){
+make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_datedotol, tax_summary,
+    filename = "LTTplot_phyloall", legend = FALSE){
   file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
-  grDevices::pdf(file = file_name, height = 3, width = 7)
-  par(mai = c(1.02, 0.82, 0.2, 0.42))
+  grDevices::pdf(file = file_name, height = 3.5, width = 7)
+  par(mai = c(1.02, 0.82, 0.2, 0.2))
   trees <- c(tax_phyloall, tax_datedotol, tax_phylomedian$phylo_median)
   class(trees) <- "multiPhylo"
   # class(tax_phyloall)
@@ -326,20 +327,40 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_datedotol, tax_phylom
   tax_datedotol <- ape::collapse.singles(tax_datedotol)
   tax_datedotol <- phytools::force.ultrametric(tax_datedotol)
   col_datedotol <- "#808080" #gray
+  col_datedotol <- "#ffffff" #gray
   col_phylomedian <- "#ffa500"  # orange
-  col_phyloall <- "#cce5ff"
-  ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips),
+  # col_phyloall <- "#cce5ff" # blue
+  y1 <- 0
+  y0 <- -max_tips*0.075
+  lwd_arrows <- 2
+  length_arrowhead <- 0.075
+  nn <- unique(names(tax_phyloall))
+  # col_sample <- sample(gray.colors(n = length(nn)), length(nn))
+  col_sample <- sample(rainbow(n = length(nn)), length(nn))
+  col_phyloall_sample <- col_sample[match(names(tax_phyloall), nn)]
+  study_number <- seq(length(nn))[match(names(tax_phyloall), nn)]
+  max_ages <- sa
+
+  ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(-max_tips*0.15, max_tips),
                 col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"),
-                xlab = "Time (myrs)")
-  ape::ltt.lines(phy = tax_phylomedian$phylo_median, col = paste0(col_phylomedian, "80"))
+                xlab = "Time (MYA)")
+  # ape::ltt.lines(phy = tax_phylomedian$phylo_median, col = paste0(col_phylomedian, "80"))
   for (i in seq(length(tax_phyloall))){
-    ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall, "80"))
+    col_phyloall <- col_phyloall_sample[i]
+    ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall), lwd = 1.5)
+    x0 <- x1 <- -max(ape::branching.times(tax_phyloall[[i]]))
+    arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_phyloall), lwd = lwd_arrows)
+    text(x = x0, y = -max_tips*0.15, labels = study_number[i], font = 4, col = col_phyloall)
   }
-  leg <- paste(taxon, c("Dated OToL", "Median Summary Chronogram",
-                        "Source Chronograms"))
-  legend(x = "topleft", #round(-max_age, digits = -1),
-         # y = round(max_tips, digits = -2),
-         legend = leg, col = c(col_datedotol, col_phylomedian, col_phyloall),
-         cex = 0.5, pch = 19, bty = "n")
+  if(legend){
+      leg <- paste(taxon, c("Dated OToL", "Median Summary Chronogram",
+                            "Source Chronograms"))
+
+      legend(x = "topleft", #round(-max_age, digits = -1),
+             # y = round(max_tips, digits = -2),
+             # legend = leg, col = c(col_datedotol, col_phylomedian, col_phyloall),
+             legend = leg, col = c(col_datedotol, col_phyloall),
+             cex = 0.5, pch = 19, bty = "n")
+  }
   dev.off()
 }

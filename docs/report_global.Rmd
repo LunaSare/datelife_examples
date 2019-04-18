@@ -8,7 +8,18 @@ header-includes:
 - \usepackage{makecell}
 - \usepackage{multirow}
 - \usepackage{longtable}
-geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
+- \usepackage{caption}
+- \usepackage{array}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{xcolor}
+geometry: "left=2.5cm,right=2.5cm,top=2cm,bottom=2cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
@@ -46,6 +57,8 @@ loadd(tax_crossval)
 loadd(tax_phycluster)
 loadd(sdm2phylo_bladj)
 # loadd(tax_crossval2)
+loadd(tax_summary)
+fig_lttplot_phyloall <- "Fig. 1"
 fig_lttplot_sdm <- "Fig. 3"
 fig_lttplot_median <- "Fig. 4"
 figcap2 <- paste(taxon, "Species Tree from Taxonomy. This tree was obtained with `tree_from_taxonomy()` function.")
@@ -56,7 +69,7 @@ table_crossval <- "Table 2"
 
 # Taxon `r taxon`
 
-## I. Query data
+## I. Query source data
 There are `r length(tax_dq$cleaned_names)` species in the Open Tree of Life Taxonomy for the taxon `r taxon`.
 Information on time of divergence is available for
 ```{r echo = FALSE, results = 'asis'}
@@ -77,27 +90,19 @@ if(all(phyloall_success)){
 } else {
   cat("Not all source chronograms are fully ultrametric. This cant't be right, CHECK THIS!!\n")
 }
-
 # Error producing PDF.
 # ! Undefined control sequence.
 # l.124 \toprule
-# this occurs when the latex package is not specified in the yaml ^^
-table_caption <- paste(taxon, "source chronograms.")
+# this occurs when the needed latex package is not specified in the yaml ^^
+table_caption <- paste(taxon, "source chronogram studies information.")
 make_table0(tax_dr, tax_summ, tax_dq, table_caption)
-# results = 'asis', messes this up
 ```
 
-```{r myfile-1-plot, echo = F, results = 'asis', fig.cap= ""}
-# knitr::include_graphics(paste0("docs/datedotol_", taxon, ".pdf"))
-figcap <- paste(taxon, "Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.")
+Source chronograms maximum age range from `r round(min(tax_summary$mrca), digits = 3)` to
+`r round(max(tax_summary$mrca), digits = 3)` million years ago (MYA).
+As a means for comparison, lineage through time plots of all source chronograms
+available are shown in `r fig_lttplot_phyloall`
 
-if(!inherits(tax_datedotol, "phylo")){
-  plot1 <- paste0("Dated induced subtree could not be obtained for the ", taxon, ".\n")
-} else {
-  plot1 <- paste0("\n![", figcap, "](plots/", taxon, "_datedotol.pdf)\n")
-}
-cat(plot1)
-```
 
 ```{r LTTplot-phyloall, echo = F, results = 'asis', fig.cap= ""}
 figcap_lttplot_phyloall <- paste(taxon, "lineage through time (LTT) plots from source chronograms, summary median chronogram and dated Open Tree of Life chronogram.")
@@ -238,4 +243,15 @@ absent <- levels(tax_median_phylo$absent_taxa$taxon)
 if(!"None" %in% absent){
   cat("The following species were completely absent from the chronogram data base: ", paste0("*", levels(tax_median_phylo$absent_taxa$taxon), collapse = "*, *", "*"))
 }
+```
+```{r myfile-1-plot, echo = F, results = 'asis', fig.cap= ""}
+# knitr::include_graphics(paste0("docs/datedotol_", taxon, ".pdf"))
+figcap <- paste(taxon, "Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.")
+
+if(!inherits(tax_datedotol, "phylo")){
+  plot1 <- paste0("Dated induced subtree could not be obtained for the ", taxon, ".\n")
+} else {
+  plot1 <- paste0("\n![", figcap, "](plots/", taxon, "_datedotol.pdf)\n")
+}
+cat(plot1)
 ```

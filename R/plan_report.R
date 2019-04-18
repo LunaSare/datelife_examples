@@ -24,6 +24,7 @@ loadd(tax_bestgroveall)
 loadd(sdm_summtreesall)
 loadd(median_summtreesall)
 loadd(tax_datedotolall)
+loadd(tax_summaryall)
 for(i in seq(taxa)){
     print(taxa[i])
     plan_report <- drake_plan(
@@ -32,18 +33,18 @@ for(i in seq(taxa)){
     	tax_dr = tax_drall[[i]],
     	tax_summ = tax_summall[[i]],
     	tax_phyloall = tax_phyloallall[[i]],
-      # tax_phyloall = suppressMessages(summarize_datelife_result(datelife_query = tax_dq, datelife_result = tax_dr, summary_format = "phylo_all")),
-      tax_median_phylo = tax_median_phyloall[[i]], # this is used inside report
-      tax_sdm_phylo = tax_sdm_phyloall[[i]], # this is used inside report
+        # tax_phyloall = suppressMessages(summarize_datelife_result(datelife_query = tax_dq, datelife_result = tax_dr, summary_format = "phylo_all")),
+        tax_median_phylo = tax_median_phyloall[[i]], # this is used inside report
+        tax_sdm_phylo = tax_sdm_phyloall[[i]], # this is used inside report
     	tax_sdm_matrix = tax_sdm_matrixall[[i]],
     	negs_sdm = which(tax_sdm_matrix < 0),
     	tax_median_matrix = tax_median_matrixall[[i]],
     	tax_datedotol = tax_datedotolall[[i]],
-      tax_otol = tax_otolall[[i]],
-      tax_treefromtax = tax_treefromtaxall[[i]],
+        tax_otol = tax_otolall[[i]],
+        tax_treefromtax = tax_treefromtaxall[[i]],
     	plot1 = make_plot_global(tree = tax_datedotolall[[i]], title = NULL, taxon = taxa[i], tax_summ = tax_summall[[i]], omi3 = 0, filename = "datedotol"),
         # plot2 = make_plot_global(tree = tax_treefromtaxall[[i]]$phy, title = NULL, taxon = taxa[i], tax_summall[[i]], omi3 = 0, filename = "treefromtax"),
-      plot3 = make_plot_global(tree = tax_otolall[[i]], title = NULL, taxon = taxa[i], tax_summall[[i]], omi3 = 0, filename = "otol"),
+        plot3 = make_plot_global(tree = tax_otolall[[i]], title = NULL, taxon = taxa[i], tax_summall[[i]], omi3 = 0, filename = "otol"),
         # plot1 = make_plot1(tree = tax_datedotolall[[i]], title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "datedotol"),
         # plot2 = make_plot1(tree = tax_treefromtaxall[[i]]$phy, title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "treefromtax"),
         # plot3 = make_plot1(tree = tax_otolall[[i]], title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "otol"),
@@ -53,7 +54,8 @@ for(i in seq(taxa)){
     	# tax_crossval2 = tax_crossval2all[[i]],
     	# tax_sdm_bladj = tax_sdm_bladjall[[i]],
     	# tax_med_bladj = tax_med_bladjall[[i]],
-    	lttplot_phyloall = make_lttplot_phyloall(taxa[i], tax_phyloall, tax_datedotol, tax_median_phyloall[[i]]),
+        tax_summary = tax_summaryall[[i]],
+    	lttplot_phyloall = make_lttplot_phyloall(taxa[i], tax_phyloall, tax_datedotol, tax_summary),
     	lttplot_sdm = make_lttplot_sdm(taxa[i], tax_phyloall, tax_datedotol, tax_phycluster = tax_sdm_phyclusterall[[i]],
     	                               negs = negs_sdm, sdm_matrix = tax_sdm_matrix),
     	lttplot_sdm2phy = make_lttplot_sdm(taxa[i], tax_phyloall, tax_datedotol, tax_phylomed = tax_median_phyloall[[i]]$phylo_median,

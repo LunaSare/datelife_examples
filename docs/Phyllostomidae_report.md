@@ -1,14 +1,25 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-16"
+date: "2019-04-17"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{makecell}
 - \usepackage{multirow}
 - \usepackage{longtable}
-geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
+- \usepackage{caption}
+- \usepackage{array}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{xcolor}
+geometry: "left=2.5cm,right=2.5cm,top=2cm,bottom=2cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,7 +32,7 @@ vignette: >
 
 # Taxon Phyllostomidae
 
-## I. Query data
+## I. Query source data
 There are 223 species in the Open Tree of Life Taxonomy for the taxon Phyllostomidae.
 Information on time of divergence is available for
 170
@@ -31,12 +42,26 @@ chronograms is shown in Table 1.
 
 All source chronograms are fully ultrametric.
 
-```
-#> Error in gsub("\\\\", "\\\\textbackslash", x): object 'Col1' not found
-```
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{11cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.8cm}}
+\caption{\label{tab:unnamed-chunk-2}Phyllostomidae source chronogram studies information.}\\
+\toprule
+\multicolumn{1}{>{\centering\arraybackslash}p{0.4cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{   }}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{11cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Citation}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.5cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Source N}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.8cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Taxon N}}\endgroup}\\
+\midrule
+\multicolumn{1}{r}{\em{\textbf{1.}}} & \bgroup\fontsize{8}{10}\selectfont Bininda-Emonds, Olaf R. P., Marcel Cardillo, Kate E. Jones, Ross D. E. MacPhee, Robin M. D. Beck, Richard Grenyer, Samantha A. Price, Rutger A. Vos, John L. Gittleman, Andy Purvis. 2007. The delayed rise of present-day mammals. Nature 446 (7135): 507-512\egroup{} & \multicolumn{1}{c}{3} & \multicolumn{1}{c}{157/223}\\
+\multicolumn{1}{r}{\em{\textbf{2.}}} & \bgroup\fontsize{8}{10}\selectfont Dumont E.R., Davalos L.M., Goldberg A., Santana S.E., Rex K., \& Voigt C.C. 2012. Morphological innovation, diversification and invasion of a new adaptive zone. Proceedings of the Royal Society B: Biological Sciences, 279: 1797-1805.\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{138/223}\\
+\multicolumn{1}{r}{\em{\textbf{3.}}} & \bgroup\fontsize{8}{10}\selectfont Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{141/223}\\
+\multicolumn{1}{r}{\em{\textbf{4.}}} & \bgroup\fontsize{8}{10}\selectfont Lack J.B., \& Van den bussche R.A. 2010. Identifying the Confounding Factors in Resolving Phylogenetic Relationships in Vespertilionidae. Journal of Mammalogy, .\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{46/223}\\
+\multicolumn{1}{r}{\em{\textbf{5.}}} & \bgroup\fontsize{8}{10}\selectfont Shi, Jeff J., Daniel L. Rabosky. 2015. Speciation dynamics during the global radiation of extant bats. Evolution 69 (6): 1528-1545\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{141/223}\\
+\bottomrule
+\multicolumn{4}{l}{{\textbf{\textit{Source N}}}: Number of source chronograms reported in study.}\\
+\multicolumn{4}{l}{{\textbf{\textit{Taxon N}}}: Number of queried taxa found in source chronograms.}\\
+\end{longtable}
 
+Source chronograms maximum age range from 25.19 to
+36.3 million years ago (MYA).
+As a means for comparison, lineage through time plots of all source chronograms
+available are shown in Fig. 1
 
-![Phyllostomidae Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Phyllostomidae_datedotol.pdf)
 
 
 ![Phyllostomidae lineage through time (LTT) plots from source chronograms, summary median chronogram and dated Open Tree of Life chronogram.](plots/Phyllostomidae_LTTplot_phyloall.pdf)
@@ -125,3 +150,5 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 
 ## Appendix
 The following species were completely absent from the chronogram data base:  *Anoura aequatoris**, **Anoura cadenai**, **Anoura carishina**, **Anoura fistulata**, **Anoura luismanueli**, **Anoura peruana**, **Artibeus aequatorialis**, **Artibeus bogotensis**, **Artibeus cf. jamaicensis**, **Artibeus cf. obscurus**, **Carollia brevicauda PS1**, **Carollia brevicauda PS2**, **Carollia monohernandezi**, **Chiroderma vizottoi**, **Diphylla ecuadata**, **Dryadonycteris capixaba**, **Glyphonycteris behnii**, **Hsunycteris cadenai**, **Hsunycteris pattoni**, **Lonchophylla concava**, **Lonchophylla fornicata**, **Lonchophylla orcesi**, **Lonchophylla orienticollina**, **Lonchophylla peracchii**, **Lophostoma kalkoae**, **Lophostoma yasuni**, **Micronycteris sanborni**, **Micronycteris yatesi**, **Mimon koepckeae**, **Neonycteris pusilla**, **Phylloderma stenops PS1**, **Phylloderma stenops PS2**, **Phyllonycteris major**, **Platyrhinus dorsalis**, **Platyrrhinus guianensis**, **Platyrrhinus helleri PS1**, **Platyrrhinus helleri PS2**, **Platyrrhinus helleri PS3**, **Sturnira angeli**, **Sturnira bakeri**, **Sturnira burtonlimi**, **Sturnira koopmanhilli**, **Sturnira mistratensis**, **Sturnira sorianoi**, **Trachops cirrhosus PS1**, **Trachops cirrhosus PS2**, **Trachops cirrhosus PS3**, **Uroderma bakeri**, **Uroderma convexum**, **Uroderma davisi**, **Urodmna magnirostrum**, **Vampyrodes caracdoli**, **Xeronycteris vieirai*
+
+![Phyllostomidae Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Phyllostomidae_datedotol.pdf)

@@ -1,14 +1,25 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-16"
+date: "2019-04-17"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{makecell}
 - \usepackage{multirow}
 - \usepackage{longtable}
-geometry: "left=3cm,right=3cm,top=2.5cm,bottom=4cm"
+- \usepackage{caption}
+- \usepackage{array}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{xcolor}
+geometry: "left=2.5cm,right=2.5cm,top=2cm,bottom=2cm"
 vignette: >
   %\VignetteIndexEntry{DateLife Example}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,7 +32,7 @@ vignette: >
 
 # Taxon Hominidae
 
-## I. Query data
+## I. Query source data
 There are 7 species in the Open Tree of Life Taxonomy for the taxon Hominidae.
 Information on time of divergence is available for
 all
@@ -31,12 +42,24 @@ chronograms is shown in Table 1.
 
 All source chronograms are fully ultrametric.
 
-```
-#> Error in gsub("\\\\", "\\\\textbackslash", x): object 'Col1' not found
-```
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{11cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.8cm}}
+\caption{\label{tab:unnamed-chunk-2}Hominidae source chronogram studies information.}\\
+\toprule
+\multicolumn{1}{>{\centering\arraybackslash}p{0.4cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{   }}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{11cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Citation}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.5cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Source N}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.8cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Taxon N}}\endgroup}\\
+\midrule
+\multicolumn{1}{r}{\em{\textbf{1.}}} & \bgroup\fontsize{8}{10}\selectfont Bininda-Emonds, Olaf R. P., Marcel Cardillo, Kate E. Jones, Ross D. E. MacPhee, Robin M. D. Beck, Richard Grenyer, Samantha A. Price, Rutger A. Vos, John L. Gittleman, Andy Purvis. 2007. The delayed rise of present-day mammals. Nature 446 (7135): 507-512\egroup{} & \multicolumn{1}{c}{3} & \multicolumn{1}{c}{5/7}\\
+\multicolumn{1}{r}{\em{\textbf{2.}}} & \bgroup\fontsize{8}{10}\selectfont Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{7/7}\\
+\multicolumn{1}{r}{\em{\textbf{3.}}} & \bgroup\fontsize{8}{10}\selectfont Springer, Mark S., Robert W. Meredith, John Gatesy, Christopher A. Emerling, Jong Park, Daniel L. Rabosky, Tanja Stadler, Cynthia Steiner, Oliver A. Ryder, Jan E. Janečka, Colleen A. Fisher, William J. Murphy. 2012. Macroevolutionary dynamics and historical biogeography of primate diversification inferred from a species supermatrix. PLoS ONE 7 (11): e49521.\egroup{} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{7/7}\\
+\bottomrule
+\multicolumn{4}{l}{{\textbf{\textit{Source N}}}: Number of source chronograms reported in study.}\\
+\multicolumn{4}{l}{{\textbf{\textit{Taxon N}}}: Number of queried taxa found in source chronograms.}\\
+\end{longtable}
 
+Source chronograms maximum age range from 12.075 to
+21 million years ago (MYA).
+As a means for comparison, lineage through time plots of all source chronograms
+available are shown in Fig. 1
 
-![Hominidae Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Hominidae_datedotol.pdf)
 
 
 ![Hominidae lineage through time (LTT) plots from source chronograms, summary median chronogram and dated Open Tree of Life chronogram.](plots/Hominidae_LTTplot_phyloall.pdf)
@@ -126,3 +149,5 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 
 ## Appendix
 
+
+![Hominidae Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Hominidae_datedotol.pdf)
