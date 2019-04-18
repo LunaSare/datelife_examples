@@ -316,7 +316,7 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_datedotol, tax_summar
   file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
   grDevices::pdf(file = file_name, height = 3.5, width = 7)
   par(mai = c(1.02, 0.82, 0.2, 0.2))
-  trees <- c(tax_phyloall, tax_datedotol, tax_phylomedian$phylo_median)
+  trees <- c(tax_phyloall, tax_datedotol)
   class(trees) <- "multiPhylo"
   # class(tax_phyloall)
   # ape::is.ultrametric(tax_phyloall)
@@ -339,7 +339,17 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_datedotol, tax_summar
   col_sample <- sample(rainbow(n = length(nn)), length(nn))
   col_phyloall_sample <- col_sample[match(names(tax_phyloall), nn)]
   study_number <- seq(length(nn))[match(names(tax_phyloall), nn)]
-  max_ages <- sa
+  ss <- which(table(study_number)>1)
+  max_ages <- tax_summary$mrca
+  for(i in ss){ # case when a study has multiple chronograms
+      tt <- which(i==study_number)
+      dd <- diff(tax_summary$mrca[tt])
+      eq <- which(dd < 0.5)
+      if(length(eq) == 0) next
+      for(j in eq){ # uses themean age for those chronograms that are closer by less than 0.5 myrs
+          max_ages[tt[c(j, j+1)]] <- mean(tax_summary$mrca[i==study_number][c(j, j+1)])
+      }
+  }
 
   ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(-max_tips*0.15, max_tips),
                 col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"),
@@ -348,7 +358,7 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_datedotol, tax_summar
   for (i in seq(length(tax_phyloall))){
     col_phyloall <- col_phyloall_sample[i]
     ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall), lwd = 1.5)
-    x0 <- x1 <- -max(ape::branching.times(tax_phyloall[[i]]))
+    x0 <- x1 <- -max_ages[i]
     arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_phyloall), lwd = lwd_arrows)
     text(x = x0, y = -max_tips*0.15, labels = study_number[i], font = 4, col = col_phyloall)
   }

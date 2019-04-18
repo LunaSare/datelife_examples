@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-17"
+date: "2019-04-18"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{booktabs}
