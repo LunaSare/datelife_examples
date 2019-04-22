@@ -101,11 +101,13 @@ make_table0(tax_dr, tax_summ, tax_dq, table_caption)
 Source chronograms maximum age range from `r round(min(tax_summary$mrca), digits = 3)` to
 `r round(max(tax_summary$mrca), digits = 3)` million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available are shown in `r fig_lttplot_phyloall`
+available in data base are shown in `r fig_lttplot_phyloall`
 
 
 ```{r LTTplot-phyloall, echo = F, results = 'asis', fig.cap= ""}
-figcap_lttplot_phyloall <- paste(taxon, "lineage through time (LTT) plots from source chronograms, summary median chronogram and dated Open Tree of Life chronogram.")
+figcap_lttplot_phyloall <- paste0("Lineage through time (LTT) plots of source chronograms available in data base
+  for species in the ", taxon, ". Numbers correspond to original studies in ", table_chronograms,
+  ". Arrows indicate maximum age of chronograms.")
 
 lttplot_phyloall <- paste0("\n![", figcap_lttplot_phyloall, "](plots/", taxon, "_LTTplot_phyloall.pdf)\n")
 cat(lttplot_phyloall)
@@ -116,12 +118,37 @@ cat(lttplot_phyloall)
 
 
 ## II. Summarize results.
+
+LTT plots are a nice way to visually compare several trees. But what if you want
+to summarize all that information into a single chronogram?
+What to do when source chronograms have different species content?
+First identify the degree of species overlap among your source chornograms. If each
+source chronogram has its own set of species, it will not be possible to combine
+them into a single summary chronogram. To identify the grove with the most source
+chronograms that have at least two overlapping taxa, we followed Ané et al. 2016.
+Once you have identified a suitable grove, you can go on to summarize
+it, by translating the source chronograms into patristic distance matrices and
+then averaging them into a single summary matrix; yes, this first step is _that_
+straightforward. You can average the source matrices by simply using the mean or
+median distances, or you can use more complicated approaches that involve transforming
+the original distance matrices --such as SDM-- by minimizing
+the distances across source matrices.
+Once you have a summary matrix, it is suggested that a distance-based clustering
+algorithm can be used to reconstruct the tree. Algorithms such as Neighbour Joining (NJ) and UPGMA are
+fast and work well when there are no missing values in the matrices. However, summary
+matrices coming from source chronograms usually have several NAs and missing rows.
+This data set for example has NUMBER.
+When this happens, even variants of NJ and UPGMA algorithms available that are designed to deal with missing taxa do
+not work well, as shown in the next section. Other methods designed to deal with missing data are BIONJ*,
+MVR*, and the triangle method, but we have not tried them yet.
+
+
 ### II.A. Diagnosing clustering issues.
 
 We identified some issues with chronograms coming from SDM and Median summary matrices.
 First, clustering algorithms used to go from a summary distance matrix to
 a tree return trees that are too old (generally with UPGMA algorithms) or non-ultrametric
-(generally with Neighbour Joining algorithms). In most studied cases, UPGMA returns
+(generally with NJ algorithms). In most studied cases, UPGMA returns
 fully ultrametric trees but with very old ages (we had to multiply the matrix by
 0.25 to get ages approximate to source chronograms ages, however this is a number
 chosen at random, it was just the number that worked well). NJ returned reasonable
