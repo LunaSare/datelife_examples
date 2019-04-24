@@ -58,12 +58,15 @@ loadd(tax_phycluster)
 loadd(sdm2phylo_bladj)
 # loadd(tax_crossval2)
 loadd(tax_summary)
+loadd(tax_bestgrove)
 fig_lttplot_phyloall <- "Fig. 1"
-fig_lttplot_sdm <- "Fig. 3"
-fig_lttplot_median <- "Fig. 4"
+fig_lttplot_median_and_sdm <- "Fig. 2"
+fig_lttplot_median <- "Fig. 2"
 figcap2 <- paste(taxon, "Species Tree from Taxonomy. This tree was obtained with `tree_from_taxonomy()` function.")
 table_chronograms <- "Table 1"
 table_crossval <- "Table 2"
+fig_lttplot_sdm <- "Fig. S1"
+
 ```
 \raggedright
 
@@ -112,6 +115,12 @@ figcap_lttplot_phyloall <- paste0("Lineage through time (LTT) plots of source ch
 lttplot_phyloall <- paste0("\n![", figcap_lttplot_phyloall, "](plots/", taxon, "_LTTplot_phyloall.pdf)\n")
 cat(lttplot_phyloall)
 ```
+```{r make-lttplot-summ2-test, echo = F, results = 'asis', fig.cap= ""}
+figcap_make_lttplot_summ2 <- paste0("Test of make_lttplot_summ2 function")
+
+lttplot_make_lttplot_summ2 <- paste0("\n![", figcap_make_lttplot_summ2, "](plots/", taxon, "_make_lttplot_summ2_test.pdf)\n")
+cat(lttplot_make_lttplot_summ2)
+```
 
 
 \newpage
@@ -121,37 +130,49 @@ cat(lttplot_phyloall)
 
 LTT plots are a nice way to visually compare several trees. But what if you want
 to summarize all that information into a single chronogram?
-What to do when source chronograms have different species content?
-First identify the degree of species overlap among your source chornograms. If each
-source chronogram has its own set of species, it will not be possible to combine
-them into a single summary chronogram. To identify the grove with the most source
+
+The first step is to identify the degree of species overlap among your source chornograms: if each
+source chronogram has a unique sample of species, it will not be possible to combine
+them into a single summary chronogram. To identify the set of trees or _grove_ with the most source
 chronograms that have at least two overlapping taxa, we followed Ané et al. 2016.
-Once you have identified a suitable grove, you can go on to summarize
-it, by translating the source chronograms into patristic distance matrices and
+```{r echo = FALSE, warning=FALSE, message = FALSE, results = 'asis'}
+if(length(tax_bestgrove) == length(tax_dr)){
+    cat("In the case of the ", taxon, " all source chronograms have at least two overlapping species.\n")
+    cat("Now that we know that the best grove has all source chronograms ")
+} else {
+    cat("In this case, not all source chronograms found for the ", taxon,
+        " have at least two overlapping species. The largest grove has ",
+            length(tax_bestgrove), " chronograms (out of ", length(tax_dr),
+            " total source chronograms).\n")
+    cat("Now that we have identified a suitable grove ")
+}
+```
+we can go on to summarize it by translating the source chronograms into patristic distance matrices and
 then averaging them into a single summary matrix; yes, this first step is _that_
-straightforward. You can average the source matrices by simply using the mean or
-median distances, or you can use more complicated approaches that involve transforming
-the original distance matrices --such as SDM-- by minimizing
+straightforward. We can average the source matrices by simply using the mean or
+median distances, or we can use more complicated approaches that involve transforming
+the original distance matrices --such as the super distance matrix (SDM) approach of Criscuolo et al. 2006-- by minimizing
 the distances across source matrices.
-Once you have a summary matrix, it is suggested that a distance-based clustering
-algorithm can be used to reconstruct the tree. Algorithms such as Neighbour Joining (NJ) and UPGMA are
+
+Once with a summary matrix, a distance-based clustering
+algorithm can be used to reconstruct the tree. Algorithms such as neighbour joining (NJ) and
+unweighted pair group method with arithmetic mean (UPGMA) are
 fast and work well when there are no missing values in the matrices. However, summary
 matrices coming from source chronograms usually have several NAs and missing rows.
-This data set for example has NUMBER.
-When this happens, even variants of NJ and UPGMA algorithms available that are designed to deal with missing taxa do
-not work well, as shown in the next section. Other methods designed to deal with missing data are BIONJ*,
-MVR*, and the triangle method, but we have not tried them yet.
+<!--This data set for example has NUMBER cells with missing data.-->
+When this happens, even available variants of NJ and UPGMA algorithms that are designed to deal with missing data do
+not work well, as shown in the next section. Other methods designed to deal with missing data are BIONJ\*,
+MVR\*, and the triangle method, but we have not tried them yet.
 
 
-### II.A. Diagnosing clustering issues.
+###   II.A. Diagnosing clustering issues.
 
-We identified some issues with chronograms coming from SDM and Median summary matrices.
-First, clustering algorithms used to go from a summary distance matrix to
+Clustering algorithms used to go from a summary distance matrix to
 a tree return trees that are too old (generally with UPGMA algorithms) or non-ultrametric
 (generally with NJ algorithms). In most studied cases, UPGMA returns
 fully ultrametric trees but with very old ages (we had to multiply the matrix by
-0.25 to get ages approximate to source chronograms ages, however this is a number
-chosen at random, it was just the number that worked well). NJ returned reasonable
+0.25 to get ages approximate to source chronograms ages, however this number is not justified,
+it is just the number that approximates ages to source maximum ages the most). NJ returned reasonable
 ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`
 and `r fig_lttplot_median`.
 
@@ -169,23 +190,22 @@ for (i in seq_along(negs_list)){
     figcapextra <- ""
     cat(paste("This taxon's",  names(negs_list)[i], "matrix has NO negative values."))
   }
-  figcap_lttplot_summ[[i]] <- paste(taxon, "lineage through time (LTT) plots from source chronograms and", names(negs_list)[i], "summary matrix converted to phylo with different methods (NJ and UPGMA).", figcapextra, "Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off (too old or too young). So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.")
+  figcap_lttplot_summ[[i]] <- paste(taxon, "lineage through time (LTT) plots from source chronograms and",
+  names(negs_list)[i], "summary matrix converted to phylo with different methods (NJ and UPGMA).",
+  figcapextra, "Clustering algorithms used often are returning non-ultrametric trees or
+  with maximum ages that are just off (too old or too young). So we developped an
+  alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.")
 }
-
 ```
 
 ```{r LTTplot-median, echo = F, results = 'asis', fig.cap= ""}
-lttplot_median <- paste0("\n![", figcap_lttplot_summ[[2]], "](plots/", taxon, "_LTTplot_Median.pdf)\n")
-cat(lttplot_median)
+figure <- paste0("\n![", figcap_lttplot_summ[[2]], "](plots/", taxon, "_LTTplot_Median.pdf)\n")
+cat(figure)
 ```
 
 
-```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
-lttplot_sdm <- paste0("\n![", figcap_lttplot_summ[[1]], "](plots/", taxon, "_LTTplot_SDM.pdf)\n")
-cat(lttplot_sdm)
-```
 
-### II.B. Age distributions form Median and SDM summary trees.
+###   II.B. Age distributions from Median and SDM summary trees.
 
 Comparison of summary chronograms reconstructed with min and max ages.
 
@@ -281,4 +301,10 @@ if(!inherits(tax_datedotol, "phylo")){
   plot1 <- paste0("\n![", figcap, "](plots/", taxon, "_datedotol.pdf)\n")
 }
 cat(plot1)
+```
+
+
+```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
+lttplot_sdm <- paste0("\n![", figcap_lttplot_summ[[1]], "](plots/", taxon, "_LTTplot_SDM.pdf)\n")
+cat(lttplot_sdm)
 ```

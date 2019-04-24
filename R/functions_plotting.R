@@ -312,7 +312,7 @@ make_lttplot_sdm <- function(taxon, tax_phyloall, tax_datedotol, tax_phylomed = 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_summary, tax_datedotol = NULL,
-    filename = "LTTplot_phyloall", legend = FALSE){
+    filename = "LTTplot_phyloall", add_legend = FALSE){
   file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
   grDevices::pdf(file = file_name, height = 3.5, width = 7)
   par(mai = c(1.02, 0.82, 0.2, 0.2))
@@ -371,7 +371,7 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_summary, tax_datedoto
     text(x = -max_ages[i], y = y_numbers[i], labels = ifelse(cond2[i], study_number[i], ""),
         font = 4, col = col_phyloall, cex = 0.75)
   }
-  if(legend){
+  if(add_legend){
       leg <- paste(taxon, c("Dated OToL", "Median Summary Chronogram",
                             "Source Chronograms"))
 

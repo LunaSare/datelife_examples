@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-18"
+date: "2019-04-23"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{booktabs}
@@ -64,39 +64,69 @@ All source chronograms are fully ultrametric.
 Source chronograms maximum age range from 16.057 to
 44.296 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available are shown in Fig. 1
+available in data base are shown in Fig. 1
 
 
 
-![Fringilidae lineage through time (LTT) plots from source chronograms, summary median chronogram and dated Open Tree of Life chronogram.](plots/Fringilidae_LTTplot_phyloall.pdf)
+![Lineage through time (LTT) plots of source chronograms available in data base
+  for species in the Fringilidae. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of chronograms.](plots/Fringilidae_LTTplot_phyloall.pdf)
+
+![Test of make_lttplot_summ2 function](plots/Fringilidae_make_lttplot_summ2_test.pdf)
 
 
 \newpage
 
 
 ## II. Summarize results.
-### II.A. Diagnosing clustering issues.
 
-We identified some issues with chronograms coming from SDM and Median summary matrices.
-First, clustering algorithms used to go from a summary distance matrix to
+LTT plots are a nice way to visually compare several trees. But what if you want
+to summarize all that information into a single chronogram?
+
+The first step is to identify the degree of species overlap among your source chornograms: if each
+source chronogram has a unique sample of species, it will not be possible to combine
+them into a single summary chronogram. To identify the set of trees or _grove_ with the most source
+chronograms that have at least two overlapping taxa, we followed Ané et al. 2016.
+In this case, not all source chronograms found for the  Fringilidae  have at least two overlapping species. The largest grove has  2  chronograms (out of  13  total source chronograms).
+Now that we have identified a suitable grove 
+we can go on to summarize it by translating the source chronograms into patristic distance matrices and
+then averaging them into a single summary matrix; yes, this first step is _that_
+straightforward. We can average the source matrices by simply using the mean or
+median distances, or we can use more complicated approaches that involve transforming
+the original distance matrices --such as the super distance matrix (SDM) approach of Criscuolo et al. 2006-- by minimizing
+the distances across source matrices.
+
+Once with a summary matrix, a distance-based clustering
+algorithm can be used to reconstruct the tree. Algorithms such as neighbour joining (NJ) and
+unweighted pair group method with arithmetic mean (UPGMA) are
+fast and work well when there are no missing values in the matrices. However, summary
+matrices coming from source chronograms usually have several NAs and missing rows.
+<!--This data set for example has NUMBER cells with missing data.-->
+When this happens, even available variants of NJ and UPGMA algorithms that are designed to deal with missing data do
+not work well, as shown in the next section. Other methods designed to deal with missing data are BIONJ\*,
+MVR\*, and the triangle method, but we have not tried them yet.
+
+
+###   II.A. Diagnosing clustering issues.
+
+Clustering algorithms used to go from a summary distance matrix to
 a tree return trees that are too old (generally with UPGMA algorithms) or non-ultrametric
-(generally with Neighbour Joining algorithms). In most studied cases, UPGMA returns
+(generally with NJ algorithms). In most studied cases, UPGMA returns
 fully ultrametric trees but with very old ages (we had to multiply the matrix by
-0.25 to get ages approximate to source chronograms ages, however this is a number
-chosen at random, it was just the number that worked well). NJ returned reasonable
-ages, but trees are way non ultrametric, as you can see in Fig. 3
-and Fig. 4.
+0.25 to get ages approximate to source chronograms ages, however this number is not justified,
+it is just the number that approximates ages to source maximum ages the most). NJ returned reasonable
+ages, but trees are way non ultrametric, as you can see in Fig. S1
+and Fig. 2.
 
 This taxon's SDM matrix has some negative values in the following taxa: *Carduelis uropygialis*, *Spinus crassirostris*. This taxon's Median matrix has NO negative values.
 
 
-![Fringilidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off (too old or too young). So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Fringilidae_LTTplot_Median.pdf)
+![Fringilidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or
+  with maximum ages that are just off (too old or too young). So we developped an
+  alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Fringilidae_LTTplot_Median.pdf)
 
 
 
-![Fringilidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with different methods (NJ and UPGMA). As you can note, dashed lines and solid lines from trees coming out from both types of clustering algorithms implemented are mostly overlapping. This means that removing negative values does not change results from clustering algorithms much. Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off (too old or too young). So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Fringilidae_LTTplot_SDM.pdf)
-
-### II.B. Age distributions form Median and SDM summary trees.
+###   II.B. Age distributions from Median and SDM summary trees.
 
 Comparison of summary chronograms reconstructed with min and max ages.
 
@@ -123,7 +153,7 @@ We also tried  each source chronogram independently, with the Dated OToL and wit
 \newpage
 \begin{table}[t]
 
-\caption{\label{tab:unnamed-chunk-5}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
+\caption{\label{tab:unnamed-chunk-6}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
 \fontsize{7}{9}\selectfont
 \begin{tabular}{lllllllllllllll}
 \toprule
@@ -163,3 +193,7 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 The following species were completely absent from the chronogram data base:  *Acanthis cabaret**, **Acanthis rostrata**, **Akialoa ellisiana**, **Akialoa lanaiensis**, **Akialoa obscura**, **Buarremon apertus**, **Bucanetes crassirostris**, **Calcarius coloratus**, **Cardinalis carneus**, **Cardinalis peninsulae**, **Carduelis ankoberensis**, **Carduelis elegans**, **Carduelis ultima**, **Carpodacus beicki**, **Carpodacus davidianus**, **Carpodacus deserticolor**, **Carpodacus dubius**, **Carpodacus formosanus**, **Carpodacus henrici**, **Carpodacus longirostris**, **Carpodacus lucifer**, **Carpodacus portenkoi**, **Carpodacus rhodopeplus**, **Carpodacus roseatus**, **Carpodacus rubicundus**, **Carpodacus stoliczkae**, **Carpodacus verreauxii**, **Carpodacus waltoni**, **Caryothraustes brasiliensis**, **Caryothraustes scapularis**, **Chaunoproctus ferreorostris**, **Chloridops kona**, **Chloris heinrichi**, **Chloris turkestanica**, **Chrysocorythus mindanensis**, **Ciridops anna**, **Coccothraustes japonicus**, **Coccothraustes migratorius**, **Corytus rhenana**, **Crithagra albifrons**, **Crithagra ankoberensis**, **Crithagra buchanani**, **Crithagra canicapilla**, **Crithagra capistrata**, **Crithagra concolor**, **Crithagra deserti**, **Crithagra donaldsoni**, **Crithagra flavigula**, **Crithagra frontalis**, **Crithagra granti**, **Crithagra hewitti**, **Crithagra hildegardae**, **Crithagra kikuyensis**, **Crithagra koliensis**, **Crithagra leucoptera**, **Crithagra marshalli**, **Crithagra menachensis**, **Crithagra montanorum**, **Crithagra mozambica**, **Crithagra reichenowi**, **Crithagra rothschildi**, **Crithagra rufobrunnea**, **Crithagra symonsi**, **Crithagra thomensis**, **Crithagra tristriata**, **Crithagra xantholaema**, **Crithagra xanthopygia**, **Cyanerpes holti**, **Cyanerpes isthmicus**, **Cyanerpes microrhynchus**, **Cyanocompsa argentina**, **Cyanocompsa rothschildii**, **Drepanis coccinea**, **Drepanis funerea**, **Drepanis pacifica**, **Dysmorodrepanis munroi**, **Emberiza buturlini**, **Emberiza ciodes**, **Emberiza ciopsis**, **Emberiza continentalis**, **Emberiza elegantula**, **Emberiza erythrogenys**, **Emberiza flemingorum**, **Emberiza fronto**, **Emberiza kuatunensis**, **Emberiza lydiae**, **Emberiza meridionalis**, **Emberiza militaris**, **Emberiza musica**, **Emberiza neobscura**, **Emberiza nivenorum**, **Emberiza omissa**, **Emberiza omoensis**, **Emberiza orientalis**, **Emberiza ornata**, **Emberiza pyrrhulinus**, **Emberiza rufibarba**, **Emberiza rufigularis**, **Emberiza sahari**, **Emberiza semenowi**, **Emberiza sloggetti**, **Emberiza sordida**, **Emberiza vincenti**, **Emberiza zaidamensis**, **Embernagra gossei**, **Eophona magnirostris**, **Eophona sowerbyi**, **Erythrospiza phaenicoptera**, **Euphonia aurantiicollis**, **Euphonia carnegiei**, **Euphonia flavifrons**, **Euphonia gnatho**, **Euphonia nitida**, **Euphonia olivacea**, **Euphonia praetermissa**, **Euphonia purpurascens**, **Euphonia rufivertex**, **Euphonia serrirostris**, **Euphonia tavarae**, **Fringilla albicollis**, **Fringilla bella**, **Fringilla brissonii**, **Fringilla nortoniensis**, **Fringilla palmae**, **Fringilla polatzeki**, **Fringilla syriaca**, **Fringillaria goslingi**, **Fringillaria poliopleura**, **Haemorhous californicus**, **Haemorhous griscomi**, **Hemignathus affinis**, **Hemignathus hanapepe**, **Hemispingus castaneicollis**, **Hemispingus macrophrys**, **Hemispingus ochraceus**, **Hemispingus urubambae**, **Hesperiphona abeillei**, **Hesperiphona cobanensis**, **Hesperiphona montana**, **Himatione fraithii**, **Leucosticte brunneonucha**, **Leucosticte wallowa**, **Leucosticte walteri**, **Linaria harterti**, **Linaria johannis**, **Linaria rufostrigata**, **Linaria yemenensis**, **Linurgus kilimensis**, **Loxia cardinalis**, **Loxia cyanea**, **Loxia dominica**, **Loxia mesamericana**, **Loxops ochraceus**, **Loxops wolstenholmei**, **Melopyrrha taylori**, **Mycerobas melanoxanthos**, **Passerina lazula**, **Passerina pallidior**, **Passerina purpurascens**, **Peucaea cohaerens**, **Peucaea ibarrorum**, **Peucaea vulcanica**, **Peucedramus micrus**, **Pheucticus aurantiacus**, **Pinicola eschatosa**, **Plectrophenax townsendi**, **Psittirostra psittacea**, **Pyrrhula cineracea**, **Pyrrhula owstoni**, **Pyrrhula rosacea**, **Pyrrhula steerei**, **Pyrrhula uchidai**, **Rhodacanthis flaviceps**, **Rhodacanthis palmeri**, **Rhodopechys alienus**, **Rhodopechys sanguineus**, **Rhynchostruthus louisae**, **Rhynchostruthus percivali**, **Rhynchostruthus socotranus**, **Serinus huillensis**, **Spinus atriceps**, **Spinus colombiana**, **Spinus dominicensis**, **Spinus longirostris**, **Spinus nigricauda**, **Spinus oleacea**, **Spinus perplexa**, **Spinus stejnegeri**, **Viridonia sagittirostris*
 
 ![Fringilidae Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Fringilidae_datedotol.pdf)
+
+
+
+![Fringilidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Fringilidae_LTTplot_SDM.pdf)

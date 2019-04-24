@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-18"
+date: "2019-04-23"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{booktabs}
@@ -60,39 +60,69 @@ All source chronograms are fully ultrametric.
 Source chronograms maximum age range from 25.19 to
 36.3 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available are shown in Fig. 1
+available in data base are shown in Fig. 1
 
 
 
-![Phyllostomidae lineage through time (LTT) plots from source chronograms, summary median chronogram and dated Open Tree of Life chronogram.](plots/Phyllostomidae_LTTplot_phyloall.pdf)
+![Lineage through time (LTT) plots of source chronograms available in data base
+  for species in the Phyllostomidae. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of chronograms.](plots/Phyllostomidae_LTTplot_phyloall.pdf)
+
+![Test of make_lttplot_summ2 function](plots/Phyllostomidae_make_lttplot_summ2_test.pdf)
 
 
 \newpage
 
 
 ## II. Summarize results.
-### II.A. Diagnosing clustering issues.
 
-We identified some issues with chronograms coming from SDM and Median summary matrices.
-First, clustering algorithms used to go from a summary distance matrix to
+LTT plots are a nice way to visually compare several trees. But what if you want
+to summarize all that information into a single chronogram?
+
+The first step is to identify the degree of species overlap among your source chornograms: if each
+source chronogram has a unique sample of species, it will not be possible to combine
+them into a single summary chronogram. To identify the set of trees or _grove_ with the most source
+chronograms that have at least two overlapping taxa, we followed Ané et al. 2016.
+In this case, not all source chronograms found for the  Phyllostomidae  have at least two overlapping species. The largest grove has  2  chronograms (out of  7  total source chronograms).
+Now that we have identified a suitable grove 
+we can go on to summarize it by translating the source chronograms into patristic distance matrices and
+then averaging them into a single summary matrix; yes, this first step is _that_
+straightforward. We can average the source matrices by simply using the mean or
+median distances, or we can use more complicated approaches that involve transforming
+the original distance matrices --such as the super distance matrix (SDM) approach of Criscuolo et al. 2006-- by minimizing
+the distances across source matrices.
+
+Once with a summary matrix, a distance-based clustering
+algorithm can be used to reconstruct the tree. Algorithms such as neighbour joining (NJ) and
+unweighted pair group method with arithmetic mean (UPGMA) are
+fast and work well when there are no missing values in the matrices. However, summary
+matrices coming from source chronograms usually have several NAs and missing rows.
+<!--This data set for example has NUMBER cells with missing data.-->
+When this happens, even available variants of NJ and UPGMA algorithms that are designed to deal with missing data do
+not work well, as shown in the next section. Other methods designed to deal with missing data are BIONJ\*,
+MVR\*, and the triangle method, but we have not tried them yet.
+
+
+###   II.A. Diagnosing clustering issues.
+
+Clustering algorithms used to go from a summary distance matrix to
 a tree return trees that are too old (generally with UPGMA algorithms) or non-ultrametric
-(generally with Neighbour Joining algorithms). In most studied cases, UPGMA returns
+(generally with NJ algorithms). In most studied cases, UPGMA returns
 fully ultrametric trees but with very old ages (we had to multiply the matrix by
-0.25 to get ages approximate to source chronograms ages, however this is a number
-chosen at random, it was just the number that worked well). NJ returned reasonable
-ages, but trees are way non ultrametric, as you can see in Fig. 3
-and Fig. 4.
+0.25 to get ages approximate to source chronograms ages, however this number is not justified,
+it is just the number that approximates ages to source maximum ages the most). NJ returned reasonable
+ages, but trees are way non ultrametric, as you can see in Fig. S1
+and Fig. 2.
 
 This taxon's SDM matrix has NO negative values.This taxon's Median matrix has NO negative values.
 
 
-![Phyllostomidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off (too old or too young). So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Phyllostomidae_LTTplot_Median.pdf)
+![Phyllostomidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or
+  with maximum ages that are just off (too old or too young). So we developped an
+  alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Phyllostomidae_LTTplot_Median.pdf)
 
 
 
-![Phyllostomidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or with maximum ages that are just off (too old or too young). So we developped an alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Phyllostomidae_LTTplot_SDM.pdf)
-
-### II.B. Age distributions form Median and SDM summary trees.
+###   II.B. Age distributions from Median and SDM summary trees.
 
 Comparison of summary chronograms reconstructed with min and max ages.
 
@@ -119,7 +149,7 @@ We also tried  each source chronogram independently, with the Dated OToL and wit
 \newpage
 \begin{table}[t]
 
-\caption{\label{tab:unnamed-chunk-5}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
+\caption{\label{tab:unnamed-chunk-6}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
 \fontsize{9}{11}\selectfont
 \begin{tabular}{lllllllll}
 \toprule
@@ -152,3 +182,7 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 The following species were completely absent from the chronogram data base:  *Anoura aequatoris**, **Anoura cadenai**, **Anoura carishina**, **Anoura fistulata**, **Anoura luismanueli**, **Anoura peruana**, **Artibeus aequatorialis**, **Artibeus bogotensis**, **Artibeus cf. jamaicensis**, **Artibeus cf. obscurus**, **Carollia brevicauda PS1**, **Carollia brevicauda PS2**, **Carollia monohernandezi**, **Chiroderma vizottoi**, **Diphylla ecuadata**, **Dryadonycteris capixaba**, **Glyphonycteris behnii**, **Hsunycteris cadenai**, **Hsunycteris pattoni**, **Lonchophylla concava**, **Lonchophylla fornicata**, **Lonchophylla orcesi**, **Lonchophylla orienticollina**, **Lonchophylla peracchii**, **Lophostoma kalkoae**, **Lophostoma yasuni**, **Micronycteris sanborni**, **Micronycteris yatesi**, **Mimon koepckeae**, **Neonycteris pusilla**, **Phylloderma stenops PS1**, **Phylloderma stenops PS2**, **Phyllonycteris major**, **Platyrhinus dorsalis**, **Platyrrhinus guianensis**, **Platyrrhinus helleri PS1**, **Platyrrhinus helleri PS2**, **Platyrrhinus helleri PS3**, **Sturnira angeli**, **Sturnira bakeri**, **Sturnira burtonlimi**, **Sturnira koopmanhilli**, **Sturnira mistratensis**, **Sturnira sorianoi**, **Trachops cirrhosus PS1**, **Trachops cirrhosus PS2**, **Trachops cirrhosus PS3**, **Uroderma bakeri**, **Uroderma convexum**, **Uroderma davisi**, **Urodmna magnirostrum**, **Vampyrodes caracdoli**, **Xeronycteris vieirai*
 
 ![Phyllostomidae Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Phyllostomidae_datedotol.pdf)
+
+
+
+![Phyllostomidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Phyllostomidae_LTTplot_SDM.pdf)
