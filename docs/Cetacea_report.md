@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-23"
+date: "2019-04-24"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{booktabs}
@@ -61,21 +61,14 @@ Source chronograms maximum age range from 33.5 to
 As a means for comparison, lineage through time plots of all source chronograms
 available in data base are shown in Fig. 1
 
-
-
-![Lineage through time (LTT) plots of source chronograms available in data base
-  for species in the Cetacea. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of chronograms.](plots/Cetacea_LTTplot_phyloall.pdf)
-
-![Test of make_lttplot_summ2 function](plots/Cetacea_make_lttplot_summ2_test.pdf)
-
-
-\newpage
-
-
 ## II. Summarize results.
 
 LTT plots are a nice way to visually compare several trees. But what if you want
 to summarize all that information into a single chronogram?
+
+
+![Lineage through time (LTT) plots of source chronograms available in data base
+  for species in the Cetacea. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Cetacea_LTTplot_phyloall.pdf)
 
 The first step is to identify the degree of species overlap among your source chornograms: if each
 source chronogram has a unique sample of species, it will not be possible to combine
@@ -111,6 +104,9 @@ fully ultrametric trees but with very old ages (we had to multiply the matrix by
 it is just the number that approximates ages to source maximum ages the most). NJ returned reasonable
 ages, but trees are way non ultrametric, as you can see in Fig. S1
 and Fig. 2.
+
+
+![Test of make_lttplot_summ2 function](plots/Cetacea_make_lttplot_summ2_test.pdf)
 
 This taxon's SDM matrix has some negative values in the following taxa: *Eubalaena japonica*, *Eubalaena glacialis*. This taxon's Median matrix has NO negative values.
 

@@ -36,16 +36,16 @@ make_lttplot_summ2 <- function(taxon, tax_phyloall, tax_datedotol = NULL, tax_ph
     max_tipsall <- sapply(trees, function(x) max(ape::Ntip(x)))
     max_tips <- max(max_tipsall)
     col_datedotol <- "#808080" #gray
-    y1 <- 0
-    y0 <- -max_tips*0.075
     lwd_arrows <- 2
     length_arrowhead <- 0.075
     nn <- unique(names(tax_phyloall))[order(unique(names(tax_phyloall)))] # get ordered names
     if(tax_phyloall_color == "rainbow"){
         col_sample <- sample(rainbow(n = length(nn)), length(nn))
+        leg_color <- "red"
     } else {
         # col_sample <- sample(gray.colors(n = length(nn)), length(nn))
         col_sample <- paste0("#778899", sample(20:90, length(nn))) #lightslategrey
+        leg_color <- "#778899"
     }
     col_phyloall_sample <- col_sample[match(names(tax_phyloall), nn)]
     study_number <- seq(length(nn))[match(names(tax_phyloall), nn)]
@@ -76,7 +76,7 @@ make_lttplot_summ2 <- function(taxon, tax_phyloall, tax_datedotol = NULL, tax_ph
       col_phyloall <- col_phyloall_sample[i]
       ape::ltt.lines(phy = tax_phyloall[[i]], col = paste0(col_phyloall), lwd = lwd_phyloall)
       x0 <- x1 <- -tax_summary$mrca[i]
-      arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_phyloall), lwd = lwd_arrows)
+      arrows(x0, y0 = -max_tips*0.075, x1, y1 = 0, length = length_arrowhead, col = paste0(col_phyloall), lwd = lwd_arrows)
       text(x = -max_ages[i], y = y_numbers[i], labels = ifelse(cond2[i], study_number[i], ""),
           font = 4, col = col_phyloall, cex = 0.75)
     }
@@ -84,35 +84,42 @@ make_lttplot_summ2 <- function(taxon, tax_phyloall, tax_datedotol = NULL, tax_ph
         for(i in seq(length(tax_phycluster))){
           if(inherits(tax_phycluster[[i]], "phylo")){
             if(any(grepl("nj", names(tax_phycluster[i])))){
-              lty_here <- 6 # twodash
+              lty_here <- 5 # longdash; #6 twodash
+              labels_here <- "NJS"
             }
             if(any(grepl("upgma", names(tax_phycluster[i])))){
               lty_here <- 1
+              labels_here <- "UPGMA (daisy)"
             }
             ape::ltt.lines(phy = tax_phycluster[[i]], col = paste0(color, "90"), lty = lty_here, lwd = 2)
             # points(x = -max(ape::branching.times(tax_phycluster[[i]])), y = 2, pch = 25, col = paste0(col_here, "60"), lwd = 0.75)
             x0 <- x1 <- -max(ape::node.depth.edgelength(tax_phycluster[[i]]))
-            arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(color, "90"), lwd = lwd_arrows)
-            leg <- c(leg, paste("SDM", names(tax_phycluster[i])))
+            arrows(x0, y0 = 2.5+max_tips*0.1, x1, y1 = 2.5, length = length_arrowhead,
+                col = paste0(color, "99"), lwd = 2.5, lty = lty_here)
+            text(x = x0, y = 2.5+max_tips*0.14, labels = labels_here, srt = 45,
+                adj = 0, cex = 0.5, col = color)
           }
         }
-        return(leg)
     }
     if(inherits(tax_phycluster_median, "multiPhylo")){
-        leg_here <- foo(tax_phycluster_median, "#FF8C00") # dark orange
-        leg <- c(leg, leg_here)
+        foo(tax_phycluster_median, "#FF8C00") # dark orange
+        # leg <- c(leg, paste("Median", names(tax_phycluster_median)))
+        leg <- c(leg, "Median Summary Chronograms")
+        leg_color <- c(leg_color, "#FF8C00")
     }
     if(inherits(tax_phycluster_sdm, "multiPhylo")){
-        leg_here <- foo(tax_phycluster_sdm, "#9932CC") # dark orchid
-        leg <- c(leg, leg_here)
+        foo(tax_phycluster_sdm, "#9932CC") # dark orchid
+        # leg <- c(leg, paste("SDM", names(tax_phycluster_sdm)))
+        leg <- c(leg, "SDM Summary Chronograms")
+        leg_color <- c(leg_color, "#9932CC")
     }
     if(add_legend){
         leg <- paste(taxon, leg)
         legend(x = "topleft", #round(-max_age, digits = -1),
                # y = round(max_tips, digits = -2),
                # legend = leg, col = c(col_datedotol, col_phylomedian, col_phyloall),
-               legend = leg, col = c(col_datedotol, col_phyloall),
-               cex = 0.5, pch = 19, bty = "n")
+               legend = leg, col = leg_color,
+               cex = 0.65, bty = "n", lwd = 3)
     }
     dev.off()
 }

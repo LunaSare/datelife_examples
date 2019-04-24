@@ -62,7 +62,7 @@ for(i in seq(taxa)){
         lttplot_phyloall2 = make_lttplot_summ2(taxa[i], tax_phyloall, tax_summary,
             filename = "make_lttplot_summ2_test", tax_phyloall_color = "other",
             tax_phycluster_median = tax_median_phyclusterall[[i]],
-            tax_phycluster_sdm = tax_sdm_phyclusterall[[i]]),
+            tax_phycluster_sdm = tax_sdm_phyclusterall[[i]], add_legend = TRUE),
     	lttplot_sdm = make_lttplot_sdm(taxa[i], tax_phyloall, tax_datedotol,
             tax_phycluster = tax_sdm_phyclusterall[[i]],
     	    negs = negs_sdm, sdm_matrix = tax_sdm_matrix),

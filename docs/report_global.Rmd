@@ -106,30 +106,19 @@ Source chronograms maximum age range from `r round(min(tax_summary$mrca), digits
 As a means for comparison, lineage through time plots of all source chronograms
 available in data base are shown in `r fig_lttplot_phyloall`
 
+## II. Summarize results.
+
+LTT plots are a nice way to visually compare several trees. But what if you want
+to summarize information from all source chronograms into a single summary chronogram?
 
 ```{r LTTplot-phyloall, echo = F, results = 'asis', fig.cap= ""}
 figcap_lttplot_phyloall <- paste0("Lineage through time (LTT) plots of source chronograms available in data base
   for species in the ", taxon, ". Numbers correspond to original studies in ", table_chronograms,
-  ". Arrows indicate maximum age of chronograms.")
+  ". Arrows indicate maximum age of each chronogram.")
 
 lttplot_phyloall <- paste0("\n![", figcap_lttplot_phyloall, "](plots/", taxon, "_LTTplot_phyloall.pdf)\n")
 cat(lttplot_phyloall)
 ```
-```{r make-lttplot-summ2-test, echo = F, results = 'asis', fig.cap= ""}
-figcap_make_lttplot_summ2 <- paste0("Test of make_lttplot_summ2 function")
-
-lttplot_make_lttplot_summ2 <- paste0("\n![", figcap_make_lttplot_summ2, "](plots/", taxon, "_make_lttplot_summ2_test.pdf)\n")
-cat(lttplot_make_lttplot_summ2)
-```
-
-
-\newpage
-
-
-## II. Summarize results.
-
-LTT plots are a nice way to visually compare several trees. But what if you want
-to summarize all that information into a single chronogram?
 
 The first step is to identify the degree of species overlap among your source chornograms: if each
 source chronogram has a unique sample of species, it will not be possible to combine
@@ -175,6 +164,13 @@ fully ultrametric trees but with very old ages (we had to multiply the matrix by
 it is just the number that approximates ages to source maximum ages the most). NJ returned reasonable
 ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`
 and `r fig_lttplot_median`.
+
+```{r make-lttplot-summ2-test, echo = F, results = 'asis', fig.cap= ""}
+figcap_make_lttplot_summ2 <- paste("Lineage Through Time plots of", taxa, "summary chronograms obtained from median (orange) and SDM (purple) summary matrices, clustered using NJ (dashed lines) and UPGMA (solid line) algorithms.")
+
+lttplot_make_lttplot_summ2 <- paste0("\n![", figcap_make_lttplot_summ2, "](plots/", taxon, "_make_lttplot_summ2_test.pdf)\n")
+cat(lttplot_make_lttplot_summ2)
+```
 
 ```{r eval = TRUE, echo = F, results = 'asis'}
 negs_list <- list(SDM = which(tax_sdm_matrix < 0),
