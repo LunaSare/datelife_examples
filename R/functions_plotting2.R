@@ -91,7 +91,7 @@ make_lttplot_summ2 <- function(taxon, tax_phyloall, tax_datedotol = NULL, tax_ph
             }
             ape::ltt.lines(phy = tax_phycluster[[i]], col = paste0(color, "90"), lty = lty_here, lwd = 2)
             # points(x = -max(ape::branching.times(tax_phycluster[[i]])), y = 2, pch = 25, col = paste0(col_here, "60"), lwd = 0.75)
-            x0 <- x1 <- -max(ape::branching.times(tax_phycluster[[i]]))
+            x0 <- x1 <- -max(ape::node.depth.edgelength(tax_phycluster[[i]]))
             arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(color, "90"), lwd = lwd_arrows)
             leg <- c(leg, paste("SDM", names(tax_phycluster[i])))
           }
