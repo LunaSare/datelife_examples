@@ -31,7 +31,13 @@ make_lttplot_summ2 <- function(taxon, tax_phyloall, tax_datedotol = NULL, tax_ph
         }
     }
     class(trees) <- "multiPhylo"
-    max_agesall <- sapply(trees, function(x) max(ape::branching.times(x)))
+    ape::node.depth.edgelength(trees)
+    max_agesall <- sapply(trees, function(x) max(ape::node.depth.edgelength(x)))
+for(i in seq(trees)){
+    print(i)
+    max(ape::node.depth.edgelength(trees[[i]]))
+}
+
     xlim0 <- round(max(max_agesall)+5, digits = -1)
     max_tipsall <- sapply(trees, function(x) max(ape::Ntip(x)))
     max_tips <- max(max_tipsall)
