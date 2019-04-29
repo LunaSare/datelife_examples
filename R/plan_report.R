@@ -18,7 +18,7 @@ loadd(tax_median_matrixall)
 # loadd(tax_median_phyclusterall)
 loadd(tax_median_phyloall)
 loadd(tax_sdm_matrixall)
-loadd(tax_sdm_phyclusterall)
+# loadd(tax_sdm_phyclusterall)
 loadd(tax_sdm_phyloall)
 loadd(tax_bestgroveall)
 loadd(sdm_summtreesall)
@@ -58,13 +58,16 @@ for(i in seq(taxa)){
         keep_sdm = !is.na(tax_sdm_phyclusterall[[i]]),
         tax_summary = tax_summaryall[[i]],
     	lttplot_phyloall = make_lttplot_phyloall(taxa[i], tax_phyloall, tax_summary),
-        lttplot_phyloall2 = make_lttplot_summ2(taxa[i], tax_phyloall, tax_summary,
-            filename = "make_lttplot_summ2_test", tax_phyloall_color = "other",
-            tax_phycluster_median = tax_median_phyclusterall[[i]][keep_median],
-            tax_phycluster_sdm = tax_sdm_phyclusterall[[i]][keep_sdm], add_legend = TRUE),
-        lttplot_summ3 = make_lttplot_summ3(taxa[i], tax_phyloall, tax_summary,
-            filename = "make_lttplot_summ3_test_median", tax_phyloall_color = "other",
+        # lttplot_phyloall2 = make_lttplot_summ2(taxa[i], tax_phyloall, tax_summary,
+        #     filename = "make_lttplot_summ2_test", tax_phyloall_color = "other",
+        #     tax_phycluster_median = tax_median_phyclusterall[[i]][keep_median],
+        #     tax_phycluster_sdm = tax_sdm_phyclusterall[[i]][keep_sdm], add_legend = TRUE),
+        lttplot_clustmedian = make_lttplot_summ3(taxa[i], tax_phyloall, tax_summary,
+            filename = "lttplot_cluster_median", tax_phyloall_color = "other",
             tax_phycluster = tax_median_phyclusterall[[i]][keep_median], add_legend = TRUE),
+        lttplot_clustsdm = make_lttplot_summ3(taxa[i], tax_phyloall, tax_summary,
+            filename = "lttplot_cluster_sdm", tax_phyloall_color = "other",
+            tax_phycluster = tax_sdm_phyclusterall[[i]][keep_sdm], add_legend = TRUE),
     	lttplot_sumtrees_sdm = make_lttplot_summtrees(taxa[i], tax_phyloall, tax_datedotol,
            summ_trees = sdm_summtreesall[[i]],
            legend_summtrees = "SDM"),

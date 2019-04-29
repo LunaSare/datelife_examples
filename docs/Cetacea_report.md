@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-24"
+date: "2019-04-29"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{booktabs}
@@ -64,7 +64,7 @@ available in data base are shown in Fig. 1
 ## II. Summarize results.
 
 LTT plots are a nice way to visually compare several trees. But what if you want
-to summarize all that information into a single chronogram?
+to summarize information from all source chronograms into a single summary chronogram?
 
 
 ![Lineage through time (LTT) plots of source chronograms available in data base
@@ -79,34 +79,41 @@ Now that we have identified a suitable grove
 we can go on to summarize it by translating the source chronograms into patristic distance matrices and
 then averaging them into a single summary matrix; yes, this first step is _that_
 straightforward. We can average the source matrices by simply using the mean or
-median distances, or we can use more complicated approaches that involve transforming
+median distances, or we can use methods that involve transforming
 the original distance matrices --such as the super distance matrix (SDM) approach of Criscuolo et al. 2006-- by minimizing
 the distances across source matrices.
 
-Once with a summary matrix, a distance-based clustering
-algorithm can be used to reconstruct the tree. Algorithms such as neighbour joining (NJ) and
+Because our summary matrix is basically a distance matrix, a distance-based clustering
+algorithm could be used to reconstruct the tree. Algorithms such as neighbour joining (NJ) and
 unweighted pair group method with arithmetic mean (UPGMA) are
 fast and work well when there are no missing values in the matrices. However, summary
 matrices coming from source chronograms usually have several NAs and missing rows.
 <!--This data set for example has NUMBER cells with missing data.-->
-When this happens, even available variants of NJ and UPGMA algorithms that are designed to deal with missing data do
-not work well, as shown in the next section. Other methods designed to deal with missing data are BIONJ\*,
-MVR\*, and the triangle method, but we have not tried them yet.
+When this happens, clustering algorithms that have been developed to deal with missing values
+<!--
+NJS: ape::njs
+UPGMA: daisy + upgma
+BIONJ: ape::bionjs(X)
+Minimum Variance Reduction: ape::mvrs(X, V)
+Triangle Method, Tree reconstruction based on the triangle method: ape::triangMtds(X)
+-->
+do not work well, as shown in the following section. This is probbaly because these
+methods are usually applied to distance matrices that represent evolutionary distance
+in terms of sunstitution rate nad not absolute time, as is the case in here.
 
 
-###   II.A. Diagnosing clustering issues.
+###   II.A. Detecting clustering issues.
 
-Clustering algorithms used to go from a summary distance matrix to
-a tree return trees that are too old (generally with UPGMA algorithms) or non-ultrametric
-(generally with NJ algorithms). In most studied cases, UPGMA returns
-fully ultrametric trees but with very old ages (we had to multiply the matrix by
-0.25 to get ages approximate to source chronograms ages, however this number is not justified,
-it is just the number that approximates ages to source maximum ages the most). NJ returned reasonable
-ages, but trees are way non ultrametric, as you can see in Fig. S1
+We tested several clustering algorithms on summary distance matrices coming from median and SDM.
+UPGMA returns ultrametric trees that are considerably older than source chronograms.
+Even scaling the distance matrix down by a factor of 0.5 would not produce trees
+with ages that are coherent with the source chronograms.
+NJ returned trees with reasonable ages, but trees are way non ultrametric, as you can see in Fig. S1
 and Fig. 2.
 
 
-![Test of make_lttplot_summ2 function](plots/Cetacea_make_lttplot_summ2_test.pdf)
+![Lineage Through Time plots of Cetacea summary
+chronograms from median (upper) and SDM (lower) summary matrices obtained with various clustering algorithms.](plots/Cetacea_make_lttplot_summ3_test_median.pdf)
 
 This taxon's SDM matrix has some negative values in the following taxa: *Eubalaena japonica*, *Eubalaena glacialis*. This taxon's Median matrix has NO negative values.
 
@@ -165,10 +172,6 @@ Calibrations6 & TRUE & TRUE & FALSE & TRUE & FALSE & TRUE & TRUE\\
 An alternative to generate a dated tree from a set of taxa is to take the available information and simulate into it the missing data.
 We will take the median and sdm summary chronograms to date the Synthetic tree of Life:
 
-```
-#> Error in paste0("\n![", figcap_lttplot_sdm, "](plots/", taxon, "_LTTplot_sdm.pdf)\n"): object 'figcap_lttplot_sdm' not found
-#> Error in cat(lttplot): object 'lttplot' not found
-```
 
 \newpage
 
@@ -179,4 +182,4 @@ The following species were completely absent from the chronogram data base:  *Am
 
 
 
-![Cetacea lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Cetacea_LTTplot_SDM.pdf)
+![Cetacea lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Cetacea_LTTplot_sdm.pdf)

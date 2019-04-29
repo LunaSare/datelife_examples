@@ -65,7 +65,8 @@ figcap2 <- paste(taxon, "Species Tree from Taxonomy. This tree was obtained with
 table_chronograms <- "Table 1"
 table_crossval <- "Table 2"
 fig_lttplot_sdm <- "Fig. S1"
-
+negs_list <- list(SDM = which(tax_sdm_matrix < 0),
+                 Median = which(tax_median_matrix < 0))
 ```
 \raggedright
 
@@ -167,49 +168,17 @@ We tested several clustering algorithms on summary distance matrices coming from
 UPGMA returns ultrametric trees that are considerably older than source chronograms.
 Even scaling the distance matrix down by a factor of 0.5 would not produce trees
 with ages that are coherent with the source chronograms.
-NJ non-ultrametric
-(generally with NJ algorithms). In most studied cases, UPGMA returns
-fully ultrametric trees but with very old ages (we had to multiply the matrix by
-0.25 to get ages approximate to source chronograms ages, however this number is not justified,
-it is just the number that approximates ages to source maximum ages the most). NJ returned reasonable
-ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`
+NJ returned trees with reasonable ages, but trees are way non ultrametric, as you can see in `r fig_lttplot_sdm`
 and `r fig_lttplot_median`.
 
-```{r make-lttplot-summ2-test, echo = F, results = 'asis', fig.cap= ""}
-figcap_make_lttplot_summ2 <- paste("Lineage Through Time plots of", taxa, "summary
-chronograms obtained from median (orange) and SDM (purple) summary matrices, clustered
-using NJ (dashed lines) and UPGMA (solid line) algorithms.")
+```{r make-lttplot-summ3-test, echo = F, results = 'asis', fig.cap= ""}
+figcap_lttplot_cluster <- paste("Lineage Through Time plots of", taxon, "summary
+chronograms from median (upper) and SDM (lower) summary matrices obtained with various clustering algorithms.")
 
-lttplot_make_lttplot_summ2 <- paste0("\n![", figcap_make_lttplot_summ2, "](plots/", taxon, "_make_lttplot_summ2_test.pdf)\n")
-cat(lttplot_make_lttplot_summ2)
+lttplot_cluster <- paste0("\n![", figcap_lttplot_cluster, "](plots/", taxon, "_lttplot_cluster_median.pdf)\n")
+cat(lttplot_cluster)
 ```
 
-```{r eval = TRUE, echo = F, results = 'asis'}
-negs_list <- list(SDM = which(tax_sdm_matrix < 0),
-                 Median = which(tax_median_matrix < 0))
-tax_summ_matrix <- list(tax_sdm_matrix, tax_median_matrix)
-figcap_lttplot_summ <- rep(list(""), 2)
-for (i in seq_along(negs_list)){
-  if(length(negs_list[[i]])>0){
-    xx <- rownames(tax_summ_matrix[[i]])[ceiling(negs_list[[i]]/nrow(tax_summ_matrix[[i]]))]
-    figcapextra <- "As you can note, dashed lines and solid lines from trees coming out from both types of clustering algorithms implemented are mostly overlapping. This means that removing negative values does not change results from clustering algorithms much."
-    cat(paste0("This taxon's ", names(negs_list)[i], " matrix has some negative values in the following taxa: *", paste(xx, collapse = "*, *"), "*. "))
-  } else {
-    figcapextra <- ""
-    cat(paste("This taxon's",  names(negs_list)[i], "matrix has NO negative values."))
-  }
-  figcap_lttplot_summ[[i]] <- paste(taxon, "lineage through time (LTT) plots from source chronograms and",
-  names(negs_list)[i], "summary matrix converted to phylo with different methods (NJ and UPGMA).",
-  figcapextra, "Clustering algorithms used often are returning non-ultrametric trees or
-  with maximum ages that are just off (too old or too young). So we developped an
-  alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.")
-}
-```
-
-```{r LTTplot-median, echo = F, results = 'asis', fig.cap= ""}
-figure <- paste0("\n![", figcap_lttplot_summ[[2]], "](plots/", taxon, "_LTTplot_Median.pdf)\n")
-cat(figure)
-```
 
 
 
@@ -310,6 +279,31 @@ if(!inherits(tax_datedotol, "phylo")){
 cat(plot1)
 ```
 
+
+```{r eval = TRUE, echo = F, results = 'asis'}
+tax_summ_matrix <- list(tax_sdm_matrix, tax_median_matrix)
+figcap_lttplot_summ <- rep(list(""), 2)
+for (i in seq_along(negs_list)){
+  if(length(negs_list[[i]])>0){
+    xx <- rownames(tax_summ_matrix[[i]])[ceiling(negs_list[[i]]/nrow(tax_summ_matrix[[i]]))]
+    figcapextra <- "As you can note, dashed lines and solid lines from trees coming out from both types of clustering algorithms implemented are mostly overlapping. This means that removing negative values does not change results from clustering algorithms much."
+    cat(paste0("This taxon's ", names(negs_list)[i], " matrix has some negative values in the following taxa: *", paste(xx, collapse = "*, *"), "*. "))
+  } else {
+    figcapextra <- ""
+    cat(paste("This taxon's",  names(negs_list)[i], "matrix has NO negative values."))
+  }
+  figcap_lttplot_summ[[i]] <- paste(taxon, "lineage through time (LTT) plots from source chronograms and",
+  names(negs_list)[i], "summary matrix converted to phylo with different methods (NJ and UPGMA).",
+  figcapextra, "Clustering algorithms used often are returning non-ultrametric trees or
+  with maximum ages that are just off (too old or too young). So we developped an
+  alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.")
+}
+```
+
+```{r LTTplot-median, echo = F, results = 'asis', fig.cap= ""}
+figure <- paste0("\n![", figcap_lttplot_summ[[2]], "](plots/", taxon, "_LTTplot_Median.pdf)\n")
+cat(figure)
+```
 
 ```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
 lttplot_sdm <- paste0("\n![", figcap_lttplot_summ[[1]], "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
