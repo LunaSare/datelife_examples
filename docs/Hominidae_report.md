@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-29"
+date: "2019-04-30"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{booktabs}
@@ -112,14 +112,8 @@ and Fig. 2.
 
 
 ![Lineage Through Time plots of Hominidae summary
-chronograms from median (upper) and SDM (lower) summary matrices obtained with various clustering algorithms.](plots/Hominidae_make_lttplot_summ3_test_median.pdf)
+chronograms from median (upper) and SDM (lower) summary matrices obtained with various clustering algorithms.](plots/Hominidae_lttplot_cluster_median.pdf)
 
-This taxon's SDM matrix has NO negative values.This taxon's Median matrix has NO negative values.
-
-
-![Hominidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or
-  with maximum ages that are just off (too old or too young). So we developped an
-  alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Hominidae_LTTplot_Median.pdf)
 
 
 
@@ -128,11 +122,18 @@ This taxon's SDM matrix has NO negative values.This taxon's Median matrix has NO
 Comparison of summary chronograms reconstructed with min and max ages.
 
 
-![Hominidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with `datelife` algorithm.](plots/Hominidae_LTTplot_summtrees_Median.pdf)
+```
+#> Error in figcap_lttplot_summ[[i]] <- paste(taxon, "lineage through time (LTT) plots from source chronograms and", : object 'figcap_lttplot_summ' not found
+#> Error in paste0("\n![", figcap_lttplot_summ[[2]], "](plots/", taxon, "_LTTplot_summtrees_Median.pdf)\n"): object 'figcap_lttplot_summ' not found
+#> Error in cat(lttplot_median): object 'lttplot_median' not found
+```
 
 
 
-![Hominidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Hominidae_LTTplot_summtrees_SDM.pdf)
+```
+#> Error in paste0("\n![", figcap_lttplot_summ[[1]], "](plots/", taxon, "_LTTplot_summtrees_SDM.pdf)\n"): object 'figcap_lttplot_summ' not found
+#> Error in cat(lttplot_sdm): object 'lttplot_sdm' not found
+```
 
 
 \newpage
@@ -150,7 +151,7 @@ We also tried  each source chronogram independently, with the Dated OToL and wit
 \newpage
 \begin{table}[t]
 
-\caption{\label{tab:unnamed-chunk-6}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
+\caption{\label{tab:unnamed-chunk-5}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
 \fontsize{7}{9}\selectfont
 \begin{tabular}{llllllllll}
 \toprule
@@ -182,5 +183,14 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 ![Hominidae Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Hominidae_datedotol.pdf)
 
 
+This taxon's SDM matrix has NO negative values.This taxon's Median matrix has NO negative values.
 
-![Hominidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Hominidae_LTTplot_sdm.pdf)
+
+![Hominidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or
+  with maximum ages that are just off (too old or too young). So we developped an
+  alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Hominidae_LTTplot_Median.pdf)
+
+
+![Hominidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or
+  with maximum ages that are just off (too old or too young). So we developped an
+  alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Hominidae_LTTplot_sdm.pdf)

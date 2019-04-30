@@ -30,5 +30,5 @@ plan_summ <- drake_plan(
 )
 make(plan_summ)
 # loadd(tax_sdm_phyclusterall)
-xx <- ape::mvrs(tax_median_matrixall[[6]], tax_variance_matrixall[[6]])
-xx$edge.length
+# xx <- ape::mvrs(tax_median_matrixall[[6]], tax_variance_matrixall[[6]])
+# xx$edge.length
