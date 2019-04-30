@@ -1,9 +1,16 @@
 
-lttplot_clusters <- function(trees){
-    max_agesall <- sapply(trees, function(x) max(ape::branching.times(x)))
-    xlim0 <- round(max(max_agesall)+5, digits = -1)
+lttplot_clusters <- function(trees, tax_phycluster, tax_phycluster_title, xlim0,
+        tax_phyloall, tax_summary, study_number,
+        max_ages, col_phyloall_sample, leg, add_legend){
+    leg_color <- "#77889980"
+    lwd_arrows <- 2
+    length_arrowhead <- 0.075
+    lwd_phyloall <- 1.5
     max_tipsall <- sapply(trees, function(x) max(ape::Ntip(x)))
     max_tips <- max(max_tipsall)
+    y_numbers <- rep(-max_tips*0.14, length(max_ages))
+    cond1 <- duplicated(round(max_ages)) & !duplicated(study_number)
+    y_numbers[cond1] <- -max_tips*0.23
     ape::ltt.plot(trees[[which.max(max_tipsall)]], xlim = c(-xlim0, 0),
           ylim = c(-max_tips*0.30, max_tips),
           col = paste0("#ffffff", "10"), ylab = paste(taxon, "Species"),
@@ -17,6 +24,7 @@ lttplot_clusters <- function(trees){
       text(x = -max_ages[i], y = y_numbers[i], labels = ifelse(cond2[i], study_number[i], ""),
           font = 4, col = col_phyloall, cex = 0.75)
     }
+    class(tax_phycluster) <- "multiPhylo"
     foo <- function(tax_phycluster){
         leg <- leg_color <- c()
         for(i in seq(length(tax_phycluster))){
@@ -72,7 +80,6 @@ lttplot_clusters <- function(trees){
     if(inherits(tax_phycluster, "multiPhylo")){
         keep <-  !is.na(tax_phycluster)
         ff <- foo(tax_phycluster[keep])
-        # leg <- c(leg, paste("Median", names(tax_phycluster_median)))
     }
     if(add_legend){
         legend(x = -xlim0, y = max_tips*1.05, #round(-max_age, digits = -1),
@@ -87,10 +94,12 @@ lttplot_clusters <- function(trees){
         }
     }
 }
-make_lttplot_clusters <- function(taxon, tax_phyloall, tax_summary, tax_datedotol = NULL,
-        tax_phycluster_median = NULL, tax_phycluster_sdm = NULL, filename = "LTTplot_clusters",
-        add_legend = FALSE){
+make_lttplot_clusters <- function(taxon, tax_phyloall, tax_summary,
+        tax_phycluster_median = NULL, tax_phycluster_sdm = NULL, filename = "LTTplot_clusters_both",
+        add_legend = TRUE, tax_datedotol = NULL){
+    leg <- "Source Chronograms"
     trees <- tax_phyloall
+    max_agesall <- sapply(trees, function(x) max(ape::branching.times(x)))
     if(inherits(tax_datedotol, "phylo")){
         # ape::is.ultrametric(tax_datedotol)
         # ape::is.binary(tax_datedotol)
@@ -98,30 +107,31 @@ make_lttplot_clusters <- function(taxon, tax_phyloall, tax_summary, tax_datedoto
         tax_datedotol <- phytools::force.ultrametric(tax_datedotol)
         trees <- c(trees, tax_datedotol)
         leg <- c(leg, "Dated OToL")
+        max_agesall <- c(max_agesall, max(ape::branching.times(tax_datedotol)))
     }
     if(inherits(tax_phycluster_median, "list")){
         if(inherits(tax_phycluster_median[[1]], "phylo")){
             class(tax_phycluster_median) <- "multiPhylo"
+            max_agesall <- c(max_agesall, sapply(tax_phycluster_median, function(x)
+                max(ape::branching.times(x))))
             trees_median <- c(trees, tax_phycluster)
+            class(trees_median) <- "multiPhylo"
         }
     }
     if(inherits(tax_phycluster_sdm, "list")){
         if(inherits(tax_phycluster_sdm[[1]], "phylo")){
             class(tax_phycluster_sdm) <- "multiPhylo"
+            max_agesall <- c(max_agesall, sapply(tax_phycluster_sdm, function(x)
+                max(ape::branching.times(x))))
             trees_sdm <- c(trees, tax_phycluster_sdm)
+            class(trees_sdm) <- "multiPhylo"
         }
     }
+    xlim0 <- round(max(max_agesall)+5, digits = -1)
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # colors for source chronograms:
     nn <- unique(names(tax_phyloall))[order(unique(names(tax_phyloall)))] # get ordered names
-    if(tax_phyloall_color == "rainbow"){
-        col_sample <- sample(rainbow(n = length(nn)), length(nn))
-        leg_color <- "red"
-    } else {
-        # col_sample <- sample(gray.colors(n = length(nn)), length(nn))
-        col_sample <- paste0("#778899", sample(20:90, length(nn))) #lightslategrey
-        leg_color <- "#77889980"
-    }
+    col_sample <- paste0("#778899", sample(20:90, length(nn))) #lightslategrey
     col_phyloall_sample <- col_sample[match(names(tax_phyloall), nn)]
     study_number <- seq(length(nn))[match(names(tax_phyloall), nn)]
     ss <- which(table(study_number)>1)
@@ -135,12 +145,17 @@ make_lttplot_clusters <- function(taxon, tax_phyloall, tax_summary, tax_datedoto
             max_ages[tt[c(j, j+1)]] <- mean(tax_summary$mrca[ii==study_number][c(j, j+1)])
         }
     }
-    y_numbers <- rep(-max_tips*0.14, length(max_ages))
-    cond1 <- duplicated(round(max_ages)) & !duplicated(study_number)
-    y_numbers[cond1] <- -max_tips*0.23
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # start the plot:
-    grDevices::pdf(file = file_name, height = 3.5, width = 7)
-    par(mfrow = c(1,2))
+    file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
+    grDevices::pdf(file = file_name, height = 7, width = 7)
+    par(mfrow = c(2,1))
     par(mai = c(1.02, 0.82, 0.2, 0.2))
+    lttplot_clusters(trees_median, tax_phycluster_median, tax_phycluster_title = "Median",
+            xlim0, tax_phyloall, tax_summary, study_number,
+            max_ages, col_phyloall_sample, leg, add_legend)
+    lttplot_clusters(trees_sdm, tax_phycluster_sdm, tax_phycluster_title = "SDM",
+            xlim0, tax_phyloall, tax_summary, study_number,
+            max_ages, col_phyloall_sample, leg, add_legend)
+    dev.off()
 }

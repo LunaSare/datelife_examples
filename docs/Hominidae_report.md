@@ -37,10 +37,9 @@ There are 7 species in the Open Tree of Life Taxonomy for the taxon Hominidae.
 Information on time of divergence is available for
 all
 of these species across 8 published and peer-reviewed chronograms.
-Original study citations as well as proportion of Hominidae species found across those source
+Original study citations as well as number of Hominidae species found across those source
 chronograms is shown in Table 1.
 
-All source chronograms are fully ultrametric.
 
 \begin{longtable}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{11cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.8cm}}
 \caption{\label{tab:unnamed-chunk-2}Hominidae source chronogram studies information.}\\
@@ -55,40 +54,44 @@ All source chronograms are fully ultrametric.
 \multicolumn{4}{l}{{\textbf{\textit{Taxon N}}}: Number of queried taxa found in source chronograms.}\\
 \end{longtable}
 
-Source chronograms maximum age range from 12.075 to
+All source chronograms are fully ultrametric and their maximum ages range from 12.075 to
 21 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
 available in data base are shown in Fig. 1
 
-## II. Summarize results.
-
-LTT plots are a nice way to visually compare several trees. But what if you want
-to summarize information from all source chronograms into a single summary chronogram?
+\newpage
 
 
 ![Lineage through time (LTT) plots of source chronograms available in data base
   for species in the Hominidae. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Hominidae_LTTplot_phyloall.pdf)
+
+## II. Summarize results
+
+LTT plots are a nice way to visually compare several trees. But what if you want
+to summarize information from all source chronograms into a single summary chronogram?
 
 The first step is to identify the degree of species overlap among your source chornograms: if each
 source chronogram has a unique sample of species, it will not be possible to combine
 them into a single summary chronogram. To identify the set of trees or _grove_ with the most source
 chronograms that have at least two overlapping taxa, we followed Ané et al. 2016.
 In this case, not all source chronograms found for the  Hominidae  have at least two overlapping species. The largest grove has  2  chronograms (out of  8  total source chronograms).
-Now that we have identified a suitable grove 
+
+Now that we have identified a grove 
 we can go on to summarize it by translating the source chronograms into patristic distance matrices and
 then averaging them into a single summary matrix; yes, this first step is _that_
 straightforward. We can average the source matrices by simply using the mean or
 median distances, or we can use methods that involve transforming
 the original distance matrices --such as the super distance matrix (SDM) approach of Criscuolo et al. 2006-- by minimizing
-the distances across source matrices.
+the distances across source matrices. As a result of such transformation, an SDM
+summary matrix can contain negative values. But, the SDM summary matrix of this taxon has no negative values.
 
 Because our summary matrix is basically a distance matrix, a distance-based clustering
 algorithm could be used to reconstruct the tree. Algorithms such as neighbour joining (NJ) and
 unweighted pair group method with arithmetic mean (UPGMA) are
-fast and work well when there are no missing values in the matrices. However, summary
+fast and work very well when there are no missing values in the matrices. However, summary
 matrices coming from source chronograms usually have several NAs and missing rows.
 <!--This data set for example has NUMBER cells with missing data.-->
-When this happens, clustering algorithms that have been developed to deal with missing values
+When this happens, variants of traditional clustering algorithms have been developed to deal with missing values.
 <!--
 NJS: ape::njs
 UPGMA: daisy + upgma
@@ -96,44 +99,58 @@ BIONJ: ape::bionjs(X)
 Minimum Variance Reduction: ape::mvrs(X, V)
 Triangle Method, Tree reconstruction based on the triangle method: ape::triangMtds(X)
 -->
-do not work well, as shown in the following section. This is probbaly because these
-methods are usually applied to distance matrices that represent evolutionary distance
-in terms of sunstitution rate nad not absolute time, as is the case in here.
+However, even these methods do not work well with our summary matrices, as shown in the following section.
+We should note that these clustering methods are usually applied to distance matrices representing substitution rates
+and not absolute time.
+
+\newpage
+
+###   II. A. Clustering a summary matrix
+
+NJ, UPGMA, BIONJ, minimum variance reduction (MVR) and the triangle method (TM)
+algorithms were used to cluster median and SDM summary distance matrices.
+All clustering algorithms returned very similar trees with both types of summary
+matrices (Fig. 2, Appendix Fig. 5).
+UPGMA is the only algorithm that returns ultrametric trees, but they are considerably
+older than expected from source chronograms.
+The other methods returned trees with reasonable ages, but that are not ultrametric.
 
 
-###   II.A. Detecting clustering issues.
+![Lineage Through Time plots of Hominidae median summary
+chronograms obtained with different clustering algorithms. Not all algorithms worked
+with this summary matrix and we are only showing here the ones that worked.
+Chronograms obtained from the SDM summary matrix are very similar to the ones from
+the median summary matrix with all clustering algorithms (Appendix Fig. 5).](plots/Hominidae_lttplot_cluster_median.pdf)
 
-We tested several clustering algorithms on summary distance matrices coming from median and SDM.
-UPGMA returns ultrametric trees that are considerably older than source chronograms.
-Even scaling the distance matrix down by a factor of 0.5 would not produce trees
-with ages that are coherent with the source chronograms.
-NJ returned trees with reasonable ages, but trees are way non ultrametric, as you can see in Fig. S1
-and Fig. 2.
+An alternative to clustering algorithms is to use all data avilable in the summary
+matrix as calibrations over a consensus tree.
+The advantage of this is that we can get a distribution of ages for the nodes and
+that we can essentially use this summary matrix to date any topology containing
+at least some of the nodes, as shown in the `Create new data` section.
+
+\newpage
+
+###   II. B. Dating a consensus tree
+
+The trees obtained from a clustering algorithm can be used as consensus tree.
+A list of ages available for each node is constructed from the matrix. The list
+and consensus tree can be fed to any dating software that does not require data.
+We choose bladj because it does not make any evolutionary assumptions regarding the distribution of ages.
+MrBayes, PATHd8 or other software can be used instead.
+Chronograms from both summary matrices are very similar.
+
+Use the tree from upgma without branch lengths as target tree
+
+Graph shows source chronograms in gray with arrown top-down, both chronograms obtained
+with SDM and median in three vertical panes: only from using the min, mean and max of all ages
+no datedotol tree
+one legend on the top outside
+text for MIN, MEAN and MAX on the inner top left of each pane
 
 
-![Lineage Through Time plots of Hominidae summary
-chronograms from median (upper) and SDM (lower) summary matrices obtained with various clustering algorithms.](plots/Hominidae_lttplot_cluster_median.pdf)
+![Hominidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with `datelife` algorithm.](plots/Hominidae_LTTplot_summtrees_Median.pdf)
 
-
-
-
-###   II.B. Age distributions from Median and SDM summary trees.
-
-Comparison of summary chronograms reconstructed with min and max ages.
-
-
-```
-#> Error in figcap_lttplot_summ[[i]] <- paste(taxon, "lineage through time (LTT) plots from source chronograms and", : object 'figcap_lttplot_summ' not found
-#> Error in paste0("\n![", figcap_lttplot_summ[[2]], "](plots/", taxon, "_LTTplot_summtrees_Median.pdf)\n"): object 'figcap_lttplot_summ' not found
-#> Error in cat(lttplot_median): object 'lttplot_median' not found
-```
-
-
-
-```
-#> Error in paste0("\n![", figcap_lttplot_summ[[1]], "](plots/", taxon, "_LTTplot_summtrees_SDM.pdf)\n"): object 'figcap_lttplot_summ' not found
-#> Error in cat(lttplot_sdm): object 'lttplot_sdm' not found
-```
+![Hominidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Hominidae_LTTplot_summtrees_SDM.pdf)
 
 
 \newpage
@@ -180,11 +197,19 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 ## Appendix
 
 
+
+![Lineage Through Time plots of Hominidae SDM summary
+chronograms obtained with different clustering algorithms. Not all algorithms worked
+with the SDM summary matrix and we are only showing here the ones that worked.
+Chronograms obtained from the median summary matrix are very similar to the ones shown
+here with all algorithms (mainFig. 2).](plots/Hominidae_lttplot_cluster_sdm.pdf)
+
+
+
 ![Hominidae Species Dated Open Tree of Life Induced Subtree. This chronogram was obtained with `get_dated_otol_induced_subtree()` function.](plots/Hominidae_datedotol.pdf)
 
 
 This taxon's SDM matrix has NO negative values.This taxon's Median matrix has NO negative values.
-
 
 ![Hominidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or
   with maximum ages that are just off (too old or too young). So we developped an
