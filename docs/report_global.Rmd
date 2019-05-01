@@ -221,17 +221,12 @@ no datedotol tree
 one legend on the top outside
 text for MIN, MEAN and MAX on the inner top left of each pane
 
-```{r LTTplot-median-summtrees, echo = F, results = 'asis', fig.cap= ""}
-figcap_lttplot_summ <- rep(list(""), 2)
-for(i in 1:2){
-  figcap_lttplot_summ[[i]] <- paste(taxon, "lineage through time (LTT) plots from source chronograms and",
-  names(negs_list)[i], "summary matrix converted to phylo with `datelife` algorithm.")
-}
+```{r LTTplot-summ-chronograms, echo = F, results = 'asis', fig.cap= ""}
+figcap_lttplot_summchrono <- paste(taxon, "lineage through time (LTT) plots from source chronograms and
+    SDM and median summary matrix converted to phylo with `datelife` algorithm.")
 
-lttplot_median <- paste0("\n![", figcap_lttplot_summ[[2]], "](plots/", taxon, "_LTTplot_summtrees_Median.pdf)\n")
-lttplot_sdm <- paste0("\n![", figcap_lttplot_summ[[1]], "](plots/", taxon, "_LTTplot_summtrees_SDM.pdf)\n")
-cat(lttplot_median)
-cat(lttplot_sdm)
+lttplot_summchrono <- paste0("\n![", figcap_lttplot_summchrono, "](plots/", taxon, "_LTTplot_summary_chronograms.pdf)\n")
+cat(lttplot_summchrono)
 ```
 
 
@@ -308,7 +303,7 @@ with the SDM summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the median summary matrix are very similar to the ones shown
 here with all algorithms (main", fig_lttplot_median, ").")
 
-lttplot_cluster <- paste0("\n![", figcap_lttplot_cluster, "](plots/", taxon, "_lttplot_cluster_sdm.pdf)\n")
+lttplot_cluster <- paste0("\n![", figcap_lttplot_cluster, "](plots/", taxon, "_lttplot_cluster_median.pdf)\n")
 cat(lttplot_cluster)
 ```
 
@@ -351,5 +346,18 @@ cat(figure)
 
 ```{r LTTplot-sdm, echo = F, results = 'asis', fig.cap= ""}
 lttplot_sdm <- paste0("\n![", figcap_lttplot_summ[[1]], "](plots/", taxon, "_LTTplot_sdm.pdf)\n")
+cat(lttplot_sdm)
+```
+
+```{r LTTplot-median-and-sdm-summtrees, echo = F, results = 'asis', fig.cap= ""}
+figcap_lttplot_summ <- rep(list(""), 2)
+for(i in 1:2){
+  figcap_lttplot_summ[[i]] <- paste(taxon, "lineage through time (LTT) plots from source chronograms and",
+  names(negs_list)[i], "summary matrix converted to phylo with `datelife` algorithm.")
+}
+
+lttplot_median <- paste0("\n![", figcap_lttplot_summ[[2]], "](plots/", taxon, "_LTTplot_summtrees_Median.pdf)\n")
+lttplot_sdm <- paste0("\n![", figcap_lttplot_summ[[1]], "](plots/", taxon, "_LTTplot_summtrees_SDM.pdf)\n")
+cat(lttplot_median)
 cat(lttplot_sdm)
 ```

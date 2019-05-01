@@ -76,6 +76,8 @@ for(i in seq(taxa)){
     	lttplot_sumtrees_median = make_lttplot_summtrees(taxa[i], tax_phyloall, tax_datedotol,
            summ_trees = median_summtreesall[[i]],
            legend_summtrees = "Median"),
+       lttplot_summchrono = make_lttplot_summchrono(taxa[i], tax_phyloall, tax_summary,
+           sdm_summtreesall[[i]], median_summtreesall[[i]]),
     	reportname = paste0(taxa[i], "_report"),
     	mdname = paste0("docs/", reportname, ".md"),
     	report = make_report(mdname),

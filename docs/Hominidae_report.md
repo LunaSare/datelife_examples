@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-04-30"
+date: "2019-05-01"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{booktabs}
@@ -148,9 +148,8 @@ one legend on the top outside
 text for MIN, MEAN and MAX on the inner top left of each pane
 
 
-![Hominidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with `datelife` algorithm.](plots/Hominidae_LTTplot_summtrees_Median.pdf)
-
-![Hominidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Hominidae_LTTplot_summtrees_SDM.pdf)
+![Hominidae lineage through time (LTT) plots from source chronograms and
+    SDM and median summary matrix converted to phylo with `datelife` algorithm.](plots/Hominidae_LTTplot_summary_chronograms.pdf)
 
 
 \newpage
@@ -202,7 +201,7 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with the SDM summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the median summary matrix are very similar to the ones shown
-here with all algorithms (mainFig. 2).](plots/Hominidae_lttplot_cluster_sdm.pdf)
+here with all algorithms (mainFig. 2).](plots/Hominidae_lttplot_cluster_median.pdf)
 
 
 
@@ -219,3 +218,8 @@ This taxon's SDM matrix has NO negative values.This taxon's Median matrix has NO
 ![Hominidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or
   with maximum ages that are just off (too old or too young). So we developped an
   alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Hominidae_LTTplot_sdm.pdf)
+
+
+![Hominidae lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with `datelife` algorithm.](plots/Hominidae_LTTplot_summtrees_Median.pdf)
+
+![Hominidae lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Hominidae_LTTplot_summtrees_SDM.pdf)

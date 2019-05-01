@@ -1,9 +1,12 @@
 # global functions
 
-get_summ_trees <- function(summ_matrix){
-  tmean <- summary_matrix_to_phylo(summ_matrix = summ_matrix, use = "mean", target_tree = NULL)
-  tmin <- summary_matrix_to_phylo(summ_matrix = summ_matrix, use = "min", target_tree = NULL)
-  tmax <- summary_matrix_to_phylo(summ_matrix = summ_matrix, use = "max", target_tree = NULL)
+get_summ_trees <- function(summ_matrix, tax_sdm_phycluster){
+  keep <- sapply(tax_sdm_phycluster, function(x) inherits(x, "phylo"))
+  tax_sdm_phycluster <- tax_sdm_phycluster[keep]
+  ii <- grep("upgma", names(tax_sdm_phycluster))
+  tmean <- summary_matrix_to_phylo(summ_matrix = summ_matrix, use = "mean", target_tree = tax_sdm_phycluster[[ii[1]]])
+  tmin <- summary_matrix_to_phylo(summ_matrix = summ_matrix, use = "min", target_tree = tax_sdm_phycluster[[ii[1]]])
+  tmax <- summary_matrix_to_phylo(summ_matrix = summ_matrix, use = "max", target_tree = tax_sdm_phycluster[[ii[1]]])
   res <- c(tmean, tmin, tmax)
   names(res) <- c("mean_tree", "min_tree", "max_tree")
   return(res)
