@@ -1,11 +1,11 @@
 make_lttplot_summ3 <- function(taxon, tax_phyloall, tax_datedotol = NULL,
-        tax_phycluster = NULL, tax_phycluster_title = "Median", filename = "LTTplot",
+        tax_phycluster = NULL, tax_phycluster_title = "median", filename = "LTTplot",
         tax_phyloall_color = "rainbow", add_legend = FALSE){
 
     file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
     tax_phyloall_color <- match.arg(tax_phyloall_color, c("rainbow", "other"))
     trees <- tax_phyloall
-    leg <- "Source Chronograms"
+    leg <- "source chronograms"
     lwd_phyloall <- 1.5
     if(inherits(tax_datedotol, "phylo")){
         # ape::is.ultrametric(tax_datedotol)
@@ -13,7 +13,7 @@ make_lttplot_summ3 <- function(taxon, tax_phyloall, tax_datedotol = NULL,
         tax_datedotol <- ape::collapse.singles(tax_datedotol)
         tax_datedotol <- phytools::force.ultrametric(tax_datedotol)
         trees <- c(trees, tax_datedotol)
-        leg <- c(leg, "Dated OToL")
+        leg <- c(leg, "dated OToL tree")
     }
     if(inherits(tax_phycluster, "list")){
         if(inherits(tax_phycluster[[1]], "phylo")){
@@ -135,7 +135,7 @@ make_lttplot_summ3 <- function(taxon, tax_phyloall, tax_datedotol = NULL,
                legend = paste(taxon, leg), col = leg_color,
                cex = 0.5, bty = "n", pch = 19)
        if(inherits(tax_phycluster, "multiPhylo")){
-           text(labels = paste(taxon, tax_phycluster_title, "summary chronograms clustered with:"),
+           text(labels = paste(taxon, tax_phycluster_title, "summary chronograms obtained with:"),
             x = -xlim0, y = max_tips*0.925, cex = 0.5, adj = 0)
            legend(x = -xlim0, y = max_tips*0.925, pch = 19,
             legend = ff$leg, col = ff$leg_color, cex = 0.5, bty = "n")

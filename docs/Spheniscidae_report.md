@@ -3,6 +3,9 @@ title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
 date: "2019-05-01"
 output: rmarkdown::html_vignette
+bibliography: library_red.bib
+csl: systematic-biology.csl
+link-citations: yes
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{makecell}
@@ -32,7 +35,7 @@ vignette: >
 
 # Taxon Spheniscidae
 
-## I. Query source data
+## 1. Query source data
 There are 25 species in the Open Tree of Life Taxonomy for the taxon Spheniscidae.
 Information on time of divergence is available for
 19
@@ -71,7 +74,7 @@ available in data base are shown in Fig. 1
 ![Lineage through time (LTT) plots of source chronograms available in data base
   for species in the Spheniscidae. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Spheniscidae_LTTplot_phyloall.pdf)
 
-## II. Summarize results
+## 2. Summarize results
 
 LTT plots are a nice way to visually compare several trees. But what if you want
 to summarize information from all source chronograms into a single summary chronogram?
@@ -111,7 +114,7 @@ and not absolute time.
 
 \newpage
 
-###   II. A. Clustering a summary matrix
+###   2.1. Clustering a summary matrix
 
 NJ, UPGMA, BIONJ, minimum variance reduction (MVR) and the triangle method (TM)
 algorithms were used to cluster median and SDM summary distance matrices.
@@ -134,28 +137,31 @@ The advantage of this is that we can get a distribution of ages for the nodes an
 that we can essentially use this summary matrix to date any topology containing
 at least some of the nodes, as shown in the `Create new data` section.
 
-\newpage
+###   2.2. Calibrating a consensus tree
 
-###   II. B. Dating a consensus tree
-
-The trees obtained from a clustering algorithm can be used as consensus tree.
-A list of ages available for each node is constructed from the matrix. The list
+Even if the branch lengths coming form the clustered chronograms are not adequate,
+the topology can still be used as a consensus tree of the taxa with time data available.
+Then, a list of divergence times available for each node can be constructed from the summary matrix,
+simply by matching it to the node that corresponds to each pair of taxa in any given tree. Finally, the list
 and consensus tree can be fed to any dating software that does not require data.
-We choose bladj because it does not make any evolutionary assumptions regarding the distribution of ages.
-MrBayes, PATHd8 or other software can be used instead.
-Chronograms from both summary matrices are very similar.
+The branch length aduster (BLADJ) algorithm [@Webb2000] is really fast and does
+not make any evolutionary assumptions on age distribution. Other software such as
+MrBayes, r8s, and PATHd8 can be used instead of BLADJ by running them without data.
+In here, we show summary chronograms obtained using minimum, mean and maximum distances
+from summary matrices available for each node on the consensus tree and using them
+as fixed ages in BLADJ (Fig. 3).
+Chronograms from both types of summary matrices are quite similar. As expected,
+SDM chronograms using minimum, mean and maximum distances do not vary much in their
+maximum age, because ages are transformed to minimize variance across them. In contrast,
+median chronogram obtained with minimum, mean and maximum distances have wider variation
+in their maximum ages, as can be observed in the distance between the green arrows
+in Fig. 3.
 
-Use the tree from upgma without branch lengths as target tree
 
-Graph shows source chronograms in gray with arrown top-down, both chronograms obtained
-with SDM and median in three vertical panes: only from using the min, mean and max of all ages
-no datedotol tree
-one legend on the top outside
-text for MIN, MEAN and MAX on the inner top left of each pane
-
-
-![Spheniscidae lineage through time (LTT) plots from source chronograms and
-    SDM and median summary matrix converted to phylo with `datelife` algorithm.](plots/Spheniscidae_LTTplot_summary_chronograms.pdf)
+![Spheniscidae lineage through time (LTT) plots from
+    source chronograms (gray), median (green) and SDM (blue) summary chronograms
+    obtained by calibrating a consensus tree tropology with distance data
+    from respective summary matrices and then adjusting branch lengths with BLADJ.](plots/Spheniscidae_LTTplot_summary_chronograms.pdf)
 
 
 \newpage
@@ -204,6 +210,7 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 
 
 \newpage
+## References
 
 ## Appendix
 The following species were completely absent from the chronogram data base:  *Aptenodytes australis**, **Catadyptes chrysolophus**, **Eudyptes atratus**, **Eudyptula chathamensis**, **Megadyptes waitaha**, **Pygoscelis ellsworthi*

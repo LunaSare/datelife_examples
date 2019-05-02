@@ -87,7 +87,7 @@ lttplot_clusters <- function(trees, tax_phycluster, tax_phycluster_title, xlim0,
                legend = paste(taxon, leg), col = leg_color,
                cex = 0.45, bty = "n", pch = 19)
        if(inherits(tax_phycluster, "multiPhylo")){
-           text(labels = paste(taxon, tax_phycluster_title, "summary chronograms clustered with:"),
+           text(labels = paste(taxon, tax_phycluster_title, "summary chronograms obtained with:"),
             x = -xlim0, y = max_tips*0.925, cex = 0.45, adj = 0)
            legend(x = -xlim0, y = max_tips*0.925, pch = 19,
             legend = ff$leg, col = ff$leg_color, cex = 0.45, bty = "n")

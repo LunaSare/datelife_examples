@@ -3,6 +3,9 @@ title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
 date: "2019-05-01"
 output: rmarkdown::html_vignette
+bibliography: library_red.bib
+csl: systematic-biology.csl
+link-citations: yes
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{makecell}
@@ -32,7 +35,7 @@ vignette: >
 
 # Taxon Anolis
 
-## I. Query source data
+## 1. Query source data
 There are 458 species in the Open Tree of Life Taxonomy for the taxon Anolis.
 Information on time of divergence is available for
 302
@@ -68,7 +71,7 @@ available in data base are shown in Fig. 1
 ![Lineage through time (LTT) plots of source chronograms available in data base
   for species in the Anolis. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Anolis_LTTplot_phyloall.pdf)
 
-## II. Summarize results
+## 2. Summarize results
 
 LTT plots are a nice way to visually compare several trees. But what if you want
 to summarize information from all source chronograms into a single summary chronogram?
@@ -108,7 +111,7 @@ and not absolute time.
 
 \newpage
 
-###   II. A. Clustering a summary matrix
+###   2.1. Clustering a summary matrix
 
 NJ, UPGMA, BIONJ, minimum variance reduction (MVR) and the triangle method (TM)
 algorithms were used to cluster median and SDM summary distance matrices.
@@ -131,28 +134,31 @@ The advantage of this is that we can get a distribution of ages for the nodes an
 that we can essentially use this summary matrix to date any topology containing
 at least some of the nodes, as shown in the `Create new data` section.
 
-\newpage
+###   2.2. Calibrating a consensus tree
 
-###   II. B. Dating a consensus tree
-
-The trees obtained from a clustering algorithm can be used as consensus tree.
-A list of ages available for each node is constructed from the matrix. The list
+Even if the branch lengths coming form the clustered chronograms are not adequate,
+the topology can still be used as a consensus tree of the taxa with time data available.
+Then, a list of divergence times available for each node can be constructed from the summary matrix,
+simply by matching it to the node that corresponds to each pair of taxa in any given tree. Finally, the list
 and consensus tree can be fed to any dating software that does not require data.
-We choose bladj because it does not make any evolutionary assumptions regarding the distribution of ages.
-MrBayes, PATHd8 or other software can be used instead.
-Chronograms from both summary matrices are very similar.
+The branch length aduster (BLADJ) algorithm [@Webb2000] is really fast and does
+not make any evolutionary assumptions on age distribution. Other software such as
+MrBayes, r8s, and PATHd8 can be used instead of BLADJ by running them without data.
+In here, we show summary chronograms obtained using minimum, mean and maximum distances
+from summary matrices available for each node on the consensus tree and using them
+as fixed ages in BLADJ (Fig. 3).
+Chronograms from both types of summary matrices are quite similar. As expected,
+SDM chronograms using minimum, mean and maximum distances do not vary much in their
+maximum age, because ages are transformed to minimize variance across them. In contrast,
+median chronogram obtained with minimum, mean and maximum distances have wider variation
+in their maximum ages, as can be observed in the distance between the green arrows
+in Fig. 3.
 
-Use the tree from upgma without branch lengths as target tree
 
-Graph shows source chronograms in gray with arrown top-down, both chronograms obtained
-with SDM and median in three vertical panes: only from using the min, mean and max of all ages
-no datedotol tree
-one legend on the top outside
-text for MIN, MEAN and MAX on the inner top left of each pane
-
-
-![Anolis lineage through time (LTT) plots from source chronograms and
-    SDM and median summary matrix converted to phylo with `datelife` algorithm.](plots/Anolis_LTTplot_summary_chronograms.pdf)
+![Anolis lineage through time (LTT) plots from
+    source chronograms (gray), median (green) and SDM (blue) summary chronograms
+    obtained by calibrating a consensus tree tropology with distance data
+    from respective summary matrices and then adjusting branch lengths with BLADJ.](plots/Anolis_LTTplot_summary_chronograms.pdf)
 
 
 \newpage
@@ -193,6 +199,7 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 
 
 \newpage
+## References
 
 ## Appendix
 The following species were completely absent from the chronogram data base:  *Anolis alocomyos**, **Anolis altavelensis**, **Anolis anfiloquioi**, **Anolis anisolepis**, **Anolis attenuatus**, **Anolis bellipeniculus**, **Anolis birama**, **Anolis breedlovei**, **Anolis caquetae**, **Anolis carlliebi**, **Anolis carlostoddi**, **Anolis cf. alocomyos GK-2015**, **Anolis cf. humilis JJK-2013**, **Anolis cf. polylepis**, **Anolis charlesmyersi**, **Anolis chlorocyaneus**, **Anolis chrysops**, **Anolis concolor**, **Anolis cuscoensis**, **Anolis damulus**, **Anolis delafuentei**, **Anolis deltae**, **Anolis desiradei**, **Anolis dissimilis**, **Anolis eewi**, **Anolis fairchildi**, **Anolis forbesorum**, **Anolis fugitivus**, **Anolis gibbiceps**, **Anolis haguei**, **Anolis ibague**, **Anolis immaculogularis**, **Anolis impetigosus**, **Anolis incredulus**, **Anolis juangundlachi**, **Anolis kreutzi**, **Anolis laevis**, **Anolis lamari**, **Anolis landestoyi**, **Anolis leditzigorum**, **Anolis lemniscatus**, **Anolis limon**, **Anolis menta**, **Anolis microlepis**, **Anolis mirus**, **Anolis morazani**, **Anolis muralla**, **Anolis nasofrontalis**, **Anolis nietoi**, **Anolis nigrolineatus**, **Anolis osa**, **Anolis paravertebralis**, **Anolis philopunctatus**, **Anolis phyllorhinus**, **Anolis pigmaequestris**, **Anolis pijolense**, **Anolis pinchoti**, **Anolis propinquus**, **Anolis pseudotigrinus**, **Anolis purpurescens**, **Anolis radulinus**, **Anolis rhombifer**, **Anolis rimarum**, **Anolis rivalis**, **Anolis roosevelti**, **Anolis ruibali**, **Anolis ruizi**, **Anolis rupinae**, **Anolis sacamecatensis**, **Anolis santamartae**, **Anolis scapularis**, **Anolis schiedei**, **Anolis schmidti**, **Anolis sierramaestrae**, **Anolis simmonsi**, **Anolis solitarius**, **Anolis spectrum**, **Anolis squamulatus**, **Anolis stevepoei**, **Anolis tenorioensis**, **Anolis terueli**, **Anolis tetarii**, **Anolis toldo**, **Anolis umbrivagus**, **Anolis utowanae**, **Anolis vaupesianus**, **Anolis vescus**, **Anolis vicarius**, **Anolis villai**, **Anolis wampuensis**, **Anolis wattsii**, **Anolis wermuthi**, **Anolis williamsii**, **Anolis zapotecorum**, **Ctenonotus cybotes**, **Ctenonotus ferreus**, **Ctenonotus pulchellus**, **Norops alvarezdeltoroi**, **Norops anisolepis**, **Norops antonii**, **Norops baccatus**, **Norops birama**, **Norops bocourtii**, **Norops bouvierii**, **Norops breedlovei**, **Norops chrysolepis**, **Norops cobanensis**, **Norops concolor**, **Norops conspersus**, **Norops cumingii**, **Norops cuprinus**, **Norops cymbops**, **Norops damulus**, **Norops delafuentei**, **Norops dollfusianus**, **Norops exsul**, **Norops forbesi**, **Norops fungosus**, **Norops gibbiceps**, **Norops granuliceps**, **Norops haguei**, **Norops hobartsmithi**, **Norops ibague**, **Norops imias**, **Norops johnmeyeri**, **Norops lemniscatus**, **Norops lineatus**, **Norops lynchi**, **Norops macrolepis**, **Norops macrophallus**, **Norops maculiventris**, **Norops mariarum**, **Norops matudai**, **Norops microlepis**, **Norops milleri**, **Norops notopholis**, **Norops opalinus**, **Norops parvicirculatus**, **Norops pentaprion**, **Norops petersii**, **Norops pinchoti**, **Norops pygmaeus**, **Norops rhombifer**, **Norops rivalis**, **Norops salvini**, **Norops scapularis**, **Norops schiedei**, **Norops schmidti**, **Norops simmonsi**, **Norops sulcifrons**, **Norops tolimensis**, **Norops utowanae**, **Norops vicarius**, **Norops villai**, **Norops vittigerus**, **Norops vociferans*

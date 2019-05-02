@@ -3,6 +3,9 @@ title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
 date: "2019-05-01"
 output: rmarkdown::html_vignette
+bibliography: library_red.bib
+csl: systematic-biology.csl
+link-citations: yes
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{makecell}
@@ -32,7 +35,7 @@ vignette: >
 
 # Taxon Primates
 
-## I. Query source data
+## 1. Query source data
 There are 526 species in the Open Tree of Life Taxonomy for the taxon Primates.
 Information on time of divergence is available for
 355
@@ -65,7 +68,7 @@ available in data base are shown in Fig. 1
 ![Lineage through time (LTT) plots of source chronograms available in data base
   for species in the Primates. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Primates_LTTplot_phyloall.pdf)
 
-## II. Summarize results
+## 2. Summarize results
 
 LTT plots are a nice way to visually compare several trees. But what if you want
 to summarize information from all source chronograms into a single summary chronogram?
@@ -105,7 +108,7 @@ and not absolute time.
 
 \newpage
 
-###   II. A. Clustering a summary matrix
+###   2.1. Clustering a summary matrix
 
 NJ, UPGMA, BIONJ, minimum variance reduction (MVR) and the triangle method (TM)
 algorithms were used to cluster median and SDM summary distance matrices.
@@ -128,28 +131,31 @@ The advantage of this is that we can get a distribution of ages for the nodes an
 that we can essentially use this summary matrix to date any topology containing
 at least some of the nodes, as shown in the `Create new data` section.
 
-\newpage
+###   2.2. Calibrating a consensus tree
 
-###   II. B. Dating a consensus tree
-
-The trees obtained from a clustering algorithm can be used as consensus tree.
-A list of ages available for each node is constructed from the matrix. The list
+Even if the branch lengths coming form the clustered chronograms are not adequate,
+the topology can still be used as a consensus tree of the taxa with time data available.
+Then, a list of divergence times available for each node can be constructed from the summary matrix,
+simply by matching it to the node that corresponds to each pair of taxa in any given tree. Finally, the list
 and consensus tree can be fed to any dating software that does not require data.
-We choose bladj because it does not make any evolutionary assumptions regarding the distribution of ages.
-MrBayes, PATHd8 or other software can be used instead.
-Chronograms from both summary matrices are very similar.
+The branch length aduster (BLADJ) algorithm [@Webb2000] is really fast and does
+not make any evolutionary assumptions on age distribution. Other software such as
+MrBayes, r8s, and PATHd8 can be used instead of BLADJ by running them without data.
+In here, we show summary chronograms obtained using minimum, mean and maximum distances
+from summary matrices available for each node on the consensus tree and using them
+as fixed ages in BLADJ (Fig. 3).
+Chronograms from both types of summary matrices are quite similar. As expected,
+SDM chronograms using minimum, mean and maximum distances do not vary much in their
+maximum age, because ages are transformed to minimize variance across them. In contrast,
+median chronogram obtained with minimum, mean and maximum distances have wider variation
+in their maximum ages, as can be observed in the distance between the green arrows
+in Fig. 3.
 
-Use the tree from upgma without branch lengths as target tree
 
-Graph shows source chronograms in gray with arrown top-down, both chronograms obtained
-with SDM and median in three vertical panes: only from using the min, mean and max of all ages
-no datedotol tree
-one legend on the top outside
-text for MIN, MEAN and MAX on the inner top left of each pane
-
-
-![Primates lineage through time (LTT) plots from source chronograms and
-    SDM and median summary matrix converted to phylo with `datelife` algorithm.](plots/Primates_LTTplot_summary_chronograms.pdf)
+![Primates lineage through time (LTT) plots from
+    source chronograms (gray), median (green) and SDM (blue) summary chronograms
+    obtained by calibrating a consensus tree tropology with distance data
+    from respective summary matrices and then adjusting branch lengths with BLADJ.](plots/Primates_LTTplot_summary_chronograms.pdf)
 
 
 \newpage
@@ -192,6 +198,7 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 
 
 \newpage
+## References
 
 ## Appendix
 The following species were completely absent from the chronogram data base:  *Alouatta arctoidea**, **Alouatta discolor**, **Alouatta stramineus**, **Alouatta ululata**, **Aotus azarae**, **Aotus jorgehernandezi**, **Aotus zonalis**, **Avahi mooreorum**, **Avahi ramanantsoavani**, **Cacajao rubicundus**, **Callicebus aureipalatii**, **Callicebus baptista**, **Callicebus barbarabrownae**, **Callicebus caquetenesis**, **Callicebus caquetensis**, **Callicebus discolor**, **Callicebus lucifer**, **Callicebus medemi**, **Callicebus melanochir**, **Callicebus miltoni**, **Callicebus ornatus**, **Callicebus pallescens**, **Callicebus regulus**, **Callicebus stephennashi**, **Callicebus toppinii**, **Callicebus urubambensis**, **Callicebus vieirai**, **Callithrix cf. emiliae**, **Callithrix chrysoleuca**, **Carlito syrichta**, **Cebus aequatorialis**, **Cebus brunneus**, **Cebus cesarae**, **Cebus cuscinus**, **Cebus imitator**, **Cebus leucocephalus**, **Cebus malitiosus**, **Cebus polykomos**, **Cebus unicolor**, **Cebus versicolor**, **Cebus yuracus**, **Cephalopachus bancanus**, **Cercocebus lunulatus**, **Cercocebus sanjei**, **Cercopithecus denti**, **Cercopithecus doggetti**, **Cercopithecus kandti**, **Cercopithecus lomamiensis**, **Cercopithecus lowei**, **Cheirogaleus andysabini**, **Cheirogaleus lavasoensis**, **Cheirogaleus minusculus**, **Cheirogaleus thomasi**, **Cheracebus lugens**, **Cheracebus purinus**, **Cheracebus torquatus**, **Chiropotes utahickae**, **Chlorocebus djamdjamensis**, **Daubentonia robusta**, **Euoticus matschiei**, **Galagoides cocos**, **Galagoides orinus**, **Galagoides rondoensis**, **Galagoides thomasi**, **Hylobates entelloides**, **Hylobates funereus**, **Lemur indri**, **Lemur tardigradus**, **Lemur volans**, **Lepilemur grewcockorum**, **Lepilemur hollandorum**, **Lepilemur jamesorum**, **Lepilemur mitsinjoensis**, **Lepilemur scottorum**, **Lepilemur tymerlachsoni**, **Lophocebus johnstoni**, **Lophocebus opdenboschi**, **Lophocebus osmani**, **Lophocebus ugandae**, **Macaca balantak**, **Macaca leucogenys**, **Macaca speciosa**, **Mico acariensis**, **Mico intermedius**, **Mico leucippe**, **Mico marcai**, **Mico nigriceps**, **Microcebus lokobensis**, **Microcebus marohita**, **Microcebus myonixus**, **Microcebus tanosi**, **Nomascus annamensis**, **Nycticebus bancanus**, **Nycticebus borneanus**, **Nycticebus kayan**, **Papio japonicus**, **Papio kindae**, **Phaner electromontis**, **Phaner parienti**, **Piliocolobus bouvieri**, **Piliocolobus epieni**, **Piliocolobus oustaleti**, **Piliocolobus parmentieri**, **Piliocolobus semlikiensis**, **Piliocolobus temminckii**, **Piliocolobus waldronae**, **Pithecia cazuzai**, **Pithecia chrysocephala**, **Pithecia hirsuta**, **Pithecia inusta**, **Pithecia isabela**, **Pithecia milleri**, **Pithecia mittermeieri**, **Pithecia napensis**, **Pithecia pissinattii**, **Pithecia rylandsi**, **Pithecia vanzolinii**, **Plecturocebus bernhardi**, **Plecturocebus brunneus**, **Plecturocebus caligatus**, **Plecturocebus cinerascens**, **Plecturocebus cupreus**, **Plecturocebus donacophilus**, **Plecturocebus hoffmannsi**, **Plecturocebus miltoni**, **Plecturocebus moloch**, **Presbytis bicolor**, **Presbytis canicrus**, **Presbytis mitrata**, **Presbytis natunae**, **Presbytis sabana**, **Presbytis senex**, **Presbytis siamensis**, **Presbytis siberu**, **Presbytis sumatrana**, **Propithecus candidus**, **Pseudopotto martini**, **Pygathrix cinerea 1 RL-2012**, **Pygathrix cinerea 2 RL-2012**, **Rhinopithecus bieti 1 RL-2012**, **Rhinopithecus bieti 2 RL-2012**, **Saguinus cruzlimai**, **Saguinus illigeri**, **Saguinus lagonotus**, **Saguinus leucogenys**, **Saguinus nigrifrons**, **Saguinus pileatus**, **Saguinus ursulus**, **Saguinus weddelli**, **Saimiri cassiquiarensis**, **Saimiri macrodon**, **Sapajus apella**, **Sapajus cay**, **Sapajus flavius**, **Sapajus libidinosus**, **Sapajus nigritus**, **Sapajus xanthosternos**, **Sciurocheirus cameronensis**, **Sciurocheirus makandensis**, **Semnopithecus ajax**, **Semnopithecus hypoleucos**, **Semnopithecus schistaceus**, **Tarsius banacanus**, **Tarsius fuscus**, **Tarsius pelengensis**, **Tarsius tarsius**, **Tarsius tumpara**, **Trachypithecus ebenus**, **Trachypithecus mauritius**, **Trachypithecus selangorensis**, **Trachypithecus shortridgei*
