@@ -40,12 +40,15 @@ rm_brlen.multiPhylo <- function(trees){
   res
 }
 use_eachcal_crossval <- function(trees, eachcal){
+  # trees <- tree <- tax_phyloallall[[i]]
   res <- lapply(seq(trees), function(i) use_each_cal(tree = trees[[i]], eachcal))
   res
 }
 use_each_cal <- function(tree, eachcal){
+  tree <- tax_phyloallall[[i]][[3]] #2, 3, 4 their names do not have underscores, duh!!! CHANGE THIS
+  eachcal <- tax_eachcalall[[i]]
   res <- lapply(seq(eachcal), function(i){
-    xx <- suppressMessages(suppressWarnings(use_all_calibrations(phy = tree, eachcal[[i]])))
+    xx <- suppressMessages(suppressWarnings(use_all_calibrations(phy = tree, all_calibrations = eachcal[[i]])))
     return(xx$phy)
   })
   !sapply(res, is.null)
@@ -59,7 +62,7 @@ compute_ape_brlens <- function(tree){
     tree <- ape::compute.brlen(tree)
     tree
 }
-utils::data("strat2012", package = "phyloch")
+# utils::data("strat2012", package = "phyloch")
 make_plot_global <- function(tree, title, taxon, tax_summ, omi3, filename){
   if(!inherits(tree, "phylo")){
     return(NA)
@@ -127,12 +130,12 @@ make_plot1 <- function(tree, title = NULL, taxon, filename = "test", time_depth 
   graphics::par(xpd = FALSE)
   if(!is.null(tree$edge.length)){
       if(axis_type == 1){
-        phyloch::axisGeo(GTS = GTS, unit = c("period"),
+        datelife::axisGeo(GTS = GTS, unit = c("period"),
             col = c("gray80", "white"), gridcol = c("gray80", "white"), cex = 0.5,
             gridty = "twodash")
       }
       if(axis_type == 2){
-        phyloch::axisGeo(GTS = GTS, unit = c("period","epoch"),
+        datelife::axisGeo(GTS = GTS, unit = c("period","epoch"),
             col = c("gray80", "white"), gridcol = c("gray80", "white"), cex = 0.5,
             gridty = "twodash")
       }

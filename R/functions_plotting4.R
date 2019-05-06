@@ -1,5 +1,5 @@
 
-lttplot_clusters <- function(trees, tax_phycluster, tax_phycluster_title, xlim0,
+lttplot_clusters <- function(taxon, trees, tax_phycluster, tax_phycluster_title, xlim0,
         tax_phyloall, tax_summary, study_number,
         max_ages, col_phyloall_sample, leg, add_legend){
     leg_color <- "#77889980"
@@ -114,7 +114,7 @@ make_lttplot_clusters <- function(taxon, tax_phyloall, tax_summary,
             class(tax_phycluster_median) <- "multiPhylo"
             max_agesall <- c(max_agesall, sapply(tax_phycluster_median, function(x)
                 max(ape::branching.times(x))))
-            trees_median <- c(trees, tax_phycluster)
+            trees_median <- c(trees, tax_phycluster_median)
             class(trees_median) <- "multiPhylo"
         }
     }
@@ -151,10 +151,10 @@ make_lttplot_clusters <- function(taxon, tax_phyloall, tax_summary,
     grDevices::pdf(file = file_name, height = 7, width = 7)
     par(mfrow = c(2,1))
     par(mai = c(1.02, 0.82, 0.2, 0.2))
-    lttplot_clusters(trees_median, tax_phycluster_median, tax_phycluster_title = "Median",
+    lttplot_clusters(taxon, trees_median, tax_phycluster_median, tax_phycluster_title = "Median",
             xlim0, tax_phyloall, tax_summary, study_number,
             max_ages, col_phyloall_sample, leg, add_legend)
-    lttplot_clusters(trees_sdm, tax_phycluster_sdm, tax_phycluster_title = "SDM",
+    lttplot_clusters(taxon, trees_sdm, tax_phycluster_sdm, tax_phycluster_title = "SDM",
             xlim0, tax_phyloall, tax_summary, study_number,
             max_ages, col_phyloall_sample, leg, add_legend)
     dev.off()

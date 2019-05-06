@@ -15,6 +15,7 @@ source("R/plan_data.R")
 # source("R/plan_sim.R")
 source("R/functions_plotting_1.R")
 source("R/functions_plotting3.R")
+source("R/functions_plotting4.R")
 source("R/functions_plotting5.R")
 source("R/plan_report.R")
 

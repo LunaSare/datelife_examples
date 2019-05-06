@@ -20,8 +20,12 @@ plan_data <- drake_plan(
   # use_all_calibrations(phy = tax_datedotolall[[i]], eachcal[[1]])
   # sapply(tax_eachcalall, function(x) sapply(x, class))
   # sapply(tax_eachcalall, length)
-  tax_crossvalall = lapply(seq(tax_phyloallall), function(i)
-                        use_eachcal_crossval(trees = tax_phyloallall[[i]], eachcal = tax_eachcalall[[i]]))
+  # tax_crossvalall errored with: Error in write.pathd8(phy, calibrations, base) :
+  # Some calibrations not encountered in tree
+  tax_crossvalall = lapply(seq(tax_phyloallall), function(i){
+      print(taxa[i])
+      use_eachcal_crossval(trees = tax_phyloallall[[i]], eachcal = tax_eachcalall[[i]])
+  })
   # this was just to chck that it was the same with our without branch lengths as input.
   # it is the same output so we are not running it again
   # tax_phyloall_wobrlenall = lapply(tax_phyloallall, rm_brlen.multiPhylo),

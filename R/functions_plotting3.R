@@ -1,4 +1,4 @@
-make_lttplot_summ3 <- function(taxon, tax_phyloall, tax_datedotol = NULL,
+make_lttplot_summ3 <- function(taxon, tax_phyloall, tax_summary, tax_datedotol = NULL,
         tax_phycluster = NULL, tax_phycluster_title = "median", filename = "LTTplot",
         tax_phyloall_color = "rainbow", add_legend = FALSE){
 

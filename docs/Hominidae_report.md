@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-05-01"
+date: "2019-05-06"
 output: rmarkdown::html_vignette
 bibliography: library_red.bib
 csl: systematic-biology.csl
@@ -163,11 +163,15 @@ in Fig. 3.
 
 ## III. Create new data
 
+Another way to use information from source chronograms is to use the node
+ages as calibration points to date any given tree containing at least two of the
+taxa in source chronograms.
+To do this, we need the target tree
 
 As an example, we're gonna date the Open Tree Synthetic tree (mainly because the taxonomic tree is usually less well resolved.)
 
 
-Now, let's say you like the Open Tree of Life Taxonomy and you want to stick to that tree. Dates from available studies were tested over the Open Tree of Life Synthetic tree of Hominidae and a tree with 6 tips, 83 % resolved nodes and a MRCA of 9 was constructed.
+Now, let's say you like the Open Tree of Life Taxonomy and you want to stick to that tree. Dates from available studies were tested over the Open Tree of Life Synthetic tree of Hominidae and a tree with 6 tips, 83 % resolved nodes and a MRCA of 10 was constructed.
 We also tried  each source chronogram independently, with the Dated OToL and with each other, as a form of cross validation in Table 2. This is not working perfectly yet, but we are developping new ways to use all calibrations efficiently.
 
 \newpage
