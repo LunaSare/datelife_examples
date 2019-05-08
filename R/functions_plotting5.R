@@ -59,7 +59,7 @@ make_lttplot_summchrono <- function(taxon, tax_phyloall, tax_summary, sdm_summs3
     }
     xlim0 <- round(max(max_agesall)+5, digits = -1)
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    # colors for source chronograms:
+    # general variables for source chronogram plotting:
     nn <- unique(names(tax_phyloall))[order(unique(names(tax_phyloall)))] # get ordered names
     col_sample <- paste0("#778899", sample(20:90, length(nn))) #lightslategrey
     col_phyloall_sample <- col_sample[match(names(tax_phyloall), nn)]

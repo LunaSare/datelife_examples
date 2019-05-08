@@ -9,7 +9,6 @@ loadd(tax_dqall)
 #     ape::compute.brlen(tax_otolall[[i]]))
 # }
 plan_data <- drake_plan(
-  tax_allcalall = lapply(tax_phyloallall, get_all_calibrations),
   tax_allcal_datedotolall = lapply(seq(tax_datedotolall), function(i)
     suppressMessages(suppressWarnings(use_all_calibrations(tax_datedotolall[[i]], tax_allcalall[[i]])))),
   tax_eachcalall = lapply(seq(tax_phyloallall), function(i)
