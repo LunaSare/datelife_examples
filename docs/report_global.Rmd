@@ -252,10 +252,28 @@ corresponds to the sum of the number of nodes in each source chronogram).
 Once we have a target tree topology, we can map the calibrations to the target tree.
 Some nodes will have several calibrations and some others might have none.
 To deal with this, we can expand the calibrations to make them agree, or we can summarize them.
+For each method, we performed a self validation and a cross validation.
+
 (`r fig_node_age_dist`)
 
 ### 3.1. Expanding calibrations
-
+```{r echo = FALSE}
+table_cap <- "Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?"
+table2 <- cbind(tax_eachcal_datedotol, do.call(cbind, tax_crossval))
+dimnames(table2) <- list(paste0("Calibrations", seq(tax_crossval)), c("dOToL", paste0("Chrono", seq(tax_crossval))))
+if(ncol(table2) < 7) fs <- 10
+if(ncol(table2) == 7 | ncol(table2) == 8) fs <- 9
+if(ncol(table2) >= 9) fs <- 7
+if(ncol(table2) > 10) {
+  table2ori <- table2
+  table2[table2 == TRUE] <- "yes" # "&#x2611;"  # :tick:
+  table2[table2 == "FALSE"] <- "no"  # "&#x2612;"
+  dimnames(table2) <- list(paste0("Calib", seq(tax_crossval)),
+                           c("dOToL", paste0("Chr", seq(tax_crossval))))
+}
+tt <- knitr::kable(table2, caption = table_cap, row.names = TRUE, format = "latex", booktabs = TRUE)
+kableExtra::kable_styling(kable_input = tt, position = "left", font_size = fs)
+```
 show cross validation of LTTs from chronograms obtained by dating the topology of
 each study with data from any other study.
 
