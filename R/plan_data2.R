@@ -3,6 +3,8 @@ plan_data2 <- drake_plan(
   tax_othercalall = lapply(tax_phyloallall, get_othercals),
   # length(tax_othercalall)
   # sapply(tax_othercalall, length)
+  # sapply(tax_phyloallall, length)
+  # tax_othercalall[[1]][1]
   crossval1 = mapply(use_othercals1, tax_phyloallall, tax_othercalall),
   crossval2 = mapply(use_othercals2, tax_phyloallall, tax_othercalall),
   crossval3 =

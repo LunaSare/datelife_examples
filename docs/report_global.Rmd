@@ -209,7 +209,7 @@ at least some of the nodes, as shown in the `Create new data` section.
 
 ###   2.2. Calibrating a consensus tree with data from a summary matrix
 
-Even if the branch lengths coming form the clustered chronograms are not adequate,
+Even if the branch lengths coming from the clustered chronograms are not adequate,
 the topology can still be used as a consensus tree of the taxa with time data available.
 Then, a list of divergence times available for each node can be constructed from the summary matrix,
 simply by matching it to the node that corresponds to each pair of taxa in any given tree. Finally, the list

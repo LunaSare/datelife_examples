@@ -1,7 +1,7 @@
 # phyloall <- tax_phyloallall[[1]]
 # get calibrations form all other chronograms not belonging to the same study
 get_othercals <- function(phyloall){
-    dd <- duplicated(names(phyloall))
+    # dd <- duplicated(names(phyloall))
     res <- lapply(seq(phyloall), function(i){
         dd <- names(phyloall) %in% names(phyloall)[i]
         get_all_calibrations(phyloall[!dd])
@@ -10,7 +10,9 @@ get_othercals <- function(phyloall){
 }
 use_othercals1 <- function(trees, othercals){
     res <- lapply(seq(trees), function(i){
-        xx <- suppressMessages(suppressWarnings(use_all_calibrations(phy = trees[[i]],
+      phy <- trees[[i]]
+      phy$edge.length <- NULL
+        xx <- suppressMessages(suppressWarnings(use_all_calibrations(phy,
             all_calibrations = othercals[[i]])))
         return(xx$phy)
     })
@@ -19,7 +21,9 @@ use_othercals1 <- function(trees, othercals){
 }
 use_othercals2 <- function(trees, othercals){
     res <- lapply(seq(trees), function(i){
-        xx <- suppressMessages(suppressWarnings(use_all_calibrations(phy = trees[[i]],
+      phy <- trees[[i]]
+      phy$edge.length <- NULL
+        xx <- suppressMessages(suppressWarnings(use_all_calibrations(phy,
             all_calibrations = othercals[[i]], expand = 0)))
         return(xx$phy)
     })
