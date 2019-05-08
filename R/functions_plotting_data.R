@@ -3,11 +3,13 @@
 # tax_phyloall <- tax_phyloallall[[1]]
 # make_lttplot_data1(taxon = taxa[1], crossval, tax_summary, tax_phyloall, filename = "LTTplot_data_test")
 make_lttplot_data1 <- function(taxon, crossval, tax_summary, tax_phyloall, filename = "LTTplot_data_"){
+    names(crossval) <- names(tax_phyloall)
     crossval <- crossval[!is.na(crossval)]
     crossval <- crossval[sapply(crossval, ape::Ntip) > 2]
     max_ages <- tax_summary$mrca
     max_tips <- max(sapply(tax_phyloall, function(x) max(ape::Ntip(x))))
-    studies <- sort(unique(names(tax_phyloall)))
+    studies <- sort(unique(names(crossval)))
+    studies0 <- sort(unique(names(tax_phyloall)))
     xlim0 <- round(max(max_ages)+5, digits = -1)
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # general variables for source chronogram plotting:
@@ -33,8 +35,9 @@ make_lttplot_data1 <- function(taxon, crossval, tax_summary, tax_phyloall, filen
     par(mfrow = c(ceiling(length(studies)*0.5), 2)) # graph ltt in two columns
     par(mai = c(0.2, 0.82, 0.2, 0.2))
     for(i in studies){
-        trees <- tax_phyloall[names(tax_phyloall) %in% i]
+        trees <- crossval[names(crossval) %in% i]
         lttplot_data(taxon, trees, tax_phyloall, max_ages, max_tips, tax_summary, study_number, xlim0, col_phyloall_sample)
+        text(labels = paste("Study", which(studies0 %in% i)), x = -xlim0, y = max_tips*0.925, cex = 1.5, adj = 0, font = 2)
     }
     dev.off()
 }
