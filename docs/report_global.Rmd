@@ -211,20 +211,21 @@ at least some of the nodes, as shown in the `Create new data` section.
 
 Even if the branch lengths coming from the clustered chronograms are not adequate,
 the topology can still be used as a consensus tree of the taxa with time data available.
-Then, a list of divergence times available for each node can be constructed from the summary matrix,
-simply by matching it to the node that corresponds to each pair of taxa in any given tree. Finally, the list
-and consensus tree can be fed to any dating software that does not require data.
+Then, a list of divergence times available for each node can be constructed from
+the summary matrix, simply by matching it to the node that corresponds to each pair
+of taxa in any given tree. Finally, the list and consensus tree can be fed to any
+dating software that does not require data.
 The branch length aduster (BLADJ) algorithm [@Webb2000] is really fast and does
 not make any evolutionary assumptions on age distribution. Other software such as
-MrBayes, r8s, and PATHd8 can be used instead of BLADJ by running them without data.
-In here, we show summary chronograms obtained using minimum, mean and maximum distances
-from summary matrices available for each node on the consensus tree and using them
-as fixed ages in BLADJ (`r fig_lttplot_median_and_sdm`).
+MrBayes or r8s can be used without data instead of BLADJ.
+In here, we show summary chronograms obtained with BLADJ, using minimum, mean and
+maximum distances (from node age summary matrices) as fixed ages on the consensus
+tree (`r fig_lttplot_median_and_sdm`).
 Chronograms from both types of summary matrices are quite similar. As expected,
 SDM chronograms using minimum, mean and maximum distances do not vary much in their
 maximum age, because ages are transformed to minimize variance across them. In contrast,
 median chronogram obtained with minimum, mean and maximum distances have wider variation
-in their maximum ages, as can be observed in the distance between the green arrows
+in their maximum ages, as can be observed from the separation between green arrows
 in `r fig_lttplot_median_and_sdm`.
 
 ```{r LTTplot-summ-chronograms, echo = F, results = 'asis', fig.cap= ""}
@@ -241,14 +242,14 @@ cat(lttplot_summchrono)
 \newpage
 
 
-## 3. Generate new chronograms
+## 3. Generate new chronograms without data.
 
 Another way to leverage information from the source chronograms is to use the node
 ages as secondary calibration points to date any tree topology (with or without
 branch lengths) given that at least two taxa from source chronograms are in
 the tips of that topology.
 In this data set, we have `r nrow(tax_allcal)` calibrations in total (that basically
-corresponds to the sum of the number of nodes in each source chronogram).
+correspond to the sum of the number of nodes in each source chronogram).
 Once we have a target tree topology, we can map the calibrations to the target tree.
 Some nodes will have several calibrations and some others might have none.
 To deal with this, we can expand the calibrations to make them agree, or we can summarize them.
