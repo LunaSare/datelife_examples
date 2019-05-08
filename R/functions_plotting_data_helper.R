@@ -1,4 +1,4 @@
-crossval <- use_othercals2(tax_phyloallall[[1]], tax_othercalall[[1]])
+crossval <- use_othercals3(tax_phyloallall[[1]], tax_othercalall[[1]])
 names(crossval) <- names(tax_phyloall)
 tax_summary <- tax_summaryall[[1]]
 tax_phyloall <- tax_phyloallall[[1]]

@@ -30,6 +30,21 @@ use_othercals2 <- function(trees, othercals){
     class(res) <- "multiPhylo"
     res
 }
+# trees <- tax_phyloallall[[1]]
+# othercals <- tax_othercalall[[1]]
+# use_calibrations_bladj(phy, othercals[[i]])
+use_othercals3 <- function(trees, othercals, ...){
+    res <- lapply(seq(trees), function(i){
+      phy <- trees[[i]]
+      phy$edge.length <- NULL
+        xx <- suppressMessages(suppressWarnings(use_calibrations_bladj(phy,
+            calibrations = othercals[[i]], ...)))
+        return(xx)
+    })
+    class(res) <- "multiPhylo"
+    res
+}
+
 # yy <- use_othercals2(tax_phyloallall[[1]], tax_othercalall[[1]])
 # i=5
 # yy2 <- yy[!is.na(yy)]
