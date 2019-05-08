@@ -45,8 +45,8 @@ use_eachcal_crossval <- function(trees, eachcal){
   res
 }
 use_each_cal <- function(tree, eachcal){
-  tree <- tax_phyloallall[[i]][[3]] #2, 3, 4 their names do not have underscores, duh!!! CHANGE THIS
-  eachcal <- tax_eachcalall[[i]]
+  # tree <- tax_phyloallall[[i]][[3]] #2, 3, 4 from Cetaceae do not work
+  # eachcal <- tax_eachcalall[[i]]
   res <- lapply(seq(eachcal), function(i){
     xx <- suppressMessages(suppressWarnings(use_all_calibrations(phy = tree, all_calibrations = eachcal[[i]])))
     return(xx$phy)

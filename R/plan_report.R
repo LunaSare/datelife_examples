@@ -29,6 +29,7 @@ for(i in seq(taxa)){
     print(taxa[i])
     plan_report <- drake_plan(
     	taxon = taxa[i], # this is just useful for rendering the report
+        tax_allcal = tax_allcalall[[i]]
     	tax_dq = tax_dqall[[i]],
     	tax_dr = tax_drall[[i]],
     	tax_summ = tax_summall[[i]],
