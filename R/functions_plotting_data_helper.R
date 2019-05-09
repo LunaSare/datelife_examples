@@ -1,4 +1,20 @@
+sapply(tax_phyloallall, length)
 crossval <- use_othercals3(tax_phyloallall[[1]], tax_othercalall[[1]])
+for (i in 1:length(tax_phyloallall)){
+  print(i)
+  crossval <- use_othercals3(tax_phyloallall[[i]], tax_othercalall[[i]])
+}
+j=3
+for (i in seq(length(tax_phyloallall[[j]]))){
+  print(i)
+  # calibs <- map_all_calibrations(phy = tax_phyloallall[[j]][[i]], calibrations = tax_othercalall[[j]][[i]])
+  # node_ages <- sapply(calibs$phy$calibration_distribution, stats::median)
+  # new_phy <- make_bladj_tree(tree = calibs$phy, nodeages = node_ages,
+	#      nodenames = as.character(calibs$calibrations$NodeNames))
+  x <- use_calibrations_bladj(phy = tax_phyloallall[[j]][[i]], calibrations = tax_othercalall[[j]][[i]])
+}
+tax_othercalall[[1]][[i]][-6]
+
 names(crossval) <- names(tax_phyloall)
 tax_summary <- tax_summaryall[[1]]
 tax_phyloall <- tax_phyloallall[[1]]

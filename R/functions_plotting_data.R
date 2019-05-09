@@ -1,4 +1,5 @@
-make_lttplot_data1 <- function(taxon, crossval, tax_summary, tax_phyloall, dating_method = "PATHd8", filename = "LTTplot_data_"){
+make_lttplot_data1 <- function(taxon, crossval, tax_summary, tax_phyloall,
+  dating_method = "BLADJ", filename = "LTTplot_data_"){
     names(crossval) <- names(tax_phyloall)
     crossval <- crossval[!is.na(crossval)]
     crossval <- crossval[sapply(crossval, ape::Ntip) > 2]
@@ -25,9 +26,19 @@ make_lttplot_data1 <- function(taxon, crossval, tax_summary, tax_phyloall, datin
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # start the plot:
     file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
-    grDevices::pdf(file = file_name, height = 9, width = 7)
+    rowsies <- ceiling(length(studies)*0.5)
+    if(rowsies == 1){
+      hh <- 3.5
+    }
+    if(rowsies == 2){
+      hh <- 6.5
+    }
+    if(rowsies > 2){
+      hh <- 9
+    }
+    grDevices::pdf(file = file_name, height = hh, width = 7)
     par(omi = c(0.5,0,0.35,0))
-    par(mfrow = c(ceiling(length(studies)*0.5), 2)) # graph ltt in two columns
+    par(mfrow = c(rowsies, 2)) # graph ltt in two columns
     for(i in studies){
       if(i %in% studies[seq(1, length(studies), 2)]){
         par(mai = c(0.2, 0.82, 0.2, 0))

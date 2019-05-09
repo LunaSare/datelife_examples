@@ -30,7 +30,7 @@ for(i in seq(taxa)){
     plan_report <- drake_plan(
     	taxon = taxa[i], # this is just useful for rendering the report
         tax_allcal = tax_allcalall[[i]],
-        node_age_dist = mage_fig_node_age_dist(tax_allcal)
+        # node_age_dist = make_fig_node_age_dist(tax_allcal)
     	tax_dq = tax_dqall[[i]],
     	tax_dr = tax_drall[[i]],
     	tax_summ = tax_summall[[i]],
@@ -80,6 +80,9 @@ for(i in seq(taxa)){
            legend_summtrees = "median"),
        lttplot_summchrono = make_lttplot_summchrono(taxa[i], tax_phyloall, tax_summary,
            sdm_summtreesall[[i]], median_summtreesall[[i]]),
+      crossval_bladj = crossval_bladjall[[i]],
+      lttplot_crossval3 = make_lttplot_data1(taxa[i], crossval_bladj, tax_summary, tax_phyloall,
+        dating_method = "BLADJ", filename = "LTTplot_crossval_bladj"),
     	reportname = paste0(taxa[i], "_report"),
     	mdname = paste0("docs/", reportname, ".md"),
     	report = make_report(mdname),
