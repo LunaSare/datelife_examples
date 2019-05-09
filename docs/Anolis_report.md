@@ -176,26 +176,32 @@ in Fig. 3.
 
 ## 3. Generate new chronograms.
 
-Another way to leverage information from the source chronograms is to use the node
+Another way to leverage the information from source chronograms is to use the node
 ages as secondary calibration points to date any tree topology (with or without
 branch lengths) given that at least two taxa from source chronograms are in
 the tips of that topology.
-In this data set, we have 1183 calibrations in total (that basically
+For this data set, we have 1183 calibrations in total (that basically
 correspond to the sum of the number of nodes in each source chronogram).
 Once we have a target tree topology, we can map the calibrations to the target tree.
-Some nodes will have several calibrations and some others might have none.
-To deal with this, we can expand the calibrations to make them agree, or we can summarize them.
-To exemplify each method we performed a series of cross validation analyses by
-using the information from all other source chronograms to date the topology of
-source chronograms from each study
-
+Some nodes will have several calibrations and some others might have none. Also,
+some node ages can be conflicting with descendant nodes being older than parent nodes.
+We performed a series of cross validation analyses by
+dating the topologies of each source chronogram using information from all other
+source chronograms as calibration points with different methods.
 
 ### 3.1. Calibrate a tree without branch lengths
-
+For this example, we used BLADJ, but other software such as MrBayes and r8s can
+be used instead. In general, using information from all other source chronograms
+allows to recover the original branch lengths from the study. In some cases, it
+is obvious how some studies drive the ages. In some other cases, the root node is
+not calibrated, so the maximum age is off respective to all other source chronograms
+()Fig. 4).
 
 ### 3.2. Calibrate a tree with data (from BOLD).
+To deal with conflicting calibrations, we can expand them to make them agree, or we can summarize them.
 
-### 4.1. Expanding calibrations
+#### 3.2.1. Expanding calibrations
+<!--
 \begin{table}[t]
 
 \caption{\label{tab:unnamed-chunk-4}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
@@ -214,13 +220,12 @@ Calibrations6 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
 \bottomrule
 \end{tabular}
 \end{table}
-show cross validation of LTTs from chronograms obtained by dating the topology of
-each study with data from any other study.
+-->
 
-### 4.2. Summarizing calibrations
+#### 3.2.2. Summarizing calibrations
 
 
-### 4.3. Example with subspecies tree
+## 4. Example with subspecies tree
 As an example, we're gonna date the subspecies tree of the group (coming from otol).
 
 
@@ -232,28 +237,7 @@ each other, as a form of cross validation in Table 2. This is not working
 perfectly yet, but we are developping new ways to use all calibrations efficiently.
 
 \newpage
-<!--
-\begin{table}[t]
-
-\caption{\label{tab:unnamed-chunk-6}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
-\fontsize{9}{11}\selectfont
-\begin{tabular}{llllllll}
-\toprule
-  & dOToL & Chrono1 & Chrono2 & Chrono3 & Chrono4 & Chrono5 & Chrono6\\
-\midrule
-Calibrations1 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
-Calibrations2 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
-Calibrations3 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
-Calibrations4 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
-Calibrations5 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
-\addlinespace
-Calibrations6 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
-\bottomrule
-\end{tabular}
-\end{table}
--->
-\newpage
-## 4. Simulate data/ Add missing taxa
+## 5. Simulate data/ Add missing taxa
 An alternative to generate a dated tree from a set of taxa is to take the available information and simulate into it the missing data.
 We will take the median and sdm summary chronograms to date the Synthetic tree of Life:
 
