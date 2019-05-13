@@ -19,7 +19,7 @@ plan_query <- drake_plan(
                                                 taxon_summary = "none")),
     tax_datedotolall = lapply(seq(length(taxa)), function(i)
                         get_dated_otol_induced_subtree(input = tax_dqall[[i]],
-                          ott_id = tax_dqall[[i]]$ott_ids)),
+                          ott_ids = tax_dqall[[i]]$ott_ids)),
     # length(tax_dqall)
     # get_treefromtax(tax_dq = tax_dqall[[5]]) # seg fault
     tax_treefromtaxall = lapply(tax_dqall, get_treefromtax),

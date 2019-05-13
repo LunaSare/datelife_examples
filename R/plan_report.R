@@ -8,7 +8,7 @@ loadd(tax_treefromtaxall)  # it errors only with CoL now (segfault) length(tax_t
 loadd(tax_otolall)
 loadd(tax_allcalall)
 loadd(tax_allcal_datedotolall)
-# loadd(tax_crossvalall)
+loadd(tax_crossvalall)
 # loadd(tax_crossval2all)
 loadd(tax_eachcalall)
 loadd(tax_eachcal_datedotolall)
@@ -51,9 +51,6 @@ for(i in seq(taxa)){
         # plot2 = make_plot_global(tree = tax_treefromtaxall[[i]]$phy, title = NULL, taxon = taxa[i], tax_summall[[i]], omi3 = 0, filename = "treefromtax"),
         plot3 = make_plot_global(tree = tax_otolall[[i]], title = NULL, taxon = taxa[i],
             tax_summall[[i]], omi3 = 0, filename = "otol"),
-        # plot1 = make_plot1(tree = tax_datedotolall[[i]], title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "datedotol"),
-        # plot2 = make_plot1(tree = tax_treefromtaxall[[i]]$phy, title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "treefromtax"),
-        # plot3 = make_plot1(tree = tax_otolall[[i]], title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "otol"),
     	tax_allcal_datedotol = tax_allcal_datedotolall[[i]],
     	tax_eachcal_datedotol = tax_eachcal_datedotolall[[i]],
     	tax_crossval = tax_crossvalall[[i]],
@@ -72,12 +69,6 @@ for(i in seq(taxa)){
             tax_phycluster = tax_sdm_phyclusterall[[i]][keep_sdm], add_legend = TRUE),
         lttplot_clust_both = make_lttplot_clusters(taxon, tax_phyloall, tax_summary,
                 tax_median_phyclusterall[[i]][keep_median], tax_sdm_phyclusterall[[i]][keep_sdm]),
-    	lttplot_sumtrees_sdm = make_lttplot_summtrees(taxa[i], tax_phyloall, tax_datedotol,
-           summ_trees = sdm_summtreesall[[i]],
-           legend_summtrees = "SDM"),
-    	lttplot_sumtrees_median = make_lttplot_summtrees(taxa[i], tax_phyloall, tax_datedotol,
-           summ_trees = median_summtreesall[[i]],
-           legend_summtrees = "median"),
        lttplot_summchrono = make_lttplot_summchrono(taxa[i], tax_phyloall, tax_summary,
            sdm_summtreesall[[i]], median_summtreesall[[i]]),
       crossval_bladj = crossval_bladjall[[i]],

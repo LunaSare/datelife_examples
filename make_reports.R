@@ -18,6 +18,7 @@ source("R/functions_plotting4.R")
 source("R/functions_plotting5.R")
 source("R/functions_data.R")
 source("R/plan_data.R")
+source("R/plan_data2.R")
 source("R/functions_plotting_data.R")
 
 source("R/plan_report.R")
