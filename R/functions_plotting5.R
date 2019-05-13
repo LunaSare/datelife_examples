@@ -37,7 +37,7 @@ lttplot_summaries <- function(taxon, trees, sdm_summs, median_summs, summs_title
     text(labels = summs_title, x = -xlim0, y = max_tips*0.925, cex = 1.5, adj = 0, font = 2)
     if(add_legend){
         leg <- paste(taxon, c(leg, "median summary chronogram", "SDM summary chronogram"))
-        legend(x = -xlim0, y = max_tips*1.3, legend = leg, cex = 0.9, pch = 19,
+        legend(x = -xlim0, y = max_tips*1.35, legend = leg, cex = 0.9, pch = 19,
             bty = "n", xpd = NA, col = c(leg_color, "#00FF00", "#0000FF"), inset = -1)
     }
 }

@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-05-06"
+date: "2019-05-09"
 output: rmarkdown::html_vignette
 bibliography: library_red.bib
 csl: systematic-biology.csl
@@ -35,7 +35,7 @@ vignette: >
 
 # Taxon Anolis
 
-## 1. Query source data
+## 1. Query source chronograms
 There are 458 species in the Open Tree of Life Taxonomy for the taxon Anolis.
 Information on time of divergence is available for
 302
@@ -71,7 +71,7 @@ available in data base are shown in Fig. 1
 ![Lineage through time (LTT) plots of source chronograms available in data base
   for species in the Anolis. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Anolis_LTTplot_phyloall.pdf)
 
-## 2. Summarize results
+## 2. Summarize results from query
 
 LTT plots are a nice way to visually compare several trees. But what if you want
 to summarize information from all source chronograms into a single summary chronogram?
@@ -134,24 +134,25 @@ The advantage of this is that we can get a distribution of ages for the nodes an
 that we can essentially use this summary matrix to date any topology containing
 at least some of the nodes, as shown in the `Create new data` section.
 
-###   2.2. Calibrating a consensus tree
+###   2.2. Calibrating a consensus tree with data from a summary matrix
 
-Even if the branch lengths coming form the clustered chronograms are not adequate,
+Even if the branch lengths coming from the clustered chronograms are not adequate,
 the topology can still be used as a consensus tree of the taxa with time data available.
-Then, a list of divergence times available for each node can be constructed from the summary matrix,
-simply by matching it to the node that corresponds to each pair of taxa in any given tree. Finally, the list
-and consensus tree can be fed to any dating software that does not require data.
+Then, a list of divergence times available for each node can be constructed from
+the summary matrix, simply by matching it to the node that corresponds to each pair
+of taxa in any given tree. Finally, the list and consensus tree can be fed to any
+dating software that does not require data.
 The branch length aduster (BLADJ) algorithm [@Webb2000] is really fast and does
 not make any evolutionary assumptions on age distribution. Other software such as
-MrBayes, r8s, and PATHd8 can be used instead of BLADJ by running them without data.
-In here, we show summary chronograms obtained using minimum, mean and maximum distances
-from summary matrices available for each node on the consensus tree and using them
-as fixed ages in BLADJ (Fig. 3).
+MrBayes or r8s can be used without data instead of BLADJ.
+In here, we show summary chronograms obtained with BLADJ, using minimum, mean and
+maximum distances (from node age summary matrices) as fixed ages on the consensus
+tree (Fig. 3).
 Chronograms from both types of summary matrices are quite similar. As expected,
 SDM chronograms using minimum, mean and maximum distances do not vary much in their
 maximum age, because ages are transformed to minimize variance across them. In contrast,
 median chronogram obtained with minimum, mean and maximum distances have wider variation
-in their maximum ages, as can be observed in the distance between the green arrows
+in their maximum ages, as can be observed from the separation between green arrows
 in Fig. 3.
 
 
@@ -164,23 +165,46 @@ in Fig. 3.
 \newpage
 
 
-## III. Create new data
 
-Another way to use information from source chronograms is to use the node
-ages as calibration points to date any given tree containing at least two of the
-taxa in source chronograms.
-To do this, we need the target tree
-
-As an example, we're gonna date the Open Tree Synthetic tree (mainly because the taxonomic tree is usually less well resolved.)
-
-
-Now, let's say you like the Open Tree of Life Taxonomy and you want to stick to that tree. Dates from available studies were tested over the Open Tree of Life Synthetic tree of Anolis and a tree was constructed, but all branch lengths are NA.
-We also tried  each source chronogram independently, with the Dated OToL and with each other, as a form of cross validation in Table 2. This is not working perfectly yet, but we are developping new ways to use all calibrations efficiently.
+![Anolis lineage through time (LTT) plots from
+    source chronograms used as secondary calibrations (gray), source chronograms
+    used as topology (purple) and chronograms resulting from calibrating the latter
+    with the former using BLADJ (green).](plots/Anolis_LTTplot_crossval_bladj.pdf)
 
 \newpage
+
+
+## 3. Generate new chronograms.
+
+Another way to leverage the information from source chronograms is to use the node
+ages as secondary calibration points to date any tree topology (with or without
+branch lengths) given that at least two taxa from source chronograms are in
+the tips of that topology.
+For this data set, we have 1183 calibrations in total (that basically
+correspond to the sum of the number of nodes in each source chronogram).
+Once we have a target tree topology, we can map the calibrations to the target tree.
+Some nodes will have several calibrations and some others might have none. Also,
+some node ages can be conflicting with descendant nodes being older than parent nodes.
+We performed a series of cross validation analyses by
+dating the topologies of each source chronogram using information from all other
+source chronograms as calibration points with different methods.
+
+### 3.1. Calibrate a tree without branch lengths
+For this example, we used BLADJ, but other software such as MrBayes and r8s can
+be used instead. In general, using information from all other source chronograms
+allows to recover the original branch lengths from the study. In some cases, it
+is obvious how some studies drive the ages. In some other cases, the root node is
+not calibrated, so the maximum age is off respective to all other source chronograms
+()Fig. 4).
+
+### 3.2. Calibrate a tree with data (from BOLD).
+To deal with conflicting calibrations, we can expand them to make them agree, or we can summarize them.
+
+#### 3.2.1. Expanding calibrations
+<!--
 \begin{table}[t]
 
-\caption{\label{tab:unnamed-chunk-5}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
+\caption{\label{tab:unnamed-chunk-4}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
 \fontsize{9}{11}\selectfont
 \begin{tabular}{llllllll}
 \toprule
@@ -196,8 +220,24 @@ Calibrations6 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
 \bottomrule
 \end{tabular}
 \end{table}
+-->
+
+#### 3.2.2. Summarizing calibrations
+
+
+## 4. Example with subspecies tree
+As an example, we're gonna date the subspecies tree of the group (coming from otol).
+
+
+Now, let's say you like the Open Tree of Life Taxonomy and you want to stick to
+that tree. Dates from available studies were tested over the Open Tree of Life
+Synthetic tree of Anolis and a tree was constructed, but all branch lengths are NA.
+We also tried  each source chronogram independently, with the Dated OToL and with
+each other, as a form of cross validation in Table 2. This is not working
+perfectly yet, but we are developping new ways to use all calibrations efficiently.
+
 \newpage
-## III. Simulate data
+## 5. Simulate data/ Add missing taxa
 An alternative to generate a dated tree from a set of taxa is to take the available information and simulate into it the missing data.
 We will take the median and sdm summary chronograms to date the Synthetic tree of Life:
 
