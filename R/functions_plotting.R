@@ -1,5 +1,11 @@
 # make_phylobars_plot <-
 # colors()[grep("blue", colors())]
+# lttplot_sumtrees_sdm = make_lttplot_summtrees(taxa[i], tax_phyloall, tax_datedotol,
+#    summ_trees = sdm_summtreesall[[i]],
+#    legend_summtrees = "SDM"),
+# lttplot_sumtrees_median = make_lttplot_summtrees(taxa[i], tax_phyloall, tax_datedotol,
+#    summ_trees = median_summtreesall[[i]],
+#    legend_summtrees = "median"),
 make_lttplot_summtrees <- function(taxon, tax_phyloall, tax_datedotol,
                                summ_trees,
                                legend_summtrees = "Median",

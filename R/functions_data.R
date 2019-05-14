@@ -37,6 +37,7 @@ use_othercals3 <- function(trees, othercals, ...){
     res <- lapply(seq(trees), function(i){
       phy <- trees[[i]]
       phy$edge.length <- NULL
+      print(i)
         xx <- suppressMessages(suppressWarnings(use_calibrations_bladj(phy,
             calibrations = othercals[[i]], ...)))
         return(xx)

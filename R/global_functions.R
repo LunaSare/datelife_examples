@@ -92,6 +92,9 @@ make_plot_global <- function(tree, title, taxon, tax_summ, omi3, filename){
 # mtrees[[1]]$maps
 # names(mtrees[[1]]$maps[[1]])
 # plotSimmap(mtrees[[1]])
+# plot1 = make_plot1(tree = tax_datedotolall[[i]], title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "datedotol"),
+# plot2 = make_plot1(tree = tax_treefromtaxall[[i]]$phy, title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "treefromtax"),
+# plot3 = make_plot1(tree = tax_otolall[[i]], title = NULL, taxa[i], tax_summall[[i]], omi3 = 0, filename = "otol"),
 make_plot1 <- function(tree, title = NULL, taxon, filename = "test", time_depth = NULL, axis_type = 1,
     cex = graphics::par("cex"), mai4 = NULL, write = "pdf", GTS = strat2012,
     height = 7, width = 6){
