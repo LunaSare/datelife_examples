@@ -277,7 +277,7 @@ be used instead. In general, using information from all other source chronograms
 allows to recover the original branch lengths from the study. In some cases, it
 is obvious how some studies drive the ages. In some other cases, the root node is
 not calibrated, so the maximum age is off respective to all other source chronograms
-()`r fig_lttplot_bladj`).
+(`r fig_lttplot_bladj`).
 
 ### 3.2. Calibrate a tree with data (from BOLD).
 To deal with conflicting calibrations, we can expand them to make them agree, or we can summarize them.
