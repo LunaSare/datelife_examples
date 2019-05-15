@@ -234,7 +234,7 @@ If you have a tree with branch lengths proportional to relative substitution rat
 you can use the source chronogram node ages as secondary calibrations with various
 algorithms for phylogenetic dating to obtain a tree with branch lengths proportional
 to absolute time.
-To exemplify this, we are getting data from the Barcode of Life Database to obtain
+To exemplify this, we are getting data from the Barcode of Life Database (BOLD) to obtain
 branch lengths as relative DNA substitution rates for a tree topology of our choosing.
 We are using the software PATHd8 for tree dating without a molecular clock model.
 To deal with conflicting calibrations, we can either expand them to make them agree,
