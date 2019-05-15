@@ -47,16 +47,33 @@ use_othercals3 <- function(trees, othercals, ...){
 }
 
 #returns bold tree for all topologies
-get_bold_trees <- function(taxon, phyloall){
+get_bold_trees <- function(taxon, phyloall, chronogram = TRUE){
   # namesi <- unique(names(phyloall))
   # ddi <- which(!duplicated(names(phyloall)))
   # res <- lapply(ddi, function(i) {
   #   tryCatch(make_bold_otol_tree(input = phyloall[[i]]),
   #     error = function(e) NA)})
-  pritn(taxon)
+  print(taxon)
   res <- lapply(phyloall, function(x) {
-    tryCatch(make_bold_otol_tree(input = x),
+    tryCatch(make_bold_otol_tree(input = x, chronogram = chronogram),
       error = function(e) NA)})
   names(res) <- names(phyloall)
   res
+}
+
+use_othercals4 <- function(taxon, trees, othercals, ...){
+    print(taxon)
+    res <- lapply(seq(trees), function(i){
+      phy <- trees[[i]]
+      phy$edge.length <- NULL
+      print(i)
+      if(ape::Ntip(trees) <=2){ # pathd8 does not work with trees with no branch lengths
+        return(NA)
+      }
+      xx <- suppressMessages(suppressWarnings(use_calibrations_pathd8(phy,
+          calibrations = othercals[[i]], ...)))
+      return(xx)
+    })
+    class(res) <- "multiPhylo"
+    res
 }
