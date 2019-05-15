@@ -46,8 +46,17 @@ use_othercals3 <- function(trees, othercals, ...){
     res
 }
 
-# yy <- use_othercals2(tax_phyloallall[[1]], tax_othercalall[[1]])
-# i=5
-# yy2 <- yy[!is.na(yy)]
-# sapply(yy2, ape::Ntip)
-# use_all_calibrations(phy = tax_phyloallall[[1]][[i]], all_calibrations = tax_othercalall[[1]][[i]], expand = 0)
+#returns bold tree for all topologies
+get_bold_trees <- function(taxon, phyloall){
+  # namesi <- unique(names(phyloall))
+  # ddi <- which(!duplicated(names(phyloall)))
+  # res <- lapply(ddi, function(i) {
+  #   tryCatch(make_bold_otol_tree(input = phyloall[[i]]),
+  #     error = function(e) NA)})
+  pritn(taxon)
+  res <- lapply(phyloall, function(x) {
+    tryCatch(make_bold_otol_tree(input = x),
+      error = function(e) NA)})
+  names(res) <- names(phyloall)
+  res
+}

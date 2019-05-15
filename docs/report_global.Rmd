@@ -109,7 +109,7 @@ if(tt == length(tax_dq$cleaned_names)){
 ```
 of these species across `r length(tax_dr)` published and peer-reviewed chronograms.
 Original study citations as well as number of `r taxon` species found across those source
-chronograms is shown in `r table_chronograms`. `r ultrametricity` and their maximum 
+chronograms is shown in `r table_chronograms`. `r ultrametricity` and their maximum
 ages range from `r round(min(tax_summary$mrca), digits = 3)` to
 `r round(max(tax_summary$mrca), digits = 3)` million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
@@ -167,13 +167,14 @@ and not absolute time.
 
 NJ, UPGMA, BIONJ, minimum variance reduction (MVR) and the triangle method (TM)
 algorithms were used to cluster median and SDM summary distance matrices.
-All clustering algorithms returned very similar trees with both types of summary
-matrices (`r fig_lttplot_median`, Appendix `r fig_lttplot_sdm`).
+None of these clustering algorithms returned trees matching source chronograms
+(`r fig_lttplot_median`, Appendix `r fig_lttplot_sdm`).
 UPGMA is the only algorithm that returns ultrametric trees, but they are considerably
-older than expected from source chronograms.
-The other methods returned trees with reasonable ages, but that are not ultrametric.
-An alternative to clustering algorithms is to use all data avilable in the summary
-matrix as calibrations over a consensus tree.
+older than expected from ages observed in source chronograms.
+The other methods returned trees with ages that coincide with those observed in
+source chronograms. However, they resulting chronograms are not ultrametric.
+To overcome the issues presented by clustering algorithms, we used all data avilable in the summary
+matrix as calibrations over a consensus tree to obtain a summary chornogram.
 
 
 ###   2.2. Calibrating a consensus tree with data from a summary matrix
@@ -196,12 +197,12 @@ SDM chronograms using minimum, mean and maximum distances do not vary much in th
 maximum age, because ages are transformed to minimize the variance. In contrast,
 the median chronograms obtained with minimum, mean and maximum distances have wider variation
 in their maximum ages, as can be observed in the distance between the green arrows
-in `r fig_lttplot_median_and_sdm`.
+in `r fig_lttplot_median_and_sdm`. This variation simply represents variation in source data.
 
 
 ## 3. Generate new chronograms
 
-Another way to leverage information from the source chronograms is to use the node
+Another way to leverage information from the source chronograms is to use their node
 ages as secondary calibration points to date any tree topology (with or without
 branch lengths) given that at least two taxa from source chronograms are in
 the tips of that topology.
@@ -210,11 +211,11 @@ corresponds to the sum of the number of nodes from each source chronogram).
 Once we have a target tree topology, we can map the calibrations to the target tree.
 Some nodes will have several calibrations and some others might have none. Also,
 some node ages can be conflicting, with descendant nodes being older than parent nodes.
-We performed a series of cross validation analyses with different dating methods by
+We performed a series of cross validation analyses with different dating methods, by
 dating the topologies of each source chronogram using information from all other
 source chronograms as calibration points.
 
-### 3.1. Calibrate a backbone tree without branch lengths
+### 3.1. Calibrate a tree without branch length data
 To date a tree in the absence of data on relative evolutionary rates (molecular
 or morphological) we follow the same methodology as the one used to obtain summary
 chronograms. First, we obtained the nodes that correspond to each pair of taxa in the data
@@ -225,13 +226,19 @@ chronograms allows to recover the divergence times from the original study. In s
 it is evident that information from a particular study really affects the summary
 of divergence times. In some other cases, the root of the tree is not calibrated.
 Since BLADJ has no underlying model of evolution, there is no way for the algorithm
-to calculate this age. So, we simply added a unit of the mean difference across
-ranked ages from secondary calibrations (`r fig_lttplot_bladj`)
+to calculate this age. To fix this, we simply added a unit of the mean difference across
+ranked ages from secondary calibrations (`r fig_lttplot_bladj`).
 
 ### 3.2. Calibrate a tree with data
-If you have atree with branch lengths proportional to relative substitution rates, you can use PATHd8
-You can get data on relative substitution rates from BOLD using DAteLife's functions.
-To deal with conflicting calibrations, we can expand them to make them agree, or we can summarize them.
+If you have a tree with branch lengths proportional to relative substitution rates,
+you can use the source chronogram node ages as secondary calibrations with various
+algorithms for phylogenetic dating to obtain a tree with branch lengths proportional
+to absolute time.
+To exemplify this, we are getting data from the Barcode of Life Database (BOLD) to obtain
+branch lengths as relative DNA substitution rates for a tree topology of our choosing.
+We are using the software PATHd8 for tree dating without a molecular clock model.
+To deal with conflicting calibrations, we can either expand them to make them agree,
+or we can summarize them. Results from both approaches are shown in the two following sections.
 
 ### 3.2.1. Expanding calibrations
 
@@ -278,7 +285,8 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 
 \newpage
 
-## Tables and Figures
+# Tables and Figures
+
 ```{r echo = FALSE, warning=FALSE, message = FALSE, results = 'asis'}
 table_caption <- paste(taxon, "source chronogram studies information.")
 make_table0(tax_dr, tax_summ, tax_dq, table_caption)
@@ -354,13 +362,12 @@ figcap_lttplot <- paste(taxon, "lineage through time (LTT) plots from
 lttplot <- paste0("\n![", figcap_lttplot, "](plots/", taxon, "_LTTplot_crossval_bladj.pdf)\n")
 cat(lttplot)
 ```
-
 \newpage
 
 
-## References
+\newpage
 
-## Appendix
+# Appendix
 ```{r echo = FALSE, results = 'asis'}
 absent <- levels(tax_median_phylo$absent_taxa$taxon)
 if(!"None" %in% absent){

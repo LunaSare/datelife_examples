@@ -6,5 +6,7 @@ plan_data2 <- drake_plan(
   # sapply(tax_othercalall, length)
   crossval1 = mapply(use_othercals1, tax_phyloallall, tax_othercalall),
   crossval2 = mapply(use_othercals2, tax_phyloallall, tax_othercalall),
-  crossval_bladjall = mapply(use_othercals3, tax_phyloallall, tax_othercalall)
+  crossval_bladjall = mapply(use_othercals3, tax_phyloallall, tax_othercalall),
+  tax_phyloall_bold = mapply(get_bold_trees, taxa, tax_phyloallall)
+
 })
