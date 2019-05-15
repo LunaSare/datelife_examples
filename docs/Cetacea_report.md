@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-05-13"
+date: "2019-05-14"
 output: rmarkdown::html_vignette
 bibliography: library_red.bib
 csl: systematic-biology.csl
@@ -41,7 +41,7 @@ Information on time of divergence is available for
 89
 of these species across 6 published and peer-reviewed chronograms.
 Original study citations as well as number of Cetacea species found across those source
-chronograms is shown in Table 1. All source chronograms are fully ultrametric and their maximum 
+chronograms is shown in Table 1. All source chronograms are fully ultrametric and their maximum
 ages range from 33.5 to
 55.5 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
@@ -90,13 +90,14 @@ and not absolute time.
 
 NJ, UPGMA, BIONJ, minimum variance reduction (MVR) and the triangle method (TM)
 algorithms were used to cluster median and SDM summary distance matrices.
-All clustering algorithms returned very similar trees with both types of summary
-matrices (Fig. 2, Appendix Fig. 5).
+None of these clustering algorithms returned trees matching source chronograms
+(Fig. 2, Appendix Fig. 5).
 UPGMA is the only algorithm that returns ultrametric trees, but they are considerably
-older than expected from source chronograms.
-The other methods returned trees with reasonable ages, but that are not ultrametric.
-An alternative to clustering algorithms is to use all data avilable in the summary
-matrix as calibrations over a consensus tree.
+older than expected from ages observed in source chronograms.
+The other methods returned trees with ages that coincide with those observed in
+source chronograms. However, they resulting chronograms are not ultrametric.
+To overcome the issues presented by clustering algorithms, we used all data avilable in the summary
+matrix as calibrations over a consensus tree to obtain a summary chornogram.
 
 
 ###   2.2. Calibrating a consensus tree with data from a summary matrix
@@ -119,12 +120,12 @@ SDM chronograms using minimum, mean and maximum distances do not vary much in th
 maximum age, because ages are transformed to minimize the variance. In contrast,
 the median chronograms obtained with minimum, mean and maximum distances have wider variation
 in their maximum ages, as can be observed in the distance between the green arrows
-in Fig. 3.
+in Fig. 3. This variation simply represents variation in source data.
 
 
 ## 3. Generate new chronograms
 
-Another way to leverage information from the source chronograms is to use the node
+Another way to leverage information from the source chronograms is to use their node
 ages as secondary calibration points to date any tree topology (with or without
 branch lengths) given that at least two taxa from source chronograms are in
 the tips of that topology.
@@ -133,11 +134,11 @@ corresponds to the sum of the number of nodes from each source chronogram).
 Once we have a target tree topology, we can map the calibrations to the target tree.
 Some nodes will have several calibrations and some others might have none. Also,
 some node ages can be conflicting, with descendant nodes being older than parent nodes.
-We performed a series of cross validation analyses with different dating methods by
+We performed a series of cross validation analyses with different dating methods, by
 dating the topologies of each source chronogram using information from all other
 source chronograms as calibration points.
 
-### 3.1. Calibrate a backbone tree without branch lengths
+### 3.1. Calibrate a tree without branch length data
 To date a tree in the absence of data on relative evolutionary rates (molecular
 or morphological) we follow the same methodology as the one used to obtain summary
 chronograms. First, we obtained the nodes that correspond to each pair of taxa in the data
@@ -148,13 +149,19 @@ chronograms allows to recover the divergence times from the original study. In s
 it is evident that information from a particular study really affects the summary
 of divergence times. In some other cases, the root of the tree is not calibrated.
 Since BLADJ has no underlying model of evolution, there is no way for the algorithm
-to calculate this age. So, we simply added a unit of the mean difference across
-ranked ages from secondary calibrations (Fig. 4)
+to calculate this age. To fix this, we simply added a unit of the mean difference across
+ranked ages from secondary calibrations (Fig. 4).
 
 ### 3.2. Calibrate a tree with data
-If you have atree with branch lengths proportional to relative substitution rates, you can use PATHd8
-You can get data on relative substitution rates from BOLD using DAteLife's functions.
-To deal with conflicting calibrations, we can expand them to make them agree, or we can summarize them.
+If you have a tree with branch lengths proportional to relative substitution rates,
+you can use the source chronogram node ages as secondary calibrations with various
+algorithms for phylogenetic dating to obtain a tree with branch lengths proportional
+to absolute time.
+To exemplify this, we are getting data from the Barcode of Life Database (BOLD) to obtain
+branch lengths as relative DNA substitution rates for a tree topology of our choosing.
+We are using the software PATHd8 for tree dating without a molecular clock model.
+To deal with conflicting calibrations, we can either expand them to make them agree,
+or we can summarize them. Results from both approaches are shown in the two following sections.
 
 ### 3.2.1. Expanding calibrations
 
@@ -181,7 +188,8 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 
 \newpage
 
-## Tables and Figures
+# Tables and Figures
+
 
 \begin{longtable}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{11cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.8cm}}
 \caption{\label{tab:unnamed-chunk-4}Cetacea source chronogram studies information.}\\
@@ -250,13 +258,12 @@ the median summary matrix with all clustering algorithms (Appendix Fig. 5).](plo
     source chronograms used as secondary calibrations (gray), source chronograms
     used as topology (purple) and chronograms resulting from calibrating the latter
     with the former, using BLADJ (green).](plots/Cetacea_LTTplot_crossval_bladj.pdf)
-
 \newpage
 
 
-## References
+\newpage
 
-## Appendix
+# Appendix
 The following species were completely absent from the chronogram data base:  *Amphiptera pacifica**, **Balaena agamachschik**, **Balaena mangidach**, **Balaenoptera andrejewi**, **Balaenoptera caerulescens**, **Balaenoptera emargenata**, **Balaenoptera grimmi**, **Balaenoptera maculata**, **Balaenoptera nigra**, **Balaenoptera punctulata**, **Catodon polycyphus**, **Catodon polyscyphus**, **Catodon svineval**, **Cephalorhyncus commersonii**, **Cephalorhyncus heavisidii**, **Clymenia gadamu**, **Delphinapterus senedetta**, **Delphinorhynchus maculatus**, **Delphinorhynchus pernettyi**, **Delphinorhynchus santonicus**, **Delphinus abusalam**, **Delphinus anarnacus**, **Delphinus attenuatus**, **Delphinus bertini**, **Delphinus bonnaterrei**, **Delphinus boryi**, **Delphinus caerulescens**, **Delphinus carbonarius**, **Delphinus coronatus**, **Delphinus cymodice**, **Delphinus cymodoce**, **Delphinus epiodon**, **Delphinus eurynome**, **Delphinus fabricii**, **Delphinus feres**, **Delphinus gadamu**, **Delphinus hamatus**, **Delphinus harlani**, **Delphinus leucocephalus**, **Delphinus livittatus**, **Delphinus maculatus**, **Delphinus maculiventer**, **Delphinus minimus**, **Delphinus nesarnac**, **Delphinus niger**, **Delphinus pernettyensis**, **Delphinus pernetyi**, **Delphinus perniger**, **Delphinus rappii**, **Delphinus rhinoceros**, **Delphinus salam**, **Delphinus siculus**, **Delphinus symodice**, **Delphinus walkeri**, **Epiodon rafinesque**, **Epiodon urganantus**, **Eudelphinus tasmaniensis**, **Globicephala macrorhyncus**, **Globicephalus fuscus**, **Globicephalus uneidens**, **Globiocephalus chinensis**, **Inia araguaiaensis**, **Inia boliviensis**, **Lagenodelphis australis**, **Lagenodelphis obliquidens**, **Lagenoelphis hosei**, **Lagenorhynchus bombifrons**, **Lagenorhynchus nilssonii**, **Lagenorhynchus posidonia**, **Lagenorhynchus superciliosus**, **Lagenorhyncus acutus**, **Lagenorhyncus albirostris**, **Lagenorhyncus australis**, **Lagenorhyncus cruciger**, **Lagenorhyncus obliquidens**, **Lagenorhyncus obscurus**, **Mesoplodon hotaula**, **Mesoplodon lazardii**, **Monodon spurius**, **Neophocaena asiaeorientalis**, **Phocaena posidonia**, **Physeter gibbosus**, **Physeter katadon**, **Physeter krefftii**, **Physeter polycephus**, **Physeter polycystus**, **Physeter pterodon**, **Platanista indi**, **Prodelphinus malayanus**, **Sotalia gadamu**, **Sotalia maculiventer**, **Sotalia perniger**, **Sotalia santonicus**, **Sousa gadamu**, **Sousa plumbea**, **Sousa sahulensis**, **Steno fuscus**, **Steno gadamu**, **Steno malayanus**, **Steno perniger**, **Tursio catalania**, **Tursio cymodoce**, **Tursio eurynome**, **Tursiops australis**, **Tursiops catalania**, **Tursiops cymodice**, **Tursiops dawsoni**, **Tursiops fergusoni**, **Tursiops nesarnack*
 
 

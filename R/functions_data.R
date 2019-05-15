@@ -53,7 +53,7 @@ get_bold_trees <- function(taxon, phyloall){
   # res <- lapply(ddi, function(i) {
   #   tryCatch(make_bold_otol_tree(input = phyloall[[i]]),
   #     error = function(e) NA)})
-  pritn(taxon)
+  print(taxon)
   res <- lapply(phyloall, function(x) {
     tryCatch(make_bold_otol_tree(input = x),
       error = function(e) NA)})
