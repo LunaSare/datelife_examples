@@ -1,8 +1,8 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-05-15"
-output: rmarkdown::html_vignette
+date: "2019-05-16"
+output: bookdown::pdf_document2
 bibliography: library_red.bib
 csl: systematic-biology.csl
 link-citations: yes
@@ -36,7 +36,7 @@ vignette: >
 # Taxon Spheniscidae
 
 ## 1. Query source chronograms
-There are 25 species in the Open Tree of Life Taxonomy for the taxon Spheniscidae.
+There are 25 subspecies in the Open Tree of Life Taxonomy for the taxon Spheniscidae.
 Information on time of divergence is available for
 19
 of these species across 13 published and peer-reviewed chronograms.
@@ -45,7 +45,7 @@ chronograms is shown in Table 1. All source chronograms are fully ultrametric an
 ages range from 12.663 to
 38.961 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available in data base are shown in Fig. 1
+available in data base are shown in ~\ref{fig:lttplot_phyloall}.
 
 
 ## 2. Summarize results from query
@@ -53,7 +53,7 @@ available in data base are shown in Fig. 1
 LTT plots are a nice way to visually compare several trees. But what if you want
 to summarize information from all source chronograms into a single summary chronogram?
 
-The first step is to identify the degree of species overlap among your source chornograms: if each
+The first step is to identify the degree of species overlap among your source chronograms: if each
 source chronogram has a unique sample of species, it will not be possible to combine
 them into a single summary chronogram. To identify the set of trees or _grove_ with the most source
 chronograms that have at least two overlapping taxa, we followed Ané et al. 2016.
@@ -168,15 +168,12 @@ marker = "COI", otol_version = "v3", chronogram = FALSE)
 A tree with branch lengths could be constructed for 13 source chronograms (out of 13) available for the Spheniscidae. To date these
         trees we are using the software PATHd8 for tree dating without a molecular
         clock model, using calibrations from all other source chronograms. Sometimes,
-        calibrations conflict. To deal with conflicting calibrations, we can either
+        calibrations conflict between them. To deal with conflicting calibrations, we can either
         expand them to make them agree, or we can congruify them to the topology
         of the tree to be dated.
         Results from both approaches are shown in the following two sections.
 
 ### 3.2.1. Expanding calibrations
-
-    ### 3.2.2. Summarizing calibrations (congruifying calibrations)
-
 
 ### 3.2.2. Summarizing calibrations (congruifying calibrations)
 
@@ -229,33 +226,48 @@ perfectly yet, but we are developping new ways to use all calibrations efficient
 \multicolumn{4}{l}{{\textbf{\textit{Taxon N}}}: Number of queried taxa found in source chronograms.}\\
 \end{longtable}
 
+<!--
 \newpage
 
-<!--```{r echo = FALSE}
-table_cap <- "Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?"
-table2 <- cbind(tax_eachcal_datedotol, do.call(cbind, tax_crossval))
-dimnames(table2) <- list(paste0("Calibrations", seq(tax_crossval)), c("dOToL", paste0("Chrono", seq(tax_crossval))))
-if(ncol(table2) < 7) fs <- 10
-if(ncol(table2) == 7 | ncol(table2) == 8) fs <- 9
-if(ncol(table2) >= 9) fs <- 7
-if(ncol(table2) > 10) {
-  table2ori <- table2
-  table2[table2 == TRUE] <- "yes" # "&#x2611;"  # :tick:
-  table2[table2 == "FALSE"] <- "no"  # "&#x2612;"
-  dimnames(table2) <- list(paste0("Calib", seq(tax_crossval)),
-                           c("dOToL", paste0("Chr", seq(tax_crossval))))
-}
-tt <- knitr::kable(table2, caption = table_cap, row.names = TRUE, format = "latex", booktabs = TRUE)
-kableExtra::kable_styling(kable_input = tt, position = "left", font_size = fs)
-```
+\begin{table}[t]
 
-\newpage
-
+\caption{\label{tab:unnamed-chunk-7}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
+\fontsize{7}{9}\selectfont
+\begin{tabular}{lllllllllllllll}
+\toprule
+  & dOToL & Chr1 & Chr2 & Chr3 & Chr4 & Chr5 & Chr6 & Chr7 & Chr8 & Chr9 & Chr10 & Chr11 & Chr12 & Chr13\\
+\midrule
+Calib1 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+Calib2 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+Calib3 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+Calib4 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+Calib5 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+\addlinespace
+Calib6 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+Calib7 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+Calib8 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+Calib9 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+Calib10 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+\addlinespace
+Calib11 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+Calib12 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+Calib13 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes\\
+\bottomrule
+\end{tabular}
+\end{table}
 -->
+\newpage
 
 
 ![Lineage through time (LTT) plots of source chronograms available in data base
   for species in the Spheniscidae. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Spheniscidae_LTTplot_phyloall.pdf)
+
+\begin{figure}[h!]
+	\includegraphics{plots/Spheniscidae_LTTplot_phyloall.pdf}
+	\caption{Lineage through time (LTT) plots of source chronograms available in data base
+  for species in the Spheniscidae. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.}
+	\label{fig:lttplot_phyloall}
+\end{figure}
 
 \newpage
 
@@ -277,18 +289,15 @@ the median summary matrix with all clustering algorithms (Appendix Fig. 5).](plo
 \newpage
 
 
-
 ![Spheniscidae lineage through time (LTT) plots from
     source chronograms used as secondary calibrations (gray), source chronograms
     used as topology (purple) and chronograms resulting from calibrating the latter
     with the former, using BLADJ (green).](plots/Spheniscidae_LTTplot_crossval_bladj.pdf)
-\newpage
-
 
 \newpage
 
 # Appendix
-The following species were completely absent from the chronogram data base:  *Aptenodytes australis**, **Catadyptes chrysolophus**, **Eudyptes atratus**, **Eudyptula chathamensis**, **Megadyptes waitaha**, **Pygoscelis ellsworthi*
+The following species were not found in the chronogram database:  *Aptenodytes australis**, **Catadyptes chrysolophus**, **Eudyptes atratus**, **Eudyptula chathamensis**, **Megadyptes waitaha**, **Pygoscelis ellsworthi*
 
 
 ![Lineage Through Time plots of Spheniscidae SDM summary

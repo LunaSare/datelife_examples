@@ -1,8 +1,8 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-05-15"
-output: rmarkdown::html_vignette
+date: "2019-05-16"
+output: bookdown::pdf_document2
 bibliography: library_red.bib
 csl: systematic-biology.csl
 link-citations: yes
@@ -36,7 +36,7 @@ vignette: >
 # Taxon Phyllostomidae
 
 ## 1. Query source chronograms
-There are 223 species in the Open Tree of Life Taxonomy for the taxon Phyllostomidae.
+There are 223 subspecies in the Open Tree of Life Taxonomy for the taxon Phyllostomidae.
 Information on time of divergence is available for
 170
 of these species across 7 published and peer-reviewed chronograms.
@@ -45,7 +45,7 @@ chronograms is shown in Table 1. All source chronograms are fully ultrametric an
 ages range from 25.19 to
 36.3 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available in data base are shown in Fig. 1
+available in data base are shown in ~\ref{fig:lttplot_phyloall}.
 
 
 ## 2. Summarize results from query
@@ -53,7 +53,7 @@ available in data base are shown in Fig. 1
 LTT plots are a nice way to visually compare several trees. But what if you want
 to summarize information from all source chronograms into a single summary chronogram?
 
-The first step is to identify the degree of species overlap among your source chornograms: if each
+The first step is to identify the degree of species overlap among your source chronograms: if each
 source chronogram has a unique sample of species, it will not be possible to combine
 them into a single summary chronogram. To identify the set of trees or _grove_ with the most source
 chronograms that have at least two overlapping taxa, we followed Ané et al. 2016.
@@ -172,9 +172,6 @@ Unfortunately, a tree with branch lengths could not be
 
 ### 3.2.1. Expanding calibrations
 
-    ### 3.2.2. Summarizing calibrations (congruifying calibrations)
-
-
 ### 3.2.2. Summarizing calibrations (congruifying calibrations)
 
 
@@ -222,33 +219,41 @@ perfectly yet, but we are developping new ways to use all calibrations efficient
 \multicolumn{4}{l}{{\textbf{\textit{Taxon N}}}: Number of queried taxa found in source chronograms.}\\
 \end{longtable}
 
+<!--
 \newpage
 
-<!--```{r echo = FALSE}
-table_cap <- "Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?"
-table2 <- cbind(tax_eachcal_datedotol, do.call(cbind, tax_crossval))
-dimnames(table2) <- list(paste0("Calibrations", seq(tax_crossval)), c("dOToL", paste0("Chrono", seq(tax_crossval))))
-if(ncol(table2) < 7) fs <- 10
-if(ncol(table2) == 7 | ncol(table2) == 8) fs <- 9
-if(ncol(table2) >= 9) fs <- 7
-if(ncol(table2) > 10) {
-  table2ori <- table2
-  table2[table2 == TRUE] <- "yes" # "&#x2611;"  # :tick:
-  table2[table2 == "FALSE"] <- "no"  # "&#x2612;"
-  dimnames(table2) <- list(paste0("Calib", seq(tax_crossval)),
-                           c("dOToL", paste0("Chr", seq(tax_crossval))))
-}
-tt <- knitr::kable(table2, caption = table_cap, row.names = TRUE, format = "latex", booktabs = TRUE)
-kableExtra::kable_styling(kable_input = tt, position = "left", font_size = fs)
-```
+\begin{table}[t]
 
-\newpage
-
+\caption{\label{tab:unnamed-chunk-7}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
+\fontsize{9}{11}\selectfont
+\begin{tabular}{lllllllll}
+\toprule
+  & dOToL & Chrono1 & Chrono2 & Chrono3 & Chrono4 & Chrono5 & Chrono6 & Chrono7\\
+\midrule
+Calibrations1 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
+Calibrations2 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
+Calibrations3 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
+Calibrations4 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
+Calibrations5 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
+\addlinespace
+Calibrations6 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
+Calibrations7 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
+\bottomrule
+\end{tabular}
+\end{table}
 -->
+\newpage
 
 
 ![Lineage through time (LTT) plots of source chronograms available in data base
   for species in the Phyllostomidae. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Phyllostomidae_LTTplot_phyloall.pdf)
+
+\begin{figure}[h!]
+	\includegraphics{plots/Phyllostomidae_LTTplot_phyloall.pdf}
+	\caption{Lineage through time (LTT) plots of source chronograms available in data base
+  for species in the Phyllostomidae. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.}
+	\label{fig:lttplot_phyloall}
+\end{figure}
 
 \newpage
 
@@ -270,18 +275,15 @@ the median summary matrix with all clustering algorithms (Appendix Fig. 5).](plo
 \newpage
 
 
-
 ![Phyllostomidae lineage through time (LTT) plots from
     source chronograms used as secondary calibrations (gray), source chronograms
     used as topology (purple) and chronograms resulting from calibrating the latter
     with the former, using BLADJ (green).](plots/Phyllostomidae_LTTplot_crossval_bladj.pdf)
-\newpage
-
 
 \newpage
 
 # Appendix
-The following species were completely absent from the chronogram data base:  *Anoura aequatoris**, **Anoura cadenai**, **Anoura carishina**, **Anoura fistulata**, **Anoura luismanueli**, **Anoura peruana**, **Artibeus aequatorialis**, **Artibeus bogotensis**, **Artibeus cf. jamaicensis**, **Artibeus cf. obscurus**, **Carollia brevicauda PS1**, **Carollia brevicauda PS2**, **Carollia monohernandezi**, **Chiroderma vizottoi**, **Diphylla ecuadata**, **Dryadonycteris capixaba**, **Glyphonycteris behnii**, **Hsunycteris cadenai**, **Hsunycteris pattoni**, **Lonchophylla concava**, **Lonchophylla fornicata**, **Lonchophylla orcesi**, **Lonchophylla orienticollina**, **Lonchophylla peracchii**, **Lophostoma kalkoae**, **Lophostoma yasuni**, **Micronycteris sanborni**, **Micronycteris yatesi**, **Mimon koepckeae**, **Neonycteris pusilla**, **Phylloderma stenops PS1**, **Phylloderma stenops PS2**, **Phyllonycteris major**, **Platyrhinus dorsalis**, **Platyrrhinus guianensis**, **Platyrrhinus helleri PS1**, **Platyrrhinus helleri PS2**, **Platyrrhinus helleri PS3**, **Sturnira angeli**, **Sturnira bakeri**, **Sturnira burtonlimi**, **Sturnira koopmanhilli**, **Sturnira mistratensis**, **Sturnira sorianoi**, **Trachops cirrhosus PS1**, **Trachops cirrhosus PS2**, **Trachops cirrhosus PS3**, **Uroderma bakeri**, **Uroderma convexum**, **Uroderma davisi**, **Urodmna magnirostrum**, **Vampyrodes caracdoli**, **Xeronycteris vieirai*
+The following species were not found in the chronogram database:  *Anoura aequatoris**, **Anoura cadenai**, **Anoura carishina**, **Anoura fistulata**, **Anoura luismanueli**, **Anoura peruana**, **Artibeus aequatorialis**, **Artibeus bogotensis**, **Artibeus cf. jamaicensis**, **Artibeus cf. obscurus**, **Carollia brevicauda PS1**, **Carollia brevicauda PS2**, **Carollia monohernandezi**, **Chiroderma vizottoi**, **Diphylla ecuadata**, **Dryadonycteris capixaba**, **Glyphonycteris behnii**, **Hsunycteris cadenai**, **Hsunycteris pattoni**, **Lonchophylla concava**, **Lonchophylla fornicata**, **Lonchophylla orcesi**, **Lonchophylla orienticollina**, **Lonchophylla peracchii**, **Lophostoma kalkoae**, **Lophostoma yasuni**, **Micronycteris sanborni**, **Micronycteris yatesi**, **Mimon koepckeae**, **Neonycteris pusilla**, **Phylloderma stenops PS1**, **Phylloderma stenops PS2**, **Phyllonycteris major**, **Platyrhinus dorsalis**, **Platyrrhinus guianensis**, **Platyrrhinus helleri PS1**, **Platyrrhinus helleri PS2**, **Platyrrhinus helleri PS3**, **Sturnira angeli**, **Sturnira bakeri**, **Sturnira burtonlimi**, **Sturnira koopmanhilli**, **Sturnira mistratensis**, **Sturnira sorianoi**, **Trachops cirrhosus PS1**, **Trachops cirrhosus PS2**, **Trachops cirrhosus PS3**, **Uroderma bakeri**, **Uroderma convexum**, **Uroderma davisi**, **Urodmna magnirostrum**, **Vampyrodes caracdoli**, **Xeronycteris vieirai*
 
 
 ![Lineage Through Time plots of Phyllostomidae SDM summary

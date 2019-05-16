@@ -1,8 +1,8 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-05-15"
-output: rmarkdown::html_vignette
+date: "2019-05-16"
+output: bookdown::pdf_document2
 bibliography: library_red.bib
 csl: systematic-biology.csl
 link-citations: yes
@@ -36,7 +36,7 @@ vignette: >
 # Taxon Cetacea
 
 ## 1. Query source chronograms
-There are 198 species in the Open Tree of Life Taxonomy for the taxon Cetacea.
+There are 198 subspecies in the Open Tree of Life Taxonomy for the taxon Cetacea.
 Information on time of divergence is available for
 89
 of these species across 6 published and peer-reviewed chronograms.
@@ -45,7 +45,7 @@ chronograms is shown in Table 1. All source chronograms are fully ultrametric an
 ages range from 33.5 to
 55.5 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available in data base are shown in Fig. 1
+available in data base are shown in ~\ref{fig:lttplot_phyloall}.
 
 
 ## 2. Summarize results from query
@@ -53,7 +53,7 @@ available in data base are shown in Fig. 1
 LTT plots are a nice way to visually compare several trees. But what if you want
 to summarize information from all source chronograms into a single summary chronogram?
 
-The first step is to identify the degree of species overlap among your source chornograms: if each
+The first step is to identify the degree of species overlap among your source chronograms: if each
 source chronogram has a unique sample of species, it will not be possible to combine
 them into a single summary chronogram. To identify the set of trees or _grove_ with the most source
 chronograms that have at least two overlapping taxa, we followed Ané et al. 2016.
@@ -172,9 +172,6 @@ Unfortunately, a tree with branch lengths could not be
 
 ### 3.2.1. Expanding calibrations
 
-    ### 3.2.2. Summarizing calibrations (congruifying calibrations)
-
-
 ### 3.2.2. Summarizing calibrations (congruifying calibrations)
 
 
@@ -221,33 +218,40 @@ perfectly yet, but we are developping new ways to use all calibrations efficient
 \multicolumn{4}{l}{{\textbf{\textit{Taxon N}}}: Number of queried taxa found in source chronograms.}\\
 \end{longtable}
 
+<!--
 \newpage
 
-<!--```{r echo = FALSE}
-table_cap <- "Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?"
-table2 <- cbind(tax_eachcal_datedotol, do.call(cbind, tax_crossval))
-dimnames(table2) <- list(paste0("Calibrations", seq(tax_crossval)), c("dOToL", paste0("Chrono", seq(tax_crossval))))
-if(ncol(table2) < 7) fs <- 10
-if(ncol(table2) == 7 | ncol(table2) == 8) fs <- 9
-if(ncol(table2) >= 9) fs <- 7
-if(ncol(table2) > 10) {
-  table2ori <- table2
-  table2[table2 == TRUE] <- "yes" # "&#x2611;"  # :tick:
-  table2[table2 == "FALSE"] <- "no"  # "&#x2612;"
-  dimnames(table2) <- list(paste0("Calib", seq(tax_crossval)),
-                           c("dOToL", paste0("Chr", seq(tax_crossval))))
-}
-tt <- knitr::kable(table2, caption = table_cap, row.names = TRUE, format = "latex", booktabs = TRUE)
-kableExtra::kable_styling(kable_input = tt, position = "left", font_size = fs)
-```
+\begin{table}[t]
 
-\newpage
-
+\caption{\label{tab:unnamed-chunk-7}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
+\fontsize{9}{11}\selectfont
+\begin{tabular}{llllllll}
+\toprule
+  & dOToL & Chrono1 & Chrono2 & Chrono3 & Chrono4 & Chrono5 & Chrono6\\
+\midrule
+Calibrations1 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
+Calibrations2 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
+Calibrations3 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
+Calibrations4 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
+Calibrations5 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
+\addlinespace
+Calibrations6 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
+\bottomrule
+\end{tabular}
+\end{table}
 -->
+\newpage
 
 
 ![Lineage through time (LTT) plots of source chronograms available in data base
   for species in the Cetacea. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Cetacea_LTTplot_phyloall.pdf)
+
+\begin{figure}[h!]
+	\includegraphics{plots/Cetacea_LTTplot_phyloall.pdf}
+	\caption{Lineage through time (LTT) plots of source chronograms available in data base
+  for species in the Cetacea. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.}
+	\label{fig:lttplot_phyloall}
+\end{figure}
 
 \newpage
 
@@ -269,18 +273,15 @@ the median summary matrix with all clustering algorithms (Appendix Fig. 5).](plo
 \newpage
 
 
-
 ![Cetacea lineage through time (LTT) plots from
     source chronograms used as secondary calibrations (gray), source chronograms
     used as topology (purple) and chronograms resulting from calibrating the latter
     with the former, using BLADJ (green).](plots/Cetacea_LTTplot_crossval_bladj.pdf)
-\newpage
-
 
 \newpage
 
 # Appendix
-The following species were completely absent from the chronogram data base:  *Amphiptera pacifica**, **Balaena agamachschik**, **Balaena mangidach**, **Balaenoptera andrejewi**, **Balaenoptera caerulescens**, **Balaenoptera emargenata**, **Balaenoptera grimmi**, **Balaenoptera maculata**, **Balaenoptera nigra**, **Balaenoptera punctulata**, **Catodon polycyphus**, **Catodon polyscyphus**, **Catodon svineval**, **Cephalorhyncus commersonii**, **Cephalorhyncus heavisidii**, **Clymenia gadamu**, **Delphinapterus senedetta**, **Delphinorhynchus maculatus**, **Delphinorhynchus pernettyi**, **Delphinorhynchus santonicus**, **Delphinus abusalam**, **Delphinus anarnacus**, **Delphinus attenuatus**, **Delphinus bertini**, **Delphinus bonnaterrei**, **Delphinus boryi**, **Delphinus caerulescens**, **Delphinus carbonarius**, **Delphinus coronatus**, **Delphinus cymodice**, **Delphinus cymodoce**, **Delphinus epiodon**, **Delphinus eurynome**, **Delphinus fabricii**, **Delphinus feres**, **Delphinus gadamu**, **Delphinus hamatus**, **Delphinus harlani**, **Delphinus leucocephalus**, **Delphinus livittatus**, **Delphinus maculatus**, **Delphinus maculiventer**, **Delphinus minimus**, **Delphinus nesarnac**, **Delphinus niger**, **Delphinus pernettyensis**, **Delphinus pernetyi**, **Delphinus perniger**, **Delphinus rappii**, **Delphinus rhinoceros**, **Delphinus salam**, **Delphinus siculus**, **Delphinus symodice**, **Delphinus walkeri**, **Epiodon rafinesque**, **Epiodon urganantus**, **Eudelphinus tasmaniensis**, **Globicephala macrorhyncus**, **Globicephalus fuscus**, **Globicephalus uneidens**, **Globiocephalus chinensis**, **Inia araguaiaensis**, **Inia boliviensis**, **Lagenodelphis australis**, **Lagenodelphis obliquidens**, **Lagenoelphis hosei**, **Lagenorhynchus bombifrons**, **Lagenorhynchus nilssonii**, **Lagenorhynchus posidonia**, **Lagenorhynchus superciliosus**, **Lagenorhyncus acutus**, **Lagenorhyncus albirostris**, **Lagenorhyncus australis**, **Lagenorhyncus cruciger**, **Lagenorhyncus obliquidens**, **Lagenorhyncus obscurus**, **Mesoplodon hotaula**, **Mesoplodon lazardii**, **Monodon spurius**, **Neophocaena asiaeorientalis**, **Phocaena posidonia**, **Physeter gibbosus**, **Physeter katadon**, **Physeter krefftii**, **Physeter polycephus**, **Physeter polycystus**, **Physeter pterodon**, **Platanista indi**, **Prodelphinus malayanus**, **Sotalia gadamu**, **Sotalia maculiventer**, **Sotalia perniger**, **Sotalia santonicus**, **Sousa gadamu**, **Sousa plumbea**, **Sousa sahulensis**, **Steno fuscus**, **Steno gadamu**, **Steno malayanus**, **Steno perniger**, **Tursio catalania**, **Tursio cymodoce**, **Tursio eurynome**, **Tursiops australis**, **Tursiops catalania**, **Tursiops cymodice**, **Tursiops dawsoni**, **Tursiops fergusoni**, **Tursiops nesarnack*
+The following species were not found in the chronogram database:  *Amphiptera pacifica**, **Balaena agamachschik**, **Balaena mangidach**, **Balaenoptera andrejewi**, **Balaenoptera caerulescens**, **Balaenoptera emargenata**, **Balaenoptera grimmi**, **Balaenoptera maculata**, **Balaenoptera nigra**, **Balaenoptera punctulata**, **Catodon polycyphus**, **Catodon polyscyphus**, **Catodon svineval**, **Cephalorhyncus commersonii**, **Cephalorhyncus heavisidii**, **Clymenia gadamu**, **Delphinapterus senedetta**, **Delphinorhynchus maculatus**, **Delphinorhynchus pernettyi**, **Delphinorhynchus santonicus**, **Delphinus abusalam**, **Delphinus anarnacus**, **Delphinus attenuatus**, **Delphinus bertini**, **Delphinus bonnaterrei**, **Delphinus boryi**, **Delphinus caerulescens**, **Delphinus carbonarius**, **Delphinus coronatus**, **Delphinus cymodice**, **Delphinus cymodoce**, **Delphinus epiodon**, **Delphinus eurynome**, **Delphinus fabricii**, **Delphinus feres**, **Delphinus gadamu**, **Delphinus hamatus**, **Delphinus harlani**, **Delphinus leucocephalus**, **Delphinus livittatus**, **Delphinus maculatus**, **Delphinus maculiventer**, **Delphinus minimus**, **Delphinus nesarnac**, **Delphinus niger**, **Delphinus pernettyensis**, **Delphinus pernetyi**, **Delphinus perniger**, **Delphinus rappii**, **Delphinus rhinoceros**, **Delphinus salam**, **Delphinus siculus**, **Delphinus symodice**, **Delphinus walkeri**, **Epiodon rafinesque**, **Epiodon urganantus**, **Eudelphinus tasmaniensis**, **Globicephala macrorhyncus**, **Globicephalus fuscus**, **Globicephalus uneidens**, **Globiocephalus chinensis**, **Inia araguaiaensis**, **Inia boliviensis**, **Lagenodelphis australis**, **Lagenodelphis obliquidens**, **Lagenoelphis hosei**, **Lagenorhynchus bombifrons**, **Lagenorhynchus nilssonii**, **Lagenorhynchus posidonia**, **Lagenorhynchus superciliosus**, **Lagenorhyncus acutus**, **Lagenorhyncus albirostris**, **Lagenorhyncus australis**, **Lagenorhyncus cruciger**, **Lagenorhyncus obliquidens**, **Lagenorhyncus obscurus**, **Mesoplodon hotaula**, **Mesoplodon lazardii**, **Monodon spurius**, **Neophocaena asiaeorientalis**, **Phocaena posidonia**, **Physeter gibbosus**, **Physeter katadon**, **Physeter krefftii**, **Physeter polycephus**, **Physeter polycystus**, **Physeter pterodon**, **Platanista indi**, **Prodelphinus malayanus**, **Sotalia gadamu**, **Sotalia maculiventer**, **Sotalia perniger**, **Sotalia santonicus**, **Sousa gadamu**, **Sousa plumbea**, **Sousa sahulensis**, **Steno fuscus**, **Steno gadamu**, **Steno malayanus**, **Steno perniger**, **Tursio catalania**, **Tursio cymodoce**, **Tursio eurynome**, **Tursiops australis**, **Tursiops catalania**, **Tursiops cymodice**, **Tursiops dawsoni**, **Tursiops fergusoni**, **Tursiops nesarnack*
 
 
 ![Lineage Through Time plots of Cetacea SDM summary

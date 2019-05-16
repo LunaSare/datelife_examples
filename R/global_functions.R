@@ -204,7 +204,7 @@ make_plot2 <- function(tree, title, taxon, tax_summ, omi3, filename, cex = 0.75)
   dev.off()
 }
 make_report <- function(mdname){
-  knitr::knit(knitr_in("docs/report_global.Rmd"), file_out(mdname), quiet = TRUE)
+  knitr::knit(knitr_in("docs/report_template.Rmd"), file_out(mdname), quiet = TRUE)
 }
 render_pdf <- function(reportname, dir, placeholder) {
     original.dir <- getwd()
