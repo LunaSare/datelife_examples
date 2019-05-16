@@ -167,26 +167,18 @@ marker = "COI", otol_version = "v3", chronogram = FALSE)
 -->
 Unfortunately, a tree with branch lengths could not be
     constructed for any of the source chronograms available for the Cetacea, so this workflow will not be exemplified here. This can happen for several
-    reasons. If the tree has only two tips, the tree search cannot be performed. If the Please look into other DateLife 
+    reasons. If the tree has only two tips, the tree search cannot be performed. If the Please look into other DateLife
     examples available in here for more infromation about this workflow.
 
-To date these trees we are using the software PATHd8 for tree dating without a molecular
-clock model, using calibrations from all other source chronograms. Sometime, calibrations conflict.
-To deal with conflicting calibrations, we can either expand them to make them agree,
-or we can congruify them to the topology of the tree to be dated.
-Results from both approaches are shown in the two following sections.
-
 ### 3.2.1. Expanding calibrations
-crossval_pathd8_exp <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = default)
-crossval_pathd8_exp_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = default)
+
+    ### 3.2.2. Summarizing calibrations (congruifying calibrations)
+
 
 ### 3.2.2. Summarizing calibrations (congruifying calibrations)
-crossval_pathd8_summ <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = 0)
-crossval_pathd8_summ_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = 0)
+
+
+
 
 <!--
 ## 4. Simulate data/ Add missing taxa
@@ -209,11 +201,14 @@ Synthetic tree of Cetacea and a tree was constructed, but all branch lengths are
 We also tried  each source chronogram independently, with the Dated OToL and with
 each other, as a form of cross validation in Table 2. This is not working
 perfectly yet, but we are developping new ways to use all calibrations efficiently.
+
+\newpage
+
 # Tables and Figures
 
 
 \begin{longtable}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{11cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.8cm}}
-\caption{\label{tab:unnamed-chunk-5}Cetacea source chronogram studies information.}\\
+\caption{\label{tab:unnamed-chunk-6}Cetacea source chronogram studies information.}\\
 \toprule
 \multicolumn{1}{>{\centering\arraybackslash}p{0.4cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{   }}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{11cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Citation}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.5cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Source N}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.8cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Taxon N}}\endgroup}\\
 \midrule

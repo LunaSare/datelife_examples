@@ -262,26 +262,34 @@ if(all(bold_has_brlen(tax_phyloall_boldi))){
         calibrations conflict. To deal with conflicting calibrations, we can either
         expand them to make them agree, or we can congruify them to the topology
         of the tree to be dated.
-        Results from both approaches are shown in the following two sections.")
+        Results from both approaches are shown in the following two sections.\n\n")
 }
 cat(paragraph)
 ```
-```{r echo = FALSE, warning=FALSE, message = FALSE, results = 'asis'}
 
+```{r echo = FALSE, warning=FALSE, message = FALSE, results = 'asis'}
+paragraph1 <- paste0("### 3.2.1. Expanding calibrations\n\n
+    ### 3.2.2. Summarizing calibrations (congruifying calibrations)\n\n
+")
+# crossval_pathd8_exp <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
+#   dating_method = "pathd8", expand = default)
+# crossval_pathd8_exp_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
+#   dating_method = "pathd8", expand = default)
+paragraph2 <- paste0("### 3.2.2. Summarizing calibrations (congruifying calibrations)\n\n
+")
+# crossval_pathd8_summ <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
+#   dating_method = "pathd8", expand = 0)
+# crossval_pathd8_summ_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
+#   dating_method = "pathd8", expand = 0)
+
+if(length(bold_has_brlen(tax_phyloall_boldi)) > 0){
+    cat(paragraph1)
+    cat(paragraph2)
+}
 ```
 
 
-### 3.2.1. Expanding calibrations
-crossval_pathd8_exp <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = default)
-crossval_pathd8_exp_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = default)
 
-### 3.2.2. Summarizing calibrations (congruifying calibrations)
-crossval_pathd8_summ <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = 0)
-crossval_pathd8_summ_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = 0)
 
 <!--
 ## 4. Simulate data/ Add missing taxa

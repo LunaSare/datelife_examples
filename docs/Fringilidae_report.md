@@ -165,25 +165,23 @@ marker = "COI", otol_version = "v3", chronogram = TRUE)
 source_chronogram_bold_tree_notc <- make_bold_otol_tree(input = source_chronogram_topology,
 marker = "COI", otol_version = "v3", chronogram = FALSE)
 -->
-A tree with branch lengths could be constructed for 13 source chronograms (out of 13) available for the Fringilidae.
-
-To date these trees we are using the software PATHd8 for tree dating without a molecular
-clock model, using calibrations from all other source chronograms. Sometime, calibrations conflict.
-To deal with conflicting calibrations, we can either expand them to make them agree,
-or we can congruify them to the topology of the tree to be dated.
-Results from both approaches are shown in the two following sections.
+A tree with branch lengths could be constructed for 13 source chronograms (out of 13) available for the Fringilidae. To date these
+        trees we are using the software PATHd8 for tree dating without a molecular
+        clock model, using calibrations from all other source chronograms. Sometimes,
+        calibrations conflict. To deal with conflicting calibrations, we can either
+        expand them to make them agree, or we can congruify them to the topology
+        of the tree to be dated.
+        Results from both approaches are shown in the following two sections.
 
 ### 3.2.1. Expanding calibrations
-crossval_pathd8_exp <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = default)
-crossval_pathd8_exp_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = default)
+
+    ### 3.2.2. Summarizing calibrations (congruifying calibrations)
+
 
 ### 3.2.2. Summarizing calibrations (congruifying calibrations)
-crossval_pathd8_summ <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = 0)
-crossval_pathd8_summ_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
-  dating_method = "pathd8", expand = 0)
+
+
+
 
 <!--
 ## 4. Simulate data/ Add missing taxa
@@ -206,11 +204,14 @@ Synthetic tree of Fringilidae and a tree was constructed, but all branch lengths
 We also tried  each source chronogram independently, with the Dated OToL and with
 each other, as a form of cross validation in Table 2. This is not working
 perfectly yet, but we are developping new ways to use all calibrations efficiently.
+
+\newpage
+
 # Tables and Figures
 
 
 \begin{longtable}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{11cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.8cm}}
-\caption{\label{tab:unnamed-chunk-5}Fringilidae source chronogram studies information.}\\
+\caption{\label{tab:unnamed-chunk-6}Fringilidae source chronogram studies information.}\\
 \toprule
 \multicolumn{1}{>{\centering\arraybackslash}p{0.4cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{   }}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{11cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Citation}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.5cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Source N}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.8cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Taxon N}}\endgroup}\\
 \midrule
