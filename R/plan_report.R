@@ -77,7 +77,9 @@ for(i in seq(taxa)){
     	reportname = paste0(taxa[i], "_report"),
     	mdname = paste0("docs/", reportname, ".md"),
     	report = make_report(mdname),
-        summary_pdf_report = render_pdf(reportname, "docs", report)
+        summary_pdf_report = render_pdf(reportname, "docs", report),
+      tax_phyloall_boldi = tax_phyloall_bold[[i]],
+      tax_phyloall_bold_notci = tax_phyloall_bold_notc[[i]],
     )
     assign(value = plan_report, x = taxa[i])
     make(get(taxa[i]))

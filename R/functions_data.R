@@ -60,18 +60,31 @@ get_bold_trees <- function(taxon, phyloall, chronogram = TRUE){
   names(res) <- names(phyloall)
   res
 }
-
-use_othercals4 <- function(taxon, trees, othercals, ...){
+bold_is_phylo <- function(tax_phyloall_boldi){
+    sapply(unname(tax_phyloall_boldi), inherits, "phylo")
+}
+bold_has_brlen <- function(tax_phyloall_boldi){
+    pp <- bold_is_phylo(tax_phyloall_boldi)
+    res <- sapply(seq(pp), function(i){
+        if(pp[i]){
+            !is.null(tax_phyloall_boldi[[i]]$edge.length)
+        } else {
+            FALSE
+        }
+    })
+    return(res)
+}
+# trees <- tax_phyloall_boldi
+use_othercals4 <- function(taxon, trees, othercals, expand){
     print(taxon)
+    bb <- bold_has_brlen(trees)
     res <- lapply(seq(trees), function(i){
-      phy <- trees[[i]]
-      phy$edge.length <- NULL
       print(i)
-      if(ape::Ntip(trees) <=2){ # pathd8 does not work with trees with no branch lengths
+      if(!bb[i]){ # pathd8 does not work with trees with no branch lengths
         return(NA)
       }
-      xx <- suppressMessages(suppressWarnings(use_calibrations_pathd8(phy,
-          calibrations = othercals[[i]], ...)))
+      xx <- suppressMessages(suppressWarnings(use_calibrations_pathd8(trees[[i]],
+          calibrations = othercals[[i]], expand = expand)))
       return(xx)
     })
     class(res) <- "multiPhylo"

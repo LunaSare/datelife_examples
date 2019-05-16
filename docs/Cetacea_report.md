@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-05-14"
+date: "2019-05-15"
 output: rmarkdown::html_vignette
 bibliography: library_red.bib
 csl: systematic-biology.csl
@@ -155,22 +155,52 @@ ranked ages from secondary calibrations (Fig. 4).
 ### 3.2. Calibrate a tree with data
 If you have a tree with branch lengths proportional to relative substitution rates,
 you can use the source chronogram node ages as secondary calibrations with various
-algorithms for phylogenetic dating to obtain a tree with branch lengths proportional
-to absolute time.
-To exemplify this, we are getting data from the Barcode of Life Database (BOLD) to obtain
-branch lengths as relative DNA substitution rates for a tree topology of our choosing.
-We are using the software PATHd8 for tree dating without a molecular clock model.
+algorithms for phylogenetic dating to get branch lengths proportional to absolute time.
+To exemplify this, we got DNA markers from the Barcode of Life Database (BOLD)
+to estimate branch lengths as relative DNA substitution rates on a tree topology of our choosing.
+In this example we retrieved data from the cytochrome C oxidase subunit I (COI) marker, that is of
+widespread use in barcoding, providing DNA data for a very wide number of organisms.
+<!-- source_chronogram_bold_tree <- make_bold_otol_tree(input = source_chronogram_topology,
+marker = "COI", otol_version = "v3", chronogram = TRUE)
+source_chronogram_bold_tree_notc <- make_bold_otol_tree(input = source_chronogram_topology,
+marker = "COI", otol_version = "v3", chronogram = FALSE)
+-->
+Unfortunately, a tree with branch lengths could not be
+    constructed for any of the source chronograms available for the Cetacea, so this workflow will not be exemplified here. This can happen for several
+    reasons. If the tree has only two tips, the tree search cannot be performed. If the Please look into other DateLife 
+    examples available in here for more infromation about this workflow.
+
+To date these trees we are using the software PATHd8 for tree dating without a molecular
+clock model, using calibrations from all other source chronograms. Sometime, calibrations conflict.
 To deal with conflicting calibrations, we can either expand them to make them agree,
-or we can summarize them. Results from both approaches are shown in the two following sections.
+or we can congruify them to the topology of the tree to be dated.
+Results from both approaches are shown in the two following sections.
 
 ### 3.2.1. Expanding calibrations
+crossval_pathd8_exp <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
+  dating_method = "pathd8", expand = default)
+crossval_pathd8_exp_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
+  dating_method = "pathd8", expand = default)
 
+### 3.2.2. Summarizing calibrations (congruifying calibrations)
+crossval_pathd8_summ <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
+  dating_method = "pathd8", expand = 0)
+crossval_pathd8_summ_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
+  dating_method = "pathd8", expand = 0)
 
-### 3.2.2. Summarizing calibrations
+<!--
+## 4. Simulate data/ Add missing taxa
+Finally, if data can be added to An alternative to generate a dated tree from a set of taxa is to take the available
+information and simulate into it the missing data.
+We will take the median and sdm summary chronograms to date the Synthetic tree of Life:
 
+-->
 
-### 4. Example with subspecies tree
-As an example, we're gonna date the subspecies tree of the group (coming from otol).
+\newpage
+
+## 4. Example with subspecies tree
+As an example, we're gonna date the subspecies tree of the group using all approaches
+for generating new data.
 
 
 Now, let's say you like the Open Tree of Life Taxonomy and you want to stick to
@@ -179,20 +209,11 @@ Synthetic tree of Cetacea and a tree was constructed, but all branch lengths are
 We also tried  each source chronogram independently, with the Dated OToL and with
 each other, as a form of cross validation in Table 2. This is not working
 perfectly yet, but we are developping new ways to use all calibrations efficiently.
-
-
-## 5. Simulate data/ Add missing taxa
-An alternative to generate a dated tree from a set of taxa is to take the available information and simulate into it the missing data.
-We will take the median and sdm summary chronograms to date the Synthetic tree of Life:
-
-
-\newpage
-
 # Tables and Figures
 
 
 \begin{longtable}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{11cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.8cm}}
-\caption{\label{tab:unnamed-chunk-4}Cetacea source chronogram studies information.}\\
+\caption{\label{tab:unnamed-chunk-5}Cetacea source chronogram studies information.}\\
 \toprule
 \multicolumn{1}{>{\centering\arraybackslash}p{0.4cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{   }}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{11cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Citation}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.5cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Source N}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.8cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Taxon N}}\endgroup}\\
 \midrule
