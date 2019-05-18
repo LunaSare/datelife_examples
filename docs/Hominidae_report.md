@@ -45,7 +45,7 @@ chronograms is shown in Table 1. All source chronograms are fully ultrametric an
 ages range from 12.075 to
 21 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available in data base are shown in ~\ref{fig:lttplot_phyloall}.
+available in data base are shown in figure \ref{fig:lttplot_phyloall}.
 
 
 ## 2. Summarize results from query
@@ -91,7 +91,7 @@ and not absolute time.
 NJ, UPGMA, BIONJ, minimum variance reduction (MVR) and the triangle method (TM)
 algorithms were used to cluster median and SDM summary distance matrices.
 None of these clustering algorithms returned trees matching source chronograms
-(Fig. 2, Appendix Fig. 5).
+(Fig. \ref{fig:lttplot_cluster_median}, Appendix Fig. \ref{fig:lttplot_cluster_sdm}).
 UPGMA is the only algorithm that returns ultrametric trees, but they are considerably
 older than expected from ages observed in source chronograms.
 The other methods returned trees with ages that coincide with those observed in
@@ -244,9 +244,6 @@ Calibrations8 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
 \newpage
 
 
-![Lineage through time (LTT) plots of source chronograms available in data base
-  for species in the Hominidae. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Hominidae_LTTplot_phyloall.pdf)
-
 \begin{figure}[h!]
 	\includegraphics{plots/Hominidae_LTTplot_phyloall.pdf}
 	\caption{Lineage through time (LTT) plots of source chronograms available in data base
@@ -257,39 +254,55 @@ Calibrations8 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
 \newpage
 
 
-![Lineage Through Time plots of Hominidae median summary
+\begin{figure}[h!]
+	\includegraphics{plots/Hominidae_lttplot_cluster_median.pdf}
+	\caption{Lineage Through Time plots of Hominidae median summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with this summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the SDM summary matrix are very similar to the ones from
-the median summary matrix with all clustering algorithms (Appendix Fig. 5).](plots/Hominidae_lttplot_cluster_median.pdf)
+the median summary matrix with all clustering algorithms (Appendix Fig. \ref{fig:lttplot_cluster_sdm}).}
+	\label{fig:lttplot_cluster_median}
+\end{figure}
 
 \newpage
 
 
-![Hominidae lineage through time (LTT) plots from
+\begin{figure}[h!]
+	\includegraphics{plots/Hominidae_LTTplot_summary_chronograms.pdf}
+	\caption{Hominidae lineage through time (LTT) plots from
     source chronograms (gray), median (green) and SDM (blue) summary chronograms
     obtained by calibrating a consensus tree tropology with distance data
-    from respective summary matrices and then adjusting branch lengths with BLADJ.](plots/Hominidae_LTTplot_summary_chronograms.pdf)
+    from respective summary matrices and then adjusting branch lengths with BLADJ.}
+	\label{fig:lttplot_summchrono}
+\end{figure}
 
 \newpage
 
 
-![Hominidae lineage through time (LTT) plots from
+\begin{figure}[h!]
+	\includegraphics{plots/Hominidae_LTTplot_crossval_bladj.pdf}
+	\caption{Hominidae lineage through time (LTT) plots from
     source chronograms used as secondary calibrations (gray), source chronograms
     used as topology (purple) and chronograms resulting from calibrating the latter
-    with the former, using BLADJ (green).](plots/Hominidae_LTTplot_crossval_bladj.pdf)
-
+    with the former, using BLADJ (green).}
+	\label{fig:lttplot_crossval_bladj}
+\end{figure}
+\break
 \newpage
 
 # Appendix
 
 
 
-![Lineage Through Time plots of Hominidae SDM summary
+\begin{figure}[h!]
+	\includegraphics{plots/Hominidae_lttplot_cluster_sdm.pdf}
+	\caption{Lineage Through Time plots of Hominidae SDM summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with the SDM summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the median summary matrix are very similar to the ones shown
-here with all algorithms (mainFig. 2).](plots/Hominidae_lttplot_cluster_median.pdf)
+here with all algorithms (main figure \ref{fig:lttplot_cluster_median}).}
+	\label{fig:lttplot_cluster-sdm}
+\end{figure}
 
 
 Dated induced subtree could not be obtained for the Hominidae.

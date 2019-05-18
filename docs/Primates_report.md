@@ -45,7 +45,7 @@ chronograms is shown in Table 1. All source chronograms are fully ultrametric an
 ages range from 62.766 to
 90.4 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available in data base are shown in ~\ref{fig:lttplot_phyloall}.
+available in data base are shown in figure \ref{fig:lttplot_phyloall}.
 
 
 ## 2. Summarize results from query
@@ -91,7 +91,7 @@ and not absolute time.
 NJ, UPGMA, BIONJ, minimum variance reduction (MVR) and the triangle method (TM)
 algorithms were used to cluster median and SDM summary distance matrices.
 None of these clustering algorithms returned trees matching source chronograms
-(Fig. 2, Appendix Fig. 5).
+(Fig. \ref{fig:lttplot_cluster_median}, Appendix Fig. \ref{fig:lttplot_cluster_sdm}).
 UPGMA is the only algorithm that returns ultrametric trees, but they are considerably
 older than expected from ages observed in source chronograms.
 The other methods returned trees with ages that coincide with those observed in
@@ -247,9 +247,6 @@ Calibrations8 & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE & TRUE & TRUE & TRUE\
 \newpage
 
 
-![Lineage through time (LTT) plots of source chronograms available in data base
-  for species in the Primates. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Primates_LTTplot_phyloall.pdf)
-
 \begin{figure}[h!]
 	\includegraphics{plots/Primates_LTTplot_phyloall.pdf}
 	\caption{Lineage through time (LTT) plots of source chronograms available in data base
@@ -260,39 +257,55 @@ Calibrations8 & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE & TRUE & TRUE & TRUE\
 \newpage
 
 
-![Lineage Through Time plots of Primates median summary
+\begin{figure}[h!]
+	\includegraphics{plots/Primates_lttplot_cluster_median.pdf}
+	\caption{Lineage Through Time plots of Primates median summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with this summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the SDM summary matrix are very similar to the ones from
-the median summary matrix with all clustering algorithms (Appendix Fig. 5).](plots/Primates_lttplot_cluster_median.pdf)
+the median summary matrix with all clustering algorithms (Appendix Fig. \ref{fig:lttplot_cluster_sdm}).}
+	\label{fig:lttplot_cluster_median}
+\end{figure}
 
 \newpage
 
 
-![Primates lineage through time (LTT) plots from
+\begin{figure}[h!]
+	\includegraphics{plots/Primates_LTTplot_summary_chronograms.pdf}
+	\caption{Primates lineage through time (LTT) plots from
     source chronograms (gray), median (green) and SDM (blue) summary chronograms
     obtained by calibrating a consensus tree tropology with distance data
-    from respective summary matrices and then adjusting branch lengths with BLADJ.](plots/Primates_LTTplot_summary_chronograms.pdf)
+    from respective summary matrices and then adjusting branch lengths with BLADJ.}
+	\label{fig:lttplot_summchrono}
+\end{figure}
 
 \newpage
 
 
-![Primates lineage through time (LTT) plots from
+\begin{figure}[h!]
+	\includegraphics{plots/Primates_LTTplot_crossval_bladj.pdf}
+	\caption{Primates lineage through time (LTT) plots from
     source chronograms used as secondary calibrations (gray), source chronograms
     used as topology (purple) and chronograms resulting from calibrating the latter
-    with the former, using BLADJ (green).](plots/Primates_LTTplot_crossval_bladj.pdf)
-
+    with the former, using BLADJ (green).}
+	\label{fig:lttplot_crossval_bladj}
+\end{figure}
+\break
 \newpage
 
 # Appendix
 The following species were not found in the chronogram database:  *Alouatta arctoidea**, **Alouatta discolor**, **Alouatta stramineus**, **Alouatta ululata**, **Aotus azarae**, **Aotus jorgehernandezi**, **Aotus zonalis**, **Avahi mooreorum**, **Avahi ramanantsoavani**, **Cacajao rubicundus**, **Callicebus aureipalatii**, **Callicebus baptista**, **Callicebus barbarabrownae**, **Callicebus caquetenesis**, **Callicebus caquetensis**, **Callicebus discolor**, **Callicebus lucifer**, **Callicebus medemi**, **Callicebus melanochir**, **Callicebus miltoni**, **Callicebus ornatus**, **Callicebus pallescens**, **Callicebus regulus**, **Callicebus stephennashi**, **Callicebus toppinii**, **Callicebus urubambensis**, **Callicebus vieirai**, **Callithrix cf. emiliae**, **Callithrix chrysoleuca**, **Carlito syrichta**, **Cebus aequatorialis**, **Cebus brunneus**, **Cebus cesarae**, **Cebus cuscinus**, **Cebus imitator**, **Cebus leucocephalus**, **Cebus malitiosus**, **Cebus polykomos**, **Cebus unicolor**, **Cebus versicolor**, **Cebus yuracus**, **Cephalopachus bancanus**, **Cercocebus lunulatus**, **Cercocebus sanjei**, **Cercopithecus denti**, **Cercopithecus doggetti**, **Cercopithecus kandti**, **Cercopithecus lomamiensis**, **Cercopithecus lowei**, **Cheirogaleus andysabini**, **Cheirogaleus lavasoensis**, **Cheirogaleus minusculus**, **Cheirogaleus thomasi**, **Cheracebus lugens**, **Cheracebus purinus**, **Cheracebus torquatus**, **Chiropotes utahickae**, **Chlorocebus djamdjamensis**, **Daubentonia robusta**, **Euoticus matschiei**, **Galagoides cocos**, **Galagoides orinus**, **Galagoides rondoensis**, **Galagoides thomasi**, **Hylobates entelloides**, **Hylobates funereus**, **Lemur indri**, **Lemur tardigradus**, **Lemur volans**, **Lepilemur grewcockorum**, **Lepilemur hollandorum**, **Lepilemur jamesorum**, **Lepilemur mitsinjoensis**, **Lepilemur scottorum**, **Lepilemur tymerlachsoni**, **Lophocebus johnstoni**, **Lophocebus opdenboschi**, **Lophocebus osmani**, **Lophocebus ugandae**, **Macaca balantak**, **Macaca leucogenys**, **Macaca speciosa**, **Mico acariensis**, **Mico intermedius**, **Mico leucippe**, **Mico marcai**, **Mico nigriceps**, **Microcebus lokobensis**, **Microcebus marohita**, **Microcebus myonixus**, **Microcebus tanosi**, **Nomascus annamensis**, **Nycticebus bancanus**, **Nycticebus borneanus**, **Nycticebus kayan**, **Papio japonicus**, **Papio kindae**, **Phaner electromontis**, **Phaner parienti**, **Piliocolobus bouvieri**, **Piliocolobus epieni**, **Piliocolobus oustaleti**, **Piliocolobus parmentieri**, **Piliocolobus semlikiensis**, **Piliocolobus temminckii**, **Piliocolobus waldronae**, **Pithecia cazuzai**, **Pithecia chrysocephala**, **Pithecia hirsuta**, **Pithecia inusta**, **Pithecia isabela**, **Pithecia milleri**, **Pithecia mittermeieri**, **Pithecia napensis**, **Pithecia pissinattii**, **Pithecia rylandsi**, **Pithecia vanzolinii**, **Plecturocebus bernhardi**, **Plecturocebus brunneus**, **Plecturocebus caligatus**, **Plecturocebus cinerascens**, **Plecturocebus cupreus**, **Plecturocebus donacophilus**, **Plecturocebus hoffmannsi**, **Plecturocebus miltoni**, **Plecturocebus moloch**, **Presbytis bicolor**, **Presbytis canicrus**, **Presbytis mitrata**, **Presbytis natunae**, **Presbytis sabana**, **Presbytis senex**, **Presbytis siamensis**, **Presbytis siberu**, **Presbytis sumatrana**, **Propithecus candidus**, **Pseudopotto martini**, **Pygathrix cinerea 1 RL-2012**, **Pygathrix cinerea 2 RL-2012**, **Rhinopithecus bieti 1 RL-2012**, **Rhinopithecus bieti 2 RL-2012**, **Saguinus cruzlimai**, **Saguinus illigeri**, **Saguinus lagonotus**, **Saguinus leucogenys**, **Saguinus nigrifrons**, **Saguinus pileatus**, **Saguinus ursulus**, **Saguinus weddelli**, **Saimiri cassiquiarensis**, **Saimiri macrodon**, **Sapajus apella**, **Sapajus cay**, **Sapajus flavius**, **Sapajus libidinosus**, **Sapajus nigritus**, **Sapajus xanthosternos**, **Sciurocheirus cameronensis**, **Sciurocheirus makandensis**, **Semnopithecus ajax**, **Semnopithecus hypoleucos**, **Semnopithecus schistaceus**, **Tarsius banacanus**, **Tarsius fuscus**, **Tarsius pelengensis**, **Tarsius tarsius**, **Tarsius tumpara**, **Trachypithecus ebenus**, **Trachypithecus mauritius**, **Trachypithecus selangorensis**, **Trachypithecus shortridgei*
 
 
-![Lineage Through Time plots of Primates SDM summary
+\begin{figure}[h!]
+	\includegraphics{plots/Primates_lttplot_cluster_sdm.pdf}
+	\caption{Lineage Through Time plots of Primates SDM summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with the SDM summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the median summary matrix are very similar to the ones shown
-here with all algorithms (mainFig. 2).](plots/Primates_lttplot_cluster_median.pdf)
+here with all algorithms (main figure \ref{fig:lttplot_cluster_median}).}
+	\label{fig:lttplot_cluster-sdm}
+\end{figure}
 
 
 Dated induced subtree could not be obtained for the Primates.

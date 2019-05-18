@@ -75,7 +75,7 @@ bold_has_brlen <- function(tax_phyloall_boldi){
     return(res)
 }
 # trees <- tax_phyloall_boldi
-use_othercals4 <- function(taxon, trees, othercals, expand){
+use_othercals4 <- function(taxon, trees, othercals, expand = 0.1){
     print(taxon)
     bb <- bold_has_brlen(trees)
     res <- lapply(seq(trees), function(i){

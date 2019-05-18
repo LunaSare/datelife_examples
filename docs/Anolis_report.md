@@ -45,7 +45,7 @@ chronograms is shown in Table 1. All source chronograms are fully ultrametric an
 ages range from 47.843 to
 72.578 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available in data base are shown in ~\ref{fig:lttplot_phyloall}.
+available in data base are shown in figure \ref{fig:lttplot_phyloall}.
 
 
 ## 2. Summarize results from query
@@ -91,7 +91,7 @@ and not absolute time.
 NJ, UPGMA, BIONJ, minimum variance reduction (MVR) and the triangle method (TM)
 algorithms were used to cluster median and SDM summary distance matrices.
 None of these clustering algorithms returned trees matching source chronograms
-(Fig. 2, Appendix Fig. 5).
+(Fig. \ref{fig:lttplot_cluster_median}, Appendix Fig. \ref{fig:lttplot_cluster_sdm}).
 UPGMA is the only algorithm that returns ultrametric trees, but they are considerably
 older than expected from ages observed in source chronograms.
 The other methods returned trees with ages that coincide with those observed in
@@ -248,9 +248,6 @@ Calibrations6 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
 \newpage
 
 
-![Lineage through time (LTT) plots of source chronograms available in data base
-  for species in the Anolis. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Anolis_LTTplot_phyloall.pdf)
-
 \begin{figure}[h!]
 	\includegraphics{plots/Anolis_LTTplot_phyloall.pdf}
 	\caption{Lineage through time (LTT) plots of source chronograms available in data base
@@ -261,39 +258,55 @@ Calibrations6 & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
 \newpage
 
 
-![Lineage Through Time plots of Anolis median summary
+\begin{figure}[h!]
+	\includegraphics{plots/Anolis_lttplot_cluster_median.pdf}
+	\caption{Lineage Through Time plots of Anolis median summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with this summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the SDM summary matrix are very similar to the ones from
-the median summary matrix with all clustering algorithms (Appendix Fig. 5).](plots/Anolis_lttplot_cluster_median.pdf)
+the median summary matrix with all clustering algorithms (Appendix Fig. \ref{fig:lttplot_cluster_sdm}).}
+	\label{fig:lttplot_cluster_median}
+\end{figure}
 
 \newpage
 
 
-![Anolis lineage through time (LTT) plots from
+\begin{figure}[h!]
+	\includegraphics{plots/Anolis_LTTplot_summary_chronograms.pdf}
+	\caption{Anolis lineage through time (LTT) plots from
     source chronograms (gray), median (green) and SDM (blue) summary chronograms
     obtained by calibrating a consensus tree tropology with distance data
-    from respective summary matrices and then adjusting branch lengths with BLADJ.](plots/Anolis_LTTplot_summary_chronograms.pdf)
+    from respective summary matrices and then adjusting branch lengths with BLADJ.}
+	\label{fig:lttplot_summchrono}
+\end{figure}
 
 \newpage
 
 
-![Anolis lineage through time (LTT) plots from
+\begin{figure}[h!]
+	\includegraphics{plots/Anolis_LTTplot_crossval_bladj.pdf}
+	\caption{Anolis lineage through time (LTT) plots from
     source chronograms used as secondary calibrations (gray), source chronograms
     used as topology (purple) and chronograms resulting from calibrating the latter
-    with the former, using BLADJ (green).](plots/Anolis_LTTplot_crossval_bladj.pdf)
-
+    with the former, using BLADJ (green).}
+	\label{fig:lttplot_crossval_bladj}
+\end{figure}
+\break
 \newpage
 
 # Appendix
 The following species were not found in the chronogram database:  *Anolis alocomyos**, **Anolis altavelensis**, **Anolis anfiloquioi**, **Anolis anisolepis**, **Anolis attenuatus**, **Anolis bellipeniculus**, **Anolis birama**, **Anolis breedlovei**, **Anolis caquetae**, **Anolis carlliebi**, **Anolis carlostoddi**, **Anolis cf. alocomyos GK-2015**, **Anolis cf. humilis JJK-2013**, **Anolis cf. polylepis**, **Anolis charlesmyersi**, **Anolis chlorocyaneus**, **Anolis chrysops**, **Anolis concolor**, **Anolis cuscoensis**, **Anolis damulus**, **Anolis delafuentei**, **Anolis deltae**, **Anolis desiradei**, **Anolis dissimilis**, **Anolis eewi**, **Anolis fairchildi**, **Anolis forbesorum**, **Anolis fugitivus**, **Anolis gibbiceps**, **Anolis haguei**, **Anolis ibague**, **Anolis immaculogularis**, **Anolis impetigosus**, **Anolis incredulus**, **Anolis juangundlachi**, **Anolis kreutzi**, **Anolis laevis**, **Anolis lamari**, **Anolis landestoyi**, **Anolis leditzigorum**, **Anolis lemniscatus**, **Anolis limon**, **Anolis menta**, **Anolis microlepis**, **Anolis mirus**, **Anolis morazani**, **Anolis muralla**, **Anolis nasofrontalis**, **Anolis nietoi**, **Anolis nigrolineatus**, **Anolis osa**, **Anolis paravertebralis**, **Anolis philopunctatus**, **Anolis phyllorhinus**, **Anolis pigmaequestris**, **Anolis pijolense**, **Anolis pinchoti**, **Anolis propinquus**, **Anolis pseudotigrinus**, **Anolis purpurescens**, **Anolis radulinus**, **Anolis rhombifer**, **Anolis rimarum**, **Anolis rivalis**, **Anolis roosevelti**, **Anolis ruibali**, **Anolis ruizi**, **Anolis rupinae**, **Anolis sacamecatensis**, **Anolis santamartae**, **Anolis scapularis**, **Anolis schiedei**, **Anolis schmidti**, **Anolis sierramaestrae**, **Anolis simmonsi**, **Anolis solitarius**, **Anolis spectrum**, **Anolis squamulatus**, **Anolis stevepoei**, **Anolis tenorioensis**, **Anolis terueli**, **Anolis tetarii**, **Anolis toldo**, **Anolis umbrivagus**, **Anolis utowanae**, **Anolis vaupesianus**, **Anolis vescus**, **Anolis vicarius**, **Anolis villai**, **Anolis wampuensis**, **Anolis wattsii**, **Anolis wermuthi**, **Anolis williamsii**, **Anolis zapotecorum**, **Ctenonotus cybotes**, **Ctenonotus ferreus**, **Ctenonotus pulchellus**, **Norops alvarezdeltoroi**, **Norops anisolepis**, **Norops antonii**, **Norops baccatus**, **Norops birama**, **Norops bocourtii**, **Norops bouvierii**, **Norops breedlovei**, **Norops chrysolepis**, **Norops cobanensis**, **Norops concolor**, **Norops conspersus**, **Norops cumingii**, **Norops cuprinus**, **Norops cymbops**, **Norops damulus**, **Norops delafuentei**, **Norops dollfusianus**, **Norops exsul**, **Norops forbesi**, **Norops fungosus**, **Norops gibbiceps**, **Norops granuliceps**, **Norops haguei**, **Norops hobartsmithi**, **Norops ibague**, **Norops imias**, **Norops johnmeyeri**, **Norops lemniscatus**, **Norops lineatus**, **Norops lynchi**, **Norops macrolepis**, **Norops macrophallus**, **Norops maculiventris**, **Norops mariarum**, **Norops matudai**, **Norops microlepis**, **Norops milleri**, **Norops notopholis**, **Norops opalinus**, **Norops parvicirculatus**, **Norops pentaprion**, **Norops petersii**, **Norops pinchoti**, **Norops pygmaeus**, **Norops rhombifer**, **Norops rivalis**, **Norops salvini**, **Norops scapularis**, **Norops schiedei**, **Norops schmidti**, **Norops simmonsi**, **Norops sulcifrons**, **Norops tolimensis**, **Norops utowanae**, **Norops vicarius**, **Norops villai**, **Norops vittigerus**, **Norops vociferans*
 
 
-![Lineage Through Time plots of Anolis SDM summary
+\begin{figure}[h!]
+	\includegraphics{plots/Anolis_lttplot_cluster_sdm.pdf}
+	\caption{Lineage Through Time plots of Anolis SDM summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with the SDM summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the median summary matrix are very similar to the ones shown
-here with all algorithms (mainFig. 2).](plots/Anolis_lttplot_cluster_median.pdf)
+here with all algorithms (main figure \ref{fig:lttplot_cluster_median}).}
+	\label{fig:lttplot_cluster-sdm}
+\end{figure}
 
 
 Dated induced subtree could not be obtained for the Anolis.

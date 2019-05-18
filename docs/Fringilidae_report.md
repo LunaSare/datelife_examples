@@ -45,7 +45,7 @@ chronograms is shown in Table 1. All source chronograms are fully ultrametric an
 ages range from 16.057 to
 44.296 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available in data base are shown in ~\ref{fig:lttplot_phyloall}.
+available in data base are shown in figure \ref{fig:lttplot_phyloall}.
 
 
 ## 2. Summarize results from query
@@ -91,7 +91,7 @@ and not absolute time.
 NJ, UPGMA, BIONJ, minimum variance reduction (MVR) and the triangle method (TM)
 algorithms were used to cluster median and SDM summary distance matrices.
 None of these clustering algorithms returned trees matching source chronograms
-(Fig. 2, Appendix Fig. 5).
+(Fig. \ref{fig:lttplot_cluster_median}, Appendix Fig. \ref{fig:lttplot_cluster_sdm}).
 UPGMA is the only algorithm that returns ultrametric trees, but they are considerably
 older than expected from ages observed in source chronograms.
 The other methods returned trees with ages that coincide with those observed in
@@ -259,9 +259,6 @@ Calib13 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes 
 \newpage
 
 
-![Lineage through time (LTT) plots of source chronograms available in data base
-  for species in the Fringilidae. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.](plots/Fringilidae_LTTplot_phyloall.pdf)
-
 \begin{figure}[h!]
 	\includegraphics{plots/Fringilidae_LTTplot_phyloall.pdf}
 	\caption{Lineage through time (LTT) plots of source chronograms available in data base
@@ -272,39 +269,55 @@ Calib13 & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes & yes 
 \newpage
 
 
-![Lineage Through Time plots of Fringilidae median summary
+\begin{figure}[h!]
+	\includegraphics{plots/Fringilidae_lttplot_cluster_median.pdf}
+	\caption{Lineage Through Time plots of Fringilidae median summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with this summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the SDM summary matrix are very similar to the ones from
-the median summary matrix with all clustering algorithms (Appendix Fig. 5).](plots/Fringilidae_lttplot_cluster_median.pdf)
+the median summary matrix with all clustering algorithms (Appendix Fig. \ref{fig:lttplot_cluster_sdm}).}
+	\label{fig:lttplot_cluster_median}
+\end{figure}
 
 \newpage
 
 
-![Fringilidae lineage through time (LTT) plots from
+\begin{figure}[h!]
+	\includegraphics{plots/Fringilidae_LTTplot_summary_chronograms.pdf}
+	\caption{Fringilidae lineage through time (LTT) plots from
     source chronograms (gray), median (green) and SDM (blue) summary chronograms
     obtained by calibrating a consensus tree tropology with distance data
-    from respective summary matrices and then adjusting branch lengths with BLADJ.](plots/Fringilidae_LTTplot_summary_chronograms.pdf)
+    from respective summary matrices and then adjusting branch lengths with BLADJ.}
+	\label{fig:lttplot_summchrono}
+\end{figure}
 
 \newpage
 
 
-![Fringilidae lineage through time (LTT) plots from
+\begin{figure}[h!]
+	\includegraphics{plots/Fringilidae_LTTplot_crossval_bladj.pdf}
+	\caption{Fringilidae lineage through time (LTT) plots from
     source chronograms used as secondary calibrations (gray), source chronograms
     used as topology (purple) and chronograms resulting from calibrating the latter
-    with the former, using BLADJ (green).](plots/Fringilidae_LTTplot_crossval_bladj.pdf)
-
+    with the former, using BLADJ (green).}
+	\label{fig:lttplot_crossval_bladj}
+\end{figure}
+\break
 \newpage
 
 # Appendix
 The following species were not found in the chronogram database:  *Acanthis cabaret**, **Acanthis rostrata**, **Akialoa ellisiana**, **Akialoa lanaiensis**, **Akialoa obscura**, **Buarremon apertus**, **Bucanetes crassirostris**, **Calcarius coloratus**, **Cardinalis carneus**, **Cardinalis peninsulae**, **Carduelis ankoberensis**, **Carduelis elegans**, **Carduelis ultima**, **Carpodacus beicki**, **Carpodacus davidianus**, **Carpodacus deserticolor**, **Carpodacus dubius**, **Carpodacus formosanus**, **Carpodacus henrici**, **Carpodacus longirostris**, **Carpodacus lucifer**, **Carpodacus portenkoi**, **Carpodacus rhodopeplus**, **Carpodacus roseatus**, **Carpodacus rubicundus**, **Carpodacus stoliczkae**, **Carpodacus verreauxii**, **Carpodacus waltoni**, **Caryothraustes brasiliensis**, **Caryothraustes scapularis**, **Chaunoproctus ferreorostris**, **Chloridops kona**, **Chloris heinrichi**, **Chloris turkestanica**, **Chrysocorythus mindanensis**, **Ciridops anna**, **Coccothraustes japonicus**, **Coccothraustes migratorius**, **Corytus rhenana**, **Crithagra albifrons**, **Crithagra ankoberensis**, **Crithagra buchanani**, **Crithagra canicapilla**, **Crithagra capistrata**, **Crithagra concolor**, **Crithagra deserti**, **Crithagra donaldsoni**, **Crithagra flavigula**, **Crithagra frontalis**, **Crithagra granti**, **Crithagra hewitti**, **Crithagra hildegardae**, **Crithagra kikuyensis**, **Crithagra koliensis**, **Crithagra leucoptera**, **Crithagra marshalli**, **Crithagra menachensis**, **Crithagra montanorum**, **Crithagra mozambica**, **Crithagra reichenowi**, **Crithagra rothschildi**, **Crithagra rufobrunnea**, **Crithagra symonsi**, **Crithagra thomensis**, **Crithagra tristriata**, **Crithagra xantholaema**, **Crithagra xanthopygia**, **Cyanerpes holti**, **Cyanerpes isthmicus**, **Cyanerpes microrhynchus**, **Cyanocompsa argentina**, **Cyanocompsa rothschildii**, **Drepanis coccinea**, **Drepanis funerea**, **Drepanis pacifica**, **Dysmorodrepanis munroi**, **Emberiza buturlini**, **Emberiza ciodes**, **Emberiza ciopsis**, **Emberiza continentalis**, **Emberiza elegantula**, **Emberiza erythrogenys**, **Emberiza flemingorum**, **Emberiza fronto**, **Emberiza kuatunensis**, **Emberiza lydiae**, **Emberiza meridionalis**, **Emberiza militaris**, **Emberiza musica**, **Emberiza neobscura**, **Emberiza nivenorum**, **Emberiza omissa**, **Emberiza omoensis**, **Emberiza orientalis**, **Emberiza ornata**, **Emberiza pyrrhulinus**, **Emberiza rufibarba**, **Emberiza rufigularis**, **Emberiza sahari**, **Emberiza semenowi**, **Emberiza sloggetti**, **Emberiza sordida**, **Emberiza vincenti**, **Emberiza zaidamensis**, **Embernagra gossei**, **Eophona magnirostris**, **Eophona sowerbyi**, **Erythrospiza phaenicoptera**, **Euphonia aurantiicollis**, **Euphonia carnegiei**, **Euphonia flavifrons**, **Euphonia gnatho**, **Euphonia nitida**, **Euphonia olivacea**, **Euphonia praetermissa**, **Euphonia purpurascens**, **Euphonia rufivertex**, **Euphonia serrirostris**, **Euphonia tavarae**, **Fringilla albicollis**, **Fringilla bella**, **Fringilla brissonii**, **Fringilla nortoniensis**, **Fringilla palmae**, **Fringilla polatzeki**, **Fringilla syriaca**, **Fringillaria goslingi**, **Fringillaria poliopleura**, **Haemorhous californicus**, **Haemorhous griscomi**, **Hemignathus affinis**, **Hemignathus hanapepe**, **Hemispingus castaneicollis**, **Hemispingus macrophrys**, **Hemispingus ochraceus**, **Hemispingus urubambae**, **Hesperiphona abeillei**, **Hesperiphona cobanensis**, **Hesperiphona montana**, **Himatione fraithii**, **Leucosticte brunneonucha**, **Leucosticte wallowa**, **Leucosticte walteri**, **Linaria harterti**, **Linaria johannis**, **Linaria rufostrigata**, **Linaria yemenensis**, **Linurgus kilimensis**, **Loxia cardinalis**, **Loxia cyanea**, **Loxia dominica**, **Loxia mesamericana**, **Loxops ochraceus**, **Loxops wolstenholmei**, **Melopyrrha taylori**, **Mycerobas melanoxanthos**, **Passerina lazula**, **Passerina pallidior**, **Passerina purpurascens**, **Peucaea cohaerens**, **Peucaea ibarrorum**, **Peucaea vulcanica**, **Peucedramus micrus**, **Pheucticus aurantiacus**, **Pinicola eschatosa**, **Plectrophenax townsendi**, **Psittirostra psittacea**, **Pyrrhula cineracea**, **Pyrrhula owstoni**, **Pyrrhula rosacea**, **Pyrrhula steerei**, **Pyrrhula uchidai**, **Rhodacanthis flaviceps**, **Rhodacanthis palmeri**, **Rhodopechys alienus**, **Rhodopechys sanguineus**, **Rhynchostruthus louisae**, **Rhynchostruthus percivali**, **Rhynchostruthus socotranus**, **Serinus huillensis**, **Spinus atriceps**, **Spinus colombiana**, **Spinus dominicensis**, **Spinus longirostris**, **Spinus nigricauda**, **Spinus oleacea**, **Spinus perplexa**, **Spinus stejnegeri**, **Viridonia sagittirostris*
 
 
-![Lineage Through Time plots of Fringilidae SDM summary
+\begin{figure}[h!]
+	\includegraphics{plots/Fringilidae_lttplot_cluster_sdm.pdf}
+	\caption{Lineage Through Time plots of Fringilidae SDM summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with the SDM summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the median summary matrix are very similar to the ones shown
-here with all algorithms (mainFig. 2).](plots/Fringilidae_lttplot_cluster_median.pdf)
+here with all algorithms (main figure \ref{fig:lttplot_cluster_median}).}
+	\label{fig:lttplot_cluster-sdm}
+\end{figure}
 
 
 Dated induced subtree could not be obtained for the Fringilidae.

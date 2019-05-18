@@ -130,15 +130,23 @@ make_lttplot_summ3 <- function(taxon, tax_phyloall, tax_summary, tax_datedotol =
         # leg <- c(leg, paste("Median", names(tax_phycluster_median)))
     }
     if(add_legend){
-        legend(x = -xlim0, y = max_tips*1.05, #round(-max_age, digits = -1),
-               # y = round(max_tips, digits = -2),
-               legend = paste(taxon, leg), col = leg_color,
-               cex = 0.5, bty = "n", pch = 19)
+        leg1y <- NULL
+        leg1x <- "topleft"
        if(inherits(tax_phycluster, "multiPhylo")){
            text(labels = paste(taxon, tax_phycluster_title, "summary chronograms obtained with:"),
-            x = -xlim0, y = max_tips*0.925, cex = 0.5, adj = 0)
-           legend(x = -xlim0, y = max_tips*0.925, pch = 19,
-            legend = ff$leg, col = ff$leg_color, cex = 0.5, bty = "n")
+            x = -xlim0, y = max_tips, cex = 0.55, adj = 0)
+           legend(x = -xlim0, y = max_tips*0.975, pch = 19,
+            legend = ff$leg, col = ff$leg_color, cex = 0.5, bty = "n" #,
+            # title = paste(taxon, tax_phycluster_title, "summary chronograms obtained with:")
+            )
+            leg1y <- max_tips*0.6
+            # leg1y <- NULL
+            leg1x <- -xlim0
+        } else {
+            legend(x = leg1x, y = leg1y, #round(-max_age, digits = -1),
+                   # y = round(max_tips, digits = -2),
+                   legend = paste(taxon, leg), col = leg_color,
+                   cex = 0.5, bty = "n", pch = 19)
         }
     }
     dev.off()
