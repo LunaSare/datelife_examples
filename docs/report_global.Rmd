@@ -2,7 +2,7 @@
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
 date: "`r Sys.Date()`"
-output: bookdown::pdf_document2
+output: rmarkdown::html_vignette
 bibliography: library_red.bib
 csl: systematic-biology.csl
 link-citations: yes
@@ -31,14 +31,73 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-source("report_template_setup.R")
+# - \usepackage{tabu}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+my_table_format <- function(tt){
+  res <- format.data.frame(tt, digits = 4, nsmall = 4, justify = "none")
+  return(res)
+}
+library(microbenchmark)
+loadd(tax_allcal)
+loadd(taxon)
+loadd(tax_dq)
+loadd(tax_dr)
+loadd(tax_summ)
+loadd(tax_phyloall)
+phyloall_success <- ape::is.ultrametric(tax_phyloall, option = 2)
+loadd(tax_median_phylo)
+loadd(tax_sdm_phylo)
+loadd(tax_sdm_matrix)
+loadd(tax_median_matrix)
+loadd(tax_datedotol)
+loadd(tax_allcal_datedotol)
+loadd(tax_otol)
+loadd(tax_treefromtax)
+loadd(tax_phyloall)
+loadd(tax_eachcal_datedotol)
+loadd(tax_crossval)
+loadd(tax_phycluster)
+# loadd(tax_crossval2)
+loadd(tax_summary)
+loadd(tax_bestgrove)
+fig_lttplot_phyloall <- "Fig. 1"
+fig_lttplot_median <- "Fig. 2"
+fig_lttplot_median_and_sdm <- "Fig. 3"
+fig_lttplot_bladj <- "Fig. 4"
+# fig_node_age_dist <- "Fig. "
+figcap2 <- paste(taxon, "Species Tree from Taxonomy. This tree was obtained with `tree_from_taxonomy()` function.")
+table_chronograms <- "Table 1"
+table_crossval <- "Table 2"
+fig_lttplot_sdm <- "Fig. 5"
+negs_list <- list(SDM = which(tax_sdm_matrix < 0),
+                 Median = which(tax_median_matrix < 0))
+tax_summ_matrix <- list(tax_sdm_matrix, tax_median_matrix)
+negs_sdm <- c()
+if(length(negs_list$SDM) > 0){
+  xx <- rownames(tax_sdm_matrix)[ceiling(negs_list$SDM/nrow(tax_sdm_matrix))]
+  negs_sdm <- paste0("In this case, the SDM summary matrix has some negative values in the following taxa: *", paste(xx, collapse = "*, *"), "*. ")
+} else {
+  negs_sdm <- paste0("But, the SDM summary matrix of this taxon has no negative values.")
+}
+if(all(phyloall_success)){
+  ultrametricity <- "All source chronograms are fully ultrametric"
+} else {
+  ultrametricity <- "Not all source chronograms are fully ultrametric. This cant't be right, CHECK THIS!!"
+}
+# Error producing PDF.
+# ! Undefined control sequence.
+# l.124 \toprule
+# this occurs when the needed latex package is not specified in the yaml ^^
 ```
 \raggedright
 
 # Taxon `r taxon`
 
 ## 1. Query source chronograms
-There are `r length(tax_dq$cleaned_names)` subspecies in the Open Tree of Life Taxonomy for the taxon `r taxon`.
+There are `r length(tax_dq$cleaned_names)` species in the Open Tree of Life Taxonomy for the taxon `r taxon`.
 Information on time of divergence is available for
 ```{r echo = FALSE, results = 'asis'}
 tt <- nrow(tax_median_phylo$taxon_distribution)
@@ -54,7 +113,7 @@ chronograms is shown in `r table_chronograms`. `r ultrametricity` and their maxi
 ages range from `r round(min(tax_summary$mrca), digits = 3)` to
 `r round(max(tax_summary$mrca), digits = 3)` million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available in data base are shown in figure \ref{fig:lttplot_phyloall}.
+available in data base are shown in `r fig_lttplot_phyloall`
 
 
 ## 2. Summarize results from query
@@ -62,7 +121,7 @@ available in data base are shown in figure \ref{fig:lttplot_phyloall}.
 LTT plots are a nice way to visually compare several trees. But what if you want
 to summarize information from all source chronograms into a single summary chronogram?
 
-The first step is to identify the degree of species overlap among your source chronograms: if each
+The first step is to identify the degree of species overlap among your source chornograms: if each
 source chronogram has a unique sample of species, it will not be possible to combine
 them into a single summary chronogram. To identify the set of trees or _grove_ with the most source
 chronograms that have at least two overlapping taxa, we followed Ané et al. 2016.
@@ -109,7 +168,7 @@ and not absolute time.
 NJ, UPGMA, BIONJ, minimum variance reduction (MVR) and the triangle method (TM)
 algorithms were used to cluster median and SDM summary distance matrices.
 None of these clustering algorithms returned trees matching source chronograms
-(Fig. \ref{fig:lttplot_cluster_median}, Appendix Fig. \ref{fig:lttplot_cluster_sdm}).
+(`r fig_lttplot_median`, Appendix `r fig_lttplot_sdm`).
 UPGMA is the only algorithm that returns ultrametric trees, but they are considerably
 older than expected from ages observed in source chronograms.
 The other methods returned trees with ages that coincide with those observed in
@@ -173,63 +232,33 @@ ranked ages from secondary calibrations (`r fig_lttplot_bladj`).
 ### 3.2. Calibrate a tree with data
 If you have a tree with branch lengths proportional to relative substitution rates,
 you can use the source chronogram node ages as secondary calibrations with various
-algorithms for phylogenetic dating to get branch lengths proportional to absolute time.
-To exemplify this, we got DNA markers from the Barcode of Life Database (BOLD)
-to estimate branch lengths as relative DNA substitution rates on a tree topology of our choosing.
-In this example we retrieved data from the cytochrome C oxidase subunit I (COI) marker, that is of
-widespread use in barcoding, providing DNA data for a very wide number of organisms.
+algorithms for phylogenetic dating to obtain a tree with branch lengths proportional
+to absolute time.
+To exemplify this, we are getting data from the Barcode of Life Database (BOLD) to obtain
+branch lengths as relative DNA substitution rates for a tree topology of our choosing.
 <!-- source_chronogram_bold_tree <- make_bold_otol_tree(input = source_chronogram_topology,
 marker = "COI", otol_version = "v3", chronogram = TRUE)
 source_chronogram_bold_tree_notc <- make_bold_otol_tree(input = source_chronogram_topology,
 marker = "COI", otol_version = "v3", chronogram = FALSE)
 -->
-```{r echo = FALSE, warning=FALSE, message = FALSE, results = 'asis'}
-# make_bold_otol_tree always returns a tree, even if it fails (it will return teh original tree or the otol tree if it constructed one)
-# so to know if it is succesfull, check if the output has branch lengths
-if(all(bold_has_brlen(tax_phyloall_boldi))){
-    paragraph <- paste0("Unfortunately, a tree with branch lengths could not be
-    constructed for any of the source chronograms available for the ", taxon,
-    ", so this workflow will not be exemplified here. This can happen for several
-    reasons. If the tree has only two tips, the tree search cannot be performed. If the Please look into other DateLife
-    examples available in here for more infromation about this workflow.")
-} else {
-    paragraph <- paste0("A tree with branch lengths could be constructed for ",
-        length(bold_has_brlen(tax_phyloall_boldi)), " source chronograms (out of ",
-        length(tax_phyloall_boldi), ") available for the ", taxon, ". To date these
-        trees we are using the software PATHd8 for tree dating without a molecular
-        clock model, using calibrations from all other source chronograms. Sometimes,
-        calibrations conflict between them. To deal with conflicting calibrations, we can either
-        expand them to make them agree, or we can congruify them to the topology
-        of the tree to be dated.
-        Results from both approaches are shown in the following two sections.\n\n")
-}
-cat(paragraph)
-```
+We are using the software PATHd8 for tree dating without a molecular clock model.
+To deal with conflicting calibrations, we can either expand them to make them agree,
+or we can summarize them. Results from both approaches are shown in the two following
+sections.
 
-```{r echo = FALSE, warning=FALSE, message = FALSE, results = 'asis'}
-p1 <- "### 3.2.1. Expanding calibrations\n\n"
-# crossval_pathd8_exp <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
-#   dating_method = "pathd8", expand = default)
-# crossval_pathd8_exp_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
-#   dating_method = "pathd8", expand = default)
-# p2 <-
-paragraph2 <- paste0("### 3.2.2. Summarizing calibrations (congruifying calibrations)\n\n
-")
-# crossval_pathd8_summ <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
-#   dating_method = "pathd8", expand = 0)
-# crossval_pathd8_summ_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
-#   dating_method = "pathd8", expand = 0)
+### 3.2.1. Expanding calibrations
+crossval_pathd8_exp <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
+  dating_method = "pathd8", expand = default)
+crossval_pathd8_exp_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
+  dating_method = "pathd8", expand = default)
 
-if(length(bold_has_brlen(tax_phyloall_boldi)) > 0){
-    cat(p1)
-    cat(paragraph2)
-}
-```
+### 3.2.2. Summarizing calibrations (congruifying calibrations)
+crossval_pathd8_summ <- use_calibrations(phy = source_chronogram_bold_tree, calibrations = all_other_calibrations,
+  dating_method = "pathd8", expand = 0)
+crossval_pathd8_summ_notc <- use_calibrations(phy = source_chronogram_bold_tree_notc, calibrations = all_other_calibrations,
+  dating_method = "pathd8", expand = 0)
 
 
-
-
-<!--
 ## 4. Simulate data/ Add missing taxa
 Finally, if data can be added to An alternative to generate a dated tree from a set of taxa is to take the available
 information and simulate into it the missing data.
@@ -237,11 +266,10 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 ```{r LTTplot-sims, echo = F, results = 'asis', fig.cap= ""}
 #nothing yet
 ```
--->
 
 \newpage
 
-## 4. Example with subspecies tree
+### 5. Example with subspecies tree
 As an example, we're gonna date the subspecies tree of the group using all approaches
 for generating new data.
 ```{r echo = FALSE}
@@ -270,9 +298,6 @@ Synthetic tree of `r txtA`
 We also tried  each source chronogram independently, with the Dated OToL and with
 each other, as a form of cross validation in `r table_crossval`. This is not working
 perfectly yet, but we are developping new ways to use all calibrations efficiently.
-
-\newpage
-
 # Tables and Figures
 
 ```{r echo = FALSE, warning=FALSE, message = FALSE, results = 'asis'}
@@ -280,10 +305,9 @@ table_caption <- paste(taxon, "source chronogram studies information.")
 make_table0(tax_dr, tax_summ, tax_dq, table_caption)
 ```
 
-<!--
 \newpage
 
-```{r echo = FALSE}
+<!--```{r echo = FALSE}
 table_cap <- "Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?"
 table2 <- cbind(tax_eachcal_datedotol, do.call(cbind, tax_crossval))
 dimnames(table2) <- list(paste0("Calibrations", seq(tax_crossval)), c("dOToL", paste0("Chrono", seq(tax_crossval))))
@@ -300,55 +324,47 @@ if(ncol(table2) > 10) {
 tt <- knitr::kable(table2, caption = table_cap, row.names = TRUE, format = "latex", booktabs = TRUE)
 kableExtra::kable_styling(kable_input = tt, position = "left", font_size = fs)
 ```
--->
+
 \newpage
 
+-->
+
 ```{r LTTplot-phyloall, echo = F, results = 'asis', fig.cap= ""}
-figcap_lttplot_phyloall <- paste0("Lineage through time (LTT) plots of source chronograms
-  available in database for species in the ", taxon, ". Numbers correspond to original
-  studies in ", table_chronograms, ". Arrows indicate maximum age of each chronogram.")
-lttplot_phyloall <- paste0("\n\\begin{figure}[h!]\n",
-    "\t\\includegraphics{plots/", taxon, "_LTTplot_phyloall.pdf}\n",
-    "\t\\caption{", figcap_lttplot_phyloall, "}\n",
-    "\t\\label{fig:lttplot_phyloall}\n",
-    "\\end{figure}")
+figcap_lttplot_phyloall <- paste0("Lineage through time (LTT) plots of source chronograms available in data base
+  for species in the ", taxon, ". Numbers correspond to original studies in ", table_chronograms,
+  ". Arrows indicate maximum age of each chronogram.")
+
+lttplot_phyloall <- paste0("\n![", figcap_lttplot_phyloall, "](plots/", taxon, "_LTTplot_phyloall.pdf)\n")
 cat(lttplot_phyloall)
 ```
 
 \newpage
 
-```{r LTTplot-cluster-median, echo = F, results = 'asis', fig.cap= ""}
-figcap_lttplot <- paste0("Lineage Through Time plots of ", taxon, " median summary
+```{r make-lttplot-cluster-median, echo = F, results = 'asis', fig.cap= ""}
+figcap_lttplot_cluster <- paste0("Lineage Through Time plots of ", taxon, " median summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with this summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the SDM summary matrix are very similar to the ones from
-the median summary matrix with all clustering algorithms (Appendix Fig. \\ref{fig:lttplot_cluster_sdm}).")
+the median summary matrix with all clustering algorithms (Appendix ", fig_lttplot_sdm, ").")
 
-lttplot_cluster <- paste0("\n\\begin{figure}[h!]\n",
-    "\t\\includegraphics{plots/", taxon, "_lttplot_cluster_median.pdf}\n",
-    "\t\\caption{", figcap_lttplot, "}\n",
-    "\t\\label{fig:lttplot_cluster_median}\n",
-    "\\end{figure}")
+lttplot_cluster <- paste0("\n![", figcap_lttplot_cluster, "](plots/", taxon, "_lttplot_cluster_median.pdf)\n")
 cat(lttplot_cluster)
 ```
 
 \newpage
 
 ```{r LTTplot-summ-chronograms, echo = F, results = 'asis', fig.cap= ""}
-figcap_lttplot <- paste(taxon, "lineage through time (LTT) plots from
+figcap_lttplot_summchrono <- paste(taxon, "lineage through time (LTT) plots from
     source chronograms (gray), median (green) and SDM (blue) summary chronograms
     obtained by calibrating a consensus tree tropology with distance data
     from respective summary matrices and then adjusting branch lengths with BLADJ.")
 
-lttplot_summchrono <- paste0("\n\\begin{figure}[h!]\n",
-    "\t\\includegraphics{plots/", taxon, "_LTTplot_summary_chronograms.pdf}\n",
-    "\t\\caption{", figcap_lttplot, "}\n",
-    "\t\\label{fig:lttplot_summchrono}\n",
-    "\\end{figure}")
+lttplot_summchrono <- paste0("\n![", figcap_lttplot_summchrono, "](plots/", taxon, "_LTTplot_summary_chronograms.pdf)\n")
 cat(lttplot_summchrono)
 ```
 
 \newpage
+
 
 ```{r LTTplot-bladj, echo = F, results = 'asis', fig.cap= ""}
 figcap_lttplot <- paste(taxon, "lineage through time (LTT) plots from
@@ -356,65 +372,30 @@ figcap_lttplot <- paste(taxon, "lineage through time (LTT) plots from
     used as topology (purple) and chronograms resulting from calibrating the latter
     with the former, using BLADJ (green).")
 
-lttplot <- paste0("\n\\begin{figure}[h!]\n",
-    "\t\\includegraphics{plots/", taxon, "_LTTplot_crossval_bladj.pdf}\n",
-    "\t\\caption{", figcap_lttplot, "}\n",
-    "\t\\label{fig:lttplot_crossval_bladj}\n",
-    "\\end{figure}")
+lttplot <- paste0("\n![", figcap_lttplot, "](plots/", taxon, "_LTTplot_crossval_bladj.pdf)\n")
 cat(lttplot)
 ```
-
-\newpage
-
-```{r LTTplot-pathd8-exp1, echo = F, results = 'asis', fig.cap= ""}
-figcap_lttplot <- paste(taxon, "lineage through time (LTT) plots from
-    source chronograms used as secondary calibrations (gray), source chronograms
-    used as topology (purple) and chronograms resulting from calibrating the latter
-    with the former, using PATHd8 (green).")
-
-lttplot <- paste0("\n\\begin{figure}[h!]\n",
-    "\t\\includegraphics{plots/", taxon, "_LTTplot_crossval_pathd8_exp1.pdf}\n",
-    "\t\\caption{", figcap_lttplot, "}\n",
-    "\t\\label{fig:lttplot_crossval_pathd8_exp1}\n",
-    "\\end{figure}")
-cat(lttplot)
-```
-
-\break
 \newpage
 
 
-
-
-
-
-
-
-
-
-
-
+\newpage
 
 # Appendix
 ```{r echo = FALSE, results = 'asis'}
 absent <- levels(tax_median_phylo$absent_taxa$taxon)
 if(!"None" %in% absent){
-  cat("The following species were not found in the chronogram database: ", paste0("*", levels(tax_median_phylo$absent_taxa$taxon), collapse = "*, *", "*"))
+  cat("The following species were completely absent from the chronogram data base: ", paste0("*", levels(tax_median_phylo$absent_taxa$taxon), collapse = "*, *", "*"))
 }
 ```
 
-```{r LTTplot-cluster-sdm, echo = F, results = 'asis', fig.cap= ""}
-figcap_lttplot <- paste0("Lineage Through Time plots of ", taxon, " SDM summary
+```{r make-lttplot-cluster-sdm, echo = F, results = 'asis', fig.cap= ""}
+figcap_lttplot_cluster <- paste0("Lineage Through Time plots of ", taxon, " SDM summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with the SDM summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the median summary matrix are very similar to the ones shown
-here with all algorithms (main figure \\ref{fig:lttplot_cluster_median}).")
+here with all algorithms (main", fig_lttplot_median, ").")
 
-lttplot_cluster <- paste0("\n\\begin{figure}[h!]\n",
-    "\t\\includegraphics{plots/", taxon, "_lttplot_cluster_sdm.pdf}\n",
-    "\t\\caption{", figcap_lttplot, "}\n",
-    "\t\\label{fig:lttplot_cluster-sdm}\n",
-    "\\end{figure}")
+lttplot_cluster <- paste0("\n![", figcap_lttplot_cluster, "](plots/", taxon, "_lttplot_cluster_median.pdf)\n")
 cat(lttplot_cluster)
 ```
 
