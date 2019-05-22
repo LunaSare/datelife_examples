@@ -195,7 +195,7 @@ make_plot2 <- function(tree, title, taxon, tax_summ, omi3, filename, cex = 0.75)
       }
     plot.phylo(tree, type = "fan", cex = cex, label.offset = 0.05)
   }
-  # title = paste0(taxon, " Species Presence across chronograms in DateLife Data Base")
+  # title = paste0(taxon, " Species presence across chronograms in datedife database")
   if(!is.null(title)){
       titlei <- wrap_string_to_plot(string = title, max_cex = 1, whole = FALSE)
       graphics::mtext(text = titlei$wrapped, outer = TRUE,

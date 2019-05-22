@@ -45,7 +45,7 @@ make_lttplot_summtrees <- function(taxon, tax_phyloall, tax_datedotol,
   grDevices::pdf(file = file_name, height = 3, width = 7)
   par(mai = c(1.02, 0.82, 0.2, 0.42))
   ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips),
-                col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"),
+                col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species N"),
                 xlab = "Time (MYA)")
   # we will plot dated otol arrows at the end bc its too light
   for (i in seq(length(tax_phyloall))){
@@ -116,7 +116,7 @@ make_lttplot_summ <- function(taxon, tax_phyloall, tax_datedotol, tax_phylosumma
   grDevices::pdf(file = file_name, height = 3, width = 7)
   par(mai = c(1.02, 0.82, 0.2, 0.42))
   ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips),
-                col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"),
+                col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species N"),
                 xlab = "Time (MYA)")
   # we will plot dated otol arrows at the end bc its too light
   for (i in seq(length(tax_phyloall))){
@@ -236,7 +236,7 @@ make_lttplot_sdm <- function(taxon, tax_phyloall, tax_datedotol, tax_phylomed = 
   grDevices::pdf(file = file_name, height = 3, width = 7)
   par(mai = c(1.02, 0.82, 0.2, 0.42))
   ape::ltt.plot(tax_datedotol, xlim = c(-max_age, 0), ylim = c(0, max_tips),
-                col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species"),
+                col = paste0(col_datedotol, "80"), ylab = paste(taxon, "Species N"),
                 xlab = "Time (MYA)")
   x0 <- x1 <- -max(ape::branching.times(tax_datedotol))
   arrows(x0, y0, x1, y1, length = length_arrowhead, col = paste0(col_datedotol, "80"), lwd = lwd_arrows)

@@ -1,20 +1,22 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
+# plots all chronograms from a phyloall datelife summary, using a sample of colors from rainbow
+# can plot dated otol tree too
 make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_summary, tax_datedotol = NULL,
-    filename = "LTTplot_phyloall", add_legend = FALSE){
+    filename = "LTTplot_phyloall", add_legend = FALSE, add_title = FALSE){
   file_name = paste0("docs/plots/", taxon, "_", filename, ".pdf")
   grDevices::pdf(file = file_name, height = 3.5, width = 7)
   par(mai = c(1.02, 0.82, 0.2, 0.2))
   trees <- tax_phyloall
-  leg_tree <- "source chronograms"
+  leg <- "source chronograms"
+  leg_col <- "#8B008B" # "darkmagenta"
   if(inherits(tax_datedotol, "phylo")){
       # ape::is.ultrametric(tax_datedotol)
       # ape::is.binary(tax_datedotol)
       tax_datedotol <- ape::collapse.singles(tax_datedotol)
       tax_datedotol <- phytools::force.ultrametric(tax_datedotol)
       trees <- c(trees, tax_datedotol)
-      col_datedotol <- "#808080" #gray
-      leg_tree <- c(leg_tree, "dated OToL tree", "median summary chronogram")
+      leg_col <- c(leg_col, "#808080") #gray
+      leg <- c(leg, "dated OToL tree")
 
   }
   class(trees) <- "multiPhylo"
@@ -24,7 +26,6 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_summary, tax_datedoto
   xlim0 <- round(max(max_ages)+5, digits = -1)
   max_tipsall <- sapply(trees, function(x) max(ape::Ntip(x)))
   max_tips <- max(max_tipsall)
-  col_phylomedian <- "#ffa500"  # orange
   # col_phyloall <- "#cce5ff" # blue
   y1 <- 0
   y0 <- -max_tips*0.075
@@ -53,7 +54,6 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_summary, tax_datedoto
         ylim = c(-max_tips*0.30, max_tips),
         col = paste0("#ffffff", "80"), ylab = paste(taxon, "Species N"),
         xlab = "Time (MYA)")
-  # ape::ltt.lines(phy = tax_phylomedian$phylo_median, col = paste0(col_phylomedian, "80"))
   cond2 <- (!duplicated(study_number) | !duplicated(round(max_ages)))
   for (i in seq(length(tax_phyloall))){
     col_phyloall <- col_phyloall_sample[i]
@@ -63,13 +63,15 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_summary, tax_datedoto
     text(x = -max_ages[i], y = y_numbers[i], labels = ifelse(cond2[i], study_number[i], ""),
         font = 4, col = col_phyloall, cex = 0.75)
   }
-  text(labels = paste(taxon, "source chronograms"), x = -xlim0, y = max_tips*0.925, cex = 0.75, adj = 0, font = 1)
+  if(add_title){
+    # text(labels = paste(taxon, "source chronograms"), x = -xlim0, y = max_tips*0.925, cex = 0.75, adj = 0, font = 1)
+    mtext(labels = paste(taxon, "source chronograms"), side = 3, cex = 1, font = 1)    
+  }
   if(add_legend){
-      leg <- paste(taxon, leg_tree)
+      leg <- paste(taxon, leg)
       legend(x = "topleft", #round(-max_age, digits = -1),
              # y = round(max_tips, digits = -2),
-             # legend = leg, col = c(col_datedotol, col_phylomedian, col_phyloall),
-             legend = leg, col = c(col_datedotol, col_phyloall),
+             legend = leg, col = leg_col,
              cex = 0.5, pch = 19, bty = "n")
   }
   dev.off()

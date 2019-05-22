@@ -4,7 +4,7 @@
 # taxaall <- c("Spheniscidae","Cetacea", "Fringilidae", "Hominidae", "Phyllostomidae", "Anolis", "Primates")
 # spp_from_taxon <- c(rep(TRUE, length(taxaall)))
 plan_query <- drake_plan(
-    taxa = c("Spheniscidae","Cetacea", "Fringilidae", "Hominidae", "Phyllostomidae", "Anolis", "Primates"),
+    taxa = c("Spheniscidae","Cetacea", "Fringillidae", "Hominidae", "Phyllostomidae", "Anolis", "Primates"),
     tax_dqall = lapply(seq_along(taxa), function(i)
                 make_datelife_query(taxa[i], get_spp_from_taxon = TRUE)),
     tax_drall = lapply(tax_dqall, get_datelife_result),

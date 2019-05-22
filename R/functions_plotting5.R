@@ -8,7 +8,7 @@ lttplot_summaries <- function(taxon, trees, sdm_summs, median_summs, summs_title
     y_numbers[cond1] <- -max_tips*0.23
     ape::ltt.plot(trees[[1]], xlim = c(-xlim0, 0),
           ylim = c(-max_tips*0.30, max_tips),
-          col = paste0("#ffffff", "10"), ylab = paste(taxon, "Species"),
+          col = paste0("#ffffff", "10"), ylab = paste(taxon, "Species N"),
           xlab = "Time (MYA)") # we need to plot it white because argument plot = FALSE is not working with ltt.plot
     cond2 <- (!duplicated(study_number) | !duplicated(round(max_ages)))
     for (i in seq(length(tax_phyloall))){
