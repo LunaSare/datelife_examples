@@ -6,12 +6,16 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_summary, tax_datedoto
   grDevices::pdf(file = file_name, height = 3.5, width = 7)
   par(mai = c(1.02, 0.82, 0.2, 0.2))
   trees <- tax_phyloall
+  leg_tree <- "source chronograms"
   if(inherits(tax_datedotol, "phylo")){
       # ape::is.ultrametric(tax_datedotol)
       # ape::is.binary(tax_datedotol)
       tax_datedotol <- ape::collapse.singles(tax_datedotol)
       tax_datedotol <- phytools::force.ultrametric(tax_datedotol)
       trees <- c(trees, tax_datedotol)
+      col_datedotol <- "#808080" #gray
+      leg_tree <- c(leg_tree, "dated OToL tree", "median summary chronogram")
+
   }
   class(trees) <- "multiPhylo"
   # class(tax_phyloall)
@@ -20,7 +24,6 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_summary, tax_datedoto
   xlim0 <- round(max(max_ages)+5, digits = -1)
   max_tipsall <- sapply(trees, function(x) max(ape::Ntip(x)))
   max_tips <- max(max_tipsall)
-  col_datedotol <- "#808080" #gray
   col_phylomedian <- "#ffa500"  # orange
   # col_phyloall <- "#cce5ff" # blue
   y1 <- 0
@@ -48,7 +51,7 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_summary, tax_datedoto
   y_numbers[cond1] <- -max_tips*0.23
   ape::ltt.plot(trees[[which.max(max_tipsall)]], xlim = c(-xlim0, 0),
         ylim = c(-max_tips*0.30, max_tips),
-        col = paste0("#ffffff", "80"), ylab = paste(taxon, "Species"),
+        col = paste0("#ffffff", "80"), ylab = paste(taxon, "Species N"),
         xlab = "Time (MYA)")
   # ape::ltt.lines(phy = tax_phylomedian$phylo_median, col = paste0(col_phylomedian, "80"))
   cond2 <- (!duplicated(study_number) | !duplicated(round(max_ages)))
@@ -62,8 +65,7 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_summary, tax_datedoto
   }
   text(labels = paste(taxon, "source chronograms"), x = -xlim0, y = max_tips*0.925, cex = 0.75, adj = 0, font = 1)
   if(add_legend){
-      leg <- paste(taxon, c("dated OToL tree", "median summary chronogram",
-                            "source chronograms"))
+      leg <- paste(taxon, leg_tree)
       legend(x = "topleft", #round(-max_age, digits = -1),
              # y = round(max_tips, digits = -2),
              # legend = leg, col = c(col_datedotol, col_phylomedian, col_phyloall),
