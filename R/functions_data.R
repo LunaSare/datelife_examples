@@ -79,7 +79,7 @@ use_othercals4 <- function(taxon, trees, othercals, expand = 0.1){
     print(taxon)
     bb <- bold_has_brlen(trees)
     res <- lapply(seq(trees), function(i){
-      print(i)
+      cat(i, " - ", bb[i], "\n")
       if(!bb[i]){ # pathd8 does not work with trees with no branch lengths
         return(NA)
       }
@@ -87,6 +87,6 @@ use_othercals4 <- function(taxon, trees, othercals, expand = 0.1){
           calibrations = othercals[[i]], expand = expand)))
       return(xx)
     })
-    class(res) <- "multiPhylo"
+    # class(res) <- "multiPhylo"
     res
 }

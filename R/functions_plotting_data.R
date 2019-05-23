@@ -96,7 +96,7 @@ lttplot_data <- function(taxon, trees, tax_phyloall, max_ages, max_tips, tax_sum
     }
     if(add_legend){
         leg <- paste(taxon, c("source chronograms used as calibrations",
-        "source chronograms used only as topology", "newly generated chronograms"))
+        "source chronograms used only as topology", "new chronograms generated with BLADJ"))
         legend(x = -xlim0, y = max_tips*1.45, legend = leg, cex = 0.9, pch = 19,
             bty = "n", xpd = NA, col = c("#77889980", "#9932CC80", "#00800080"), inset = -1)
     }
