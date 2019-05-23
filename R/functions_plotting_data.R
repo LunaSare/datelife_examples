@@ -38,7 +38,7 @@ make_lttplot_data1 <- function(taxon, crossval, tax_summary, tax_phyloall,
     }
     grDevices::pdf(file = file_name, height = hh, width = 7)
     par(omi = c(0.5,0,0.35,0))
-    par(mfrow = c(rowsies, 2)) # graph ltt in two columns
+    par(mfrow = c(rowsies, 2)) # graph ltts in two columns
     for(i in studies){
       if(i %in% studies[seq(1, length(studies), 2)]){
         par(mai = c(0.2, 0.82, 0.2, 0))
@@ -97,7 +97,7 @@ lttplot_data <- function(taxon, trees, tax_phyloall, max_ages, max_tips, tax_sum
     if(add_legend){
         leg <- paste(taxon, c("source chronograms used as calibrations",
         "source chronograms used only as topology", "newly generated chronograms"))
-        legend(x = -xlim0, y = max_tips*1.35, legend = leg, cex = 0.9, pch = 19,
+        legend(x = -xlim0, y = max_tips*1.38, legend = leg, cex = 0.9, pch = 19,
             bty = "n", xpd = NA, col = c("#77889980", "#9932CC80", "#00800080"), inset = -1)
     }
     if(add_xlabel){

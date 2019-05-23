@@ -7,11 +7,11 @@ loadd(tax_phyloallall)
 loadd(tax_treefromtaxall)  # it errors only with CoL now (segfault) length(tax_treefromtaxall)
 loadd(tax_otolall)
 loadd(tax_allcalall)
-loadd(tax_allcal_datedotolall)
+# loadd(tax_allcal_datedotolall)
 loadd(tax_crossvalall)
 # loadd(tax_crossval2all)
 loadd(tax_eachcalall)
-loadd(tax_eachcal_datedotolall)
+# loadd(tax_eachcal_datedotolall)
 # loadd(tax_med_bladjall)
 # loadd(tax_sdm_bladjall)
 loadd(tax_median_matrixall)
@@ -51,12 +51,12 @@ for(i in seq(taxa)){
         # plot2 = make_plot_global(tree = tax_treefromtaxall[[i]]$phy, title = NULL, taxon = taxa[i], tax_summall[[i]], omi3 = 0, filename = "treefromtax"),
         plot3 = make_plot_global(tree = tax_otolall[[i]], title = NULL, taxon = taxa[i],
             tax_summall[[i]], omi3 = 0, filename = "otol"),
-    	tax_allcal_datedotol = tax_allcal_datedotolall[[i]],
-    	tax_eachcal_datedotol = tax_eachcal_datedotolall[[i]],
+    	# tax_allcal_datedotol = tax_allcal_datedotolall[[i]],
+    	# tax_eachcal_datedotol = tax_eachcal_datedotolall[[i]],
     	tax_crossval = tax_crossvalall[[i]],
     	keep_median = !is.na(tax_median_phyclusterall[[i]]),
-        keep_sdm = !is.na(tax_sdm_phyclusterall[[i]]),
-    	lttplot_phyloall = make_lttplot_phyloall(taxa[i], tax_phyloall, tax_summary),
+      keep_sdm = !is.na(tax_sdm_phyclusterall[[i]]),
+    	lttplot_phyloall = make_lttplot_phyloall(taxa[i], tax_phyloall, tax_summary, add_title = TRUE),
         # lttplot_phyloall2 = make_lttplot_summ2(taxa[i], tax_phyloall, tax_summary,
         #     filename = "make_lttplot_summ2_test", tax_phyloall_color = "other",
         #     tax_phycluster_median = tax_median_phyclusterall[[i]][keep_median],

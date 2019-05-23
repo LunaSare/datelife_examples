@@ -65,7 +65,7 @@ make_lttplot_phyloall <- function(taxon, tax_phyloall, tax_summary, tax_datedoto
   }
   if(add_title){
     # text(labels = paste(taxon, "source chronograms"), x = -xlim0, y = max_tips*0.925, cex = 0.75, adj = 0, font = 1)
-    mtext(labels = paste(taxon, "source chronograms"), side = 3, cex = 1, font = 1)    
+    mtext(text = paste(taxon, "source chronograms"), side = 3, cex = 1, font = 2, line = -1.5)    
   }
   if(add_legend){
       leg <- paste(taxon, leg)

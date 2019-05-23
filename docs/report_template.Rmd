@@ -245,23 +245,23 @@ We will take the median and sdm summary chronograms to date the Synthetic tree o
 As an example, we're gonna date the subspecies tree of the group using all approaches
 for generating new data.
 ```{r echo = FALSE}
-txtA <- toupper("Something is missing.")
-if(!inherits(tax_allcal_datedotol, "list")){
-  txtA <- paste(taxon, "and no tree could be constructed.")
-} else {
-    if(is.null(tax_allcal_datedotol$phy)){
-      txtA <- paste(taxon, "and they do not agree, so no tree could be constructed.")
-    } else {
-      if(all(is.na(tax_allcal_datedotol$phy$edge.length))){
-        txtA <- paste(taxon, "and a tree was constructed, but all branch lengths are NA.")
-      } else {
-          txtA <- paste(taxon, "and a tree with", ape::Ntip(tax_allcal_datedotol$phy), "tips,",
-                        round(tax_allcal_datedotol$phy$Nnode/ape::Ntip(tax_allcal_datedotol$phy)*100),
-                        "% resolved nodes and a MRCA of",
-                        round(max(ape::branching.times(tax_allcal_datedotol$phy))),"was constructed.")
-      }
-    }
-}
+# txtA <- toupper("Something is missing.")
+# if(!inherits(tax_allcal_datedotol, "list")){
+#   txtA <- paste(taxon, "and no tree could be constructed.")
+# } else {
+#     if(is.null(tax_allcal_datedotol$phy)){
+#       txtA <- paste(taxon, "and they do not agree, so no tree could be constructed.")
+#     } else {
+#       if(all(is.na(tax_allcal_datedotol$phy$edge.length))){
+#         txtA <- paste(taxon, "and a tree was constructed, but all branch lengths are NA.")
+#       } else {
+#           txtA <- paste(taxon, "and a tree with", ape::Ntip(tax_allcal_datedotol$phy), "tips,",
+#                         round(tax_allcal_datedotol$phy$Nnode/ape::Ntip(tax_allcal_datedotol$phy)*100),
+#                         "% resolved nodes and a MRCA of",
+#                         round(max(ape::branching.times(tax_allcal_datedotol$phy))),"was constructed.")
+#       }
+#     }
+# }
 ```
 
 Now, let's say you like the Open Tree of Life Taxonomy and you want to stick to
