@@ -92,3 +92,18 @@ for(j in seq(crossval_pathd8_exp1_3)){
 }
 make_lttplot_data1(taxa[3], crossval_pathd8_exp1_3, tax_summaryall[[3]], tax_phyloallall[[3]],
   dating_method = "PATHd8", filename = "lttplot_crossval_pathd8_exp1")
+
+make_bold_otol_tree(input = tax_phyloallall[[3]][4], chronogram = TRUE)
+tax_phyloall_bold[[3]] <- get_bold_trees(taxon = taxa[3], phyloall = tax_phyloallall[[3]])
+crossval_pathd8_exp1 <- vector(mode = "list", length = length(tax_phyloall_bold))
+crossval_pathd8_exp1[[3]] <- use_othercals4(taxa[3], tax_phyloall_bold[[3]], tax_othercalall[[3]])
+crossval_pathd8_summ1 <- vector(mode = "list", length = length(tax_phyloall_bold))
+crossval_pathd8_summ1[[3]] <- use_othercals4(taxa[3], tax_phyloall_bold[[3]], tax_othercalall[[3]], expand = 0)
+
+i=13
+use_calibrations_pathd8(tax_phyloall_bold[[3]][[i]], calibrations = tax_othercalall[[3]][[i]], expand = 0.1)
+sapply(crossval_pathd8_exp1[[3]], inherits, "phylo")
+names(tax_phyloallall[[3]])[bold_has_brlen(crossval_pathd8_exp1[[3]])]
+
+sapply(crossval_pathd8_summ1[[3]], inherits, "phylo")
+names(tax_phyloallall[[3]])[bold_has_brlen(crossval_pathd8_summ1[[3]])]

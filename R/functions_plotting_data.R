@@ -3,6 +3,7 @@ make_lttplot_data1 <- function(taxon, crossval, tax_summary, tax_phyloall,
     names(crossval) <- names(tax_phyloall)
     crossval <- crossval[!is.na(crossval)]
     crossval <- crossval[sapply(crossval, ape::Ntip) > 2]
+    crossval <- crossval[bold_has_brlen(crossval)]
     max_ages <- tax_summary$mrca
     max_tips <- max(sapply(tax_phyloall, function(x) max(ape::Ntip(x))))
     studiesall <- sort(unique(names(tax_phyloall))) # same as unique(names(tax_phyloall))[order(unique(names(tax_phyloall)))]
@@ -31,13 +32,13 @@ make_lttplot_data1 <- function(taxon, crossval, tax_summary, tax_phyloall,
       hh <- 3.5
     }
     if(rowsies == 2){
-      hh <- 6.5
+      hh <- 6.3
     }
     if(rowsies > 2){
       hh <- 9
     }
     grDevices::pdf(file = file_name, height = hh, width = 7)
-    par(omi = c(0.5,0,0.35,0))
+    par(omi = c(0.5,0,0.5,0))
     par(mfrow = c(rowsies, 2)) # graph ltts in two columns
     for(i in studies){
       if(i %in% studies[seq(1, length(studies), 2)]){
@@ -96,8 +97,8 @@ lttplot_data <- function(taxon, trees, tax_phyloall, max_ages, max_tips, tax_sum
     }
     if(add_legend){
         leg <- paste(taxon, c("source chronograms used as calibrations",
-        "source chronograms used only as topology", "new chronograms generated with BLADJ"))
-        legend(x = -xlim0, y = max_tips*1.45, legend = leg, cex = 0.9, pch = 19,
+        "source chronograms used only as topology", paste("new chronograms generated with", dating_method)))
+        legend(x = -xlim0, y = max_tips*1.5, legend = leg, cex = 0.9, pch = 19,
             bty = "n", xpd = NA, col = c("#77889980", "#9932CC80", "#00800080"), inset = -1)
     }
     if(add_xlabel){
