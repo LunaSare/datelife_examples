@@ -8,7 +8,7 @@ my_table_format <- function(tt){
   return(res)
 }
 loadd(tax_phyloall_boldi)
-loadd(tax_phyloall_bold_notci)
+# loadd(tax_phyloall_bold2i)
 loadd(tax_allcal)
 loadd(taxon)
 loadd(tax_dq)

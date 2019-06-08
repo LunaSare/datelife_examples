@@ -25,6 +25,8 @@ loadd(sdm_summtreesall)
 loadd(median_summtreesall)
 loadd(tax_datedotolall)
 loadd(tax_summaryall)
+loadd(crossval_bladjall)
+loadd(tax_phyloall_bold)
 for(i in seq(taxa)){
     print(taxa[i])
     plan_report <- drake_plan(
