@@ -4,6 +4,10 @@ make_lttplot_data1 <- function(taxon, crossval, tax_summary, tax_phyloall,
     crossval <- crossval[!is.na(crossval)]
     crossval <- crossval[sapply(crossval, ape::Ntip) > 2]
     crossval <- crossval[bold_has_brlen(crossval)]
+    if(length(crossval) == 0){
+      message("No phylogenies where succesful in cross validation")
+      return(NA)
+    }
     max_ages <- tax_summary$mrca
     max_tips <- max(sapply(tax_phyloall, function(x) max(ape::Ntip(x))))
     studiesall <- sort(unique(names(tax_phyloall))) # same as unique(names(tax_phyloall))[order(unique(names(tax_phyloall)))]

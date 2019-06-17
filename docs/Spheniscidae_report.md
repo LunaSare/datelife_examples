@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-06-08"
+date: "2019-06-17"
 output: bookdown::pdf_document2
 bibliography: library_red.bib
 csl: systematic-biology.csl
@@ -30,43 +30,4 @@ vignette: >
 
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Hola

@@ -1,5 +1,4 @@
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# self validation tests
 loadd(tax_phyloallall)
 loadd(tax_datedotolall)
 loadd(tax_otolall)
@@ -25,7 +24,7 @@ plan_data <- drake_plan(
       print(taxa[i])
       use_eachcal_crossval(trees = tax_phyloallall[[i]], eachcal = tax_eachcalall[[i]])
   })
-  # this was just to chck that it was the same with our without branch lengths as input.
+  # this was just to check that it was the same with our without branch lengths as input.
   # it is the same output so we are not running it again
   # tax_phyloall_wobrlenall = lapply(tax_phyloallall, rm_brlen.multiPhylo),
   # tax_crossval2all = lapply(seq(tax_phyloall_wobrlenall), function(i)

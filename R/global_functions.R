@@ -13,10 +13,8 @@ get_summ_trees <- function(summ_matrix, tax_sdm_phycluster){
 }
 
 get_bladjtree <- function(dated_tree, backbone){
-  res <- tryCatch(tree_add_dates(dated_tree = dated_tree,
-                                 missing_taxa = backbone,
-                                 dating_method = "bladj"),
-                  error = function(e) NA)
+  res <- tryCatch(tree_add_dates(dated_tree = dated_tree, missing_taxa = backbone,
+      dating_method = "bladj"), error = function(e) NA)
   return(res)
 }
 get_treefromtax <- function(tax_dq, source){

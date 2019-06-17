@@ -1,0 +1,67 @@
+treefile = .tmp_treePL.intree
+
+numsites = 10000
+
+mrca = n2 Fringilla_montifringilla Emberiza_schoeniclus
+mrca = n4 Cardinalis_sinuatus Pheucticus_aureoventris
+mrca = n7 Pheucticus_aureoventris Pheucticus_melanocephalus
+mrca = n8 Emberiza_schoeniclus Emberiza_bruniceps
+mrca = n9 Emberiza_fucata Emberiza_schoeniclus
+mrca = n10 Emberiza_chrysophrys Emberiza_fucata
+mrca = n11 Emberiza_pusilla Emberiza_chrysophrys
+mrca = n12 Emberiza_rutila Emberiza_pusilla
+mrca = n14 Emberiza_bruniceps Emberiza_melanocephala
+mrca = n17 Emberiza_citrinella Emberiza_leucocephalos
+mrca = n18 Fringilla_montifringilla Coccothraustes_coccothraustes
+mrca = n19 Fringilla_coelebs Fringilla_montifringilla
+mrca = n20 Bucanetes_githagineus Coccothraustes_coccothraustes
+mrca = n21 Eophona_personata Coccothraustes_coccothraustes
+mrca = n22 Eophona_personata Eophona_migratoria
+mrca = n23 Carpodacus_erythrinus Haemorhous_mexicanus
+mrca = n27 Serinus_canaria Spinus_spinus
+
+min = n2 20.43652851
+max = n2 22.2772041722689
+min = n4 14.5872600666667
+max = n4 18.037853
+min = n7 3.53231400000001
+max = n7 4.36787700000001
+min = n8 10.33915
+max = n8 10.5051353717949
+min = n9 7.361847
+max = n9 7.44399078571431
+min = n10 6.41083
+max = n10 6.64529733333335
+min = n11 4.75047
+max = n11 5.10966366666668
+min = n12 3.31742000000001
+max = n12 4.42888150000002
+min = n14 3.345849
+max = n14 3.95413
+min = n17 0.151623000000008
+max = n17 0.57602600000002
+min = n18 22.1999999731183
+max = n18 22.1999999731183
+min = n19 7.04150000000001
+max = n19 22.2772041722689
+min = n20 16.5802852803828
+max = n20 16.5802852803828
+min = n21 14.8006135
+max = n21 14.82354
+min = n22 3.76560100000001
+max = n22 4.39999500000001
+min = n23 7.26387700000002
+max = n23 7.71602200000001
+min = n27 3.062399
+max = n27 3.062399
+
+outfile = .tmp_treePL.dated.tre
+
+smooth=100
+nthreads=1
+optad=0
+opt=1
+cvstart=1000
+cviter=3
+cvend=0.1
+thorough=TRUE

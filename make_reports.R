@@ -20,7 +20,7 @@ source("R/plan_query.R")
 source("R/plan_summ.R")
 source("R/plan_summ2.R")
 # source("R/plan_sim.R")
-source("R/plan_data.R")
-source("R/plan_data2.R")
+source("R/plan_data.R") # self validation tests
+source("R/plan_data2.R") # cross validation tests
 
 source("R/plan_report.R")

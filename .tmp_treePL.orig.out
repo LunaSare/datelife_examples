@@ -1,0 +1,138 @@
+outfile: .tmp_treePL.dated.tre
+setting the maximum number of threads to 8
+setting optad: 0
+setting opt: 1
+cvstart: 1000
+cv number of full iterations: 3
+set thorough: true (MAY TAKE A WHILE)
+finished reading config file
+using system clock for random number seed = 1559788976
+tiny branch length at internal node. setting to 0.0001
+setting n10 min: 6.41083
+setting n11 min: 4.75047
+setting n12 min: 3.31742
+setting n14 min: 3.345849
+setting n17 min: 0.151623
+setting n18 min: 22.2
+setting n19 min: 7.0415
+setting n2 min: 20.436529
+setting n20 min: 16.580285
+setting n21 min: 14.800614
+setting n22 min: 3.765601
+setting n23 min: 7.263877
+setting n27 min: 3.062399
+setting n4 min: 14.58726
+setting n7 min: 3.532314
+setting n8 min: 10.33915
+setting n9 min: 7.361847
+setting n10 max: 6.6452973
+setting n11 max: 5.1096637
+setting n12 max: 4.4288815
+setting n14 max: 3.95413
+setting n17 max: 0.576026
+setting n18 max: 22.2
+setting n19 max: 22.277204
+setting n2 max: 22.277204
+setting n20 max: 16.580285
+setting n21 max: 14.82354
+setting n22 max: 4.399995
+setting n23 max: 7.716022
+setting n27 max: 3.062399
+setting n4 max: 18.037853
+setting n7 max: 4.367877
+setting n8 max: 10.505135
+setting n9 max: 7.4439908
+preorder prep
+calculating character durations
+setting min and max
+setting up all constraints
+getting feasible start dates
+start rate 7.4014105
+numparams:31
+initial calc: 1e+15
+problem initializing. trying again.
+attempting to get feasible start rates/dates.
+new start rate 7.0905343
+initial calc: 1e+15
+problem initializing. trying again.
+attempting to get feasible start rates/dates.
+new start rate 7.0386703
+initial calc: 1e+15
+problem initializing. trying again.
+attempting to get feasible start rates/dates.
+new start rate 7.2873121
+initial calc: 1e+15
+problem initializing. trying again.
+attempting to get feasible start rates/dates.
+new start rate 6.8254698
+initial calc: 1e+15
+problem initializing. trying again.
+attempting to get feasible start rates/dates.
+new start rate 7.1641127
+initial calc: 1e+15
+problem initializing. trying again.
+attempting to get feasible start rates/dates.
+new start rate 7.2894198
+initial calc: 1e+15
+problem initializing. trying again.
+attempting to get feasible start rates/dates.
+new start rate 7.1275367
+initial calc: 1e+15
+problem initializing. trying again.
+attempting to get feasible start rates/dates.
+new start rate 7.3558619
+initial calc: 1e+15
+problem initializing. trying again.
+attempting to get feasible start rates/dates.
+new start rate 7.1000874
+initial calc: 1e+15
+problem initializing. trying again.
+attempting to get feasible start rates/dates.
+new start rate 7.1813807
+initial calc: 1.9412222e+08
+feasible start rates/dates found
+LF SIM
+exit siman: 5103365.4
+setting NLOPT: LD_LBFGS 
+result: 3
+after opt calc1: 5065537.3
+nfeval: 66 rc: Linear search failed
+after opt calc2: 5065537.3
+LF SIM
+exit siman: 5063314.5
+setting NLOPT: LD_LBFGS 
+result: 3
+after opt calc1: 5063306.8
+nfeval: 29 rc: Local minima reach (|pg| ~= 0)
+after opt calc2: 5063306.8
+LF SIM
+exit siman: 5063306.8
+setting NLOPT: LD_LBFGS 
+result: 3
+after opt calc1: 5063306.8
+nfeval: 4 rc: Local minima reach (|pg| ~= 0)
+after opt calc2: 5063306.8
+exited lf converged :1
+lf calc: 5063306.8
+numparams:96
+smoothing:100
+5063306.8
+exit siman: 5063306.8
+setting NLOPT: LD_LBFGS 
+result: 3
+after opt calc1: 5063284.7
+nfeval: 24 rc: Linear search failed
+after opt calc2: 5063284.7
+exit siman: 5063284.7
+setting NLOPT: LD_LBFGS 
+result: 3
+after opt calc1: 5063284.7
+nfeval: 44 rc: Linear search failed
+after opt calc2: 5063284.7
+exit siman: 5063284.7
+setting NLOPT: LD_LBFGS 
+result: 3
+after opt calc1: 5063284.7
+nfeval: 25 rc: Linear search failed
+after opt calc2: 5063284.7
+after opt calc: 5063284.7
