@@ -1,7 +1,7 @@
 ---
 title: "DateLife Workflows"
 author: "Luna L. Sanchez Reyes"
-date: "2019-05-16"
+date: "2019-06-18"
 output: bookdown::pdf_document2
 bibliography: library_red.bib
 csl: systematic-biology.csl
@@ -30,23 +30,21 @@ vignette: >
 
 ---
 
-
 \raggedright
 
 # Taxon Cetacea
 
 ## 1. Query source chronograms
-There are 198 subspecies in the Open Tree of Life Taxonomy for the taxon Cetacea.
+There are 95 species in the taxon Cetacea, following the NCBI taxonomy database.
 Information on time of divergence is available for
 89
 of these species across 6 published and peer-reviewed chronograms.
 Original study citations as well as number of Cetacea species found across those source
-chronograms is shown in Table 1. All source chronograms are fully ultrametric and their maximum
+chronograms is shown in `Table` \ref{tab:source_chr}. All source chronograms are fully ultrametric and their maximum
 ages range from 33.5 to
 55.5 million years ago (MYA).
 As a means for comparison, lineage through time plots of all source chronograms
-available in data base are shown in figure \ref{fig:lttplot_phyloall}.
-
+available in data base are shown in `Figure` \ref{fig:lttplot_phyloall}.
 
 ## 2. Summarize results from query
 
@@ -57,9 +55,9 @@ The first step is to identify the degree of species overlap among your source ch
 source chronogram has a unique sample of species, it will not be possible to combine
 them into a single summary chronogram. To identify the set of trees or _grove_ with the most source
 chronograms that have at least two overlapping taxa, we followed Ané et al. 2016.
-In this case, not all source chronograms found for the  Cetacea  have at least two overlapping species. The largest grove has  2  chronograms (out of  6  total source chronograms).
+In the case of the  Cetacea  all source chronograms have at least two overlapping species.
 
-Now that we have identified a grove 
+Now that we know that the best grove has all source chronograms 
 we can go on to summarize it by translating the source chronograms into patristic distance matrices and
 then averaging them into a single summary matrix; yes, this first step is _that_
 straightforward. We can average the source matrices by simply using the mean or
@@ -114,24 +112,24 @@ not make any evolutionary assumptions on age distribution. Other software such a
 MrBayes and r8s can be used instead of BLADJ by running them without data.
 In here, we show summary chronograms obtained using minimum, mean and maximum distances
 from the summary of node divergence times of the backbone tree as fixed ages in
-BLADJ (Fig. 3).
+BLADJ (`Figure` \ref{fig:lttplot_summchrono}).
 Summary chronograms from both types of summary matrices are quite similar. As expected,
 SDM chronograms using minimum, mean and maximum distances do not vary much in their
 maximum age, because ages are transformed to minimize the variance. In contrast,
 the median chronograms obtained with minimum, mean and maximum distances have wider variation
 in their maximum ages, as can be observed in the distance between the green arrows
-in Fig. 3. This variation simply represents variation in source data.
-
+in `Figure` \ref{fig:lttplot_summchrono}. This variation simply represents variation in source data.
 
 ## 3. Generate new chronograms
 
-Another way to leverage information from the source chronograms is to use their node
+Another way to take advantage of the information available in source chronograms
+is to use their node
 ages as secondary calibration points to date any tree topology (with or without
 branch lengths) given that at least two taxa from source chronograms are in
-the tips of that topology.
+the tips of the topology of interest.
 In this data set we have 425 calibrations in total (that basically
 corresponds to the sum of the number of nodes from each source chronogram).
-Once we have a target tree topology, we can map the calibrations to the target tree.
+Once we have chosen or generated a target tree topology, we can map the calibrations to the target tree.
 Some nodes will have several calibrations and some others might have none. Also,
 some node ages can be conflicting, with descendant nodes being older than parent nodes.
 We performed a series of cross validation analyses with different dating methods, by
@@ -143,61 +141,40 @@ To date a tree in the absence of data on relative evolutionary rates (molecular
 or morphological) we follow the same methodology as the one used to obtain summary
 chronograms. First, we obtained the nodes that correspond to each pair of taxa in the data
 set of total calibrations to construct a summary of node calibrations for the backbone
-tree. Then, we used mean ages as secondary calibrations for the backbone tree with
-the software BLADJ. In general, the time of divergence information from other source
-chronograms allows to recover the divergence times from the original study. In some cases,
+tree. Then, we apply minimum, mean or maximum node ages as secondary calibrations
+over the backbone tree using the software BLADJ.
+In general, the time of divergence information from other source
+chronograms allows to recover the divergence times from the original study (`Figure`
+  \ref{fig:lttplot_crossval_bladj}). In some cases,
 it is evident that information from a particular study really affects the summary
 of divergence times. In some other cases, the root of the tree is not calibrated.
 Since BLADJ has no underlying model of evolution, there is no way for the algorithm
-to calculate this age. To fix this, we simply added a unit of the mean difference across
-ranked ages from secondary calibrations (Fig. 4).
+to calculate this age. To fix this, we simply added a unit of the mean difference
+across ranked ages from secondary calibrations.
 
 ### 3.2. Calibrate a tree with data
 If you have a tree with branch lengths proportional to relative substitution rates,
-you can use the source chronogram node ages as secondary calibrations with various
-algorithms for phylogenetic dating to get branch lengths proportional to absolute time.
+you can use the source chronogram node ages as secondary calibrations with
+other algorithms for phylogenetic dating to get branch lengths proportional to
+absolute time such as PATHd8, treePL and MrBayes.
 To exemplify this, we got DNA markers from the Barcode of Life Database (BOLD)
-to estimate branch lengths as relative DNA substitution rates on a tree topology of our choosing.
-In this example we retrieved data from the cytochrome C oxidase subunit I (COI) marker, that is of
-widespread use in barcoding, providing DNA data for a very wide number of organisms.
+to estimate branch lengths as relative DNA substitution rates on a backbone tree topology.
+For this example, we retrieved data from the cytochrome C oxidase subunit I (COI) marker, that is of
+widespread use in barcoding, providing DNA data for a wide number of organisms.
 <!-- source_chronogram_bold_tree <- make_bold_otol_tree(input = source_chronogram_topology,
 marker = "COI", otol_version = "v3", chronogram = TRUE)
 source_chronogram_bold_tree_notc <- make_bold_otol_tree(input = source_chronogram_topology,
 marker = "COI", otol_version = "v3", chronogram = FALSE)
 -->
-Unfortunately, a tree with branch lengths could not be
-    constructed for any of the source chronograms available for the Cetacea, so this workflow will not be exemplified here. This can happen for several
-    reasons. If the tree has only two tips, the tree search cannot be performed. If the Please look into other DateLife
-    examples available in here for more infromation about this workflow.
-
-### 3.2.1. Expanding calibrations
-
-### 3.2.2. Summarizing calibrations (congruifying calibrations)
-
+A tree with branch lengths could be constructed for 6 source chronograms (out of 6) available for the Cetacea. To date these
+        trees we use the software PATHd8 for tree dating without a molecular
+        clock model, using calibrations from all other source chronograms. Sometimes,
+        calibrations conflict between them. To deal with conflicting calibrations,
+        we can either expand them to make them agree, or we can congruify them to
+        the topology of the tree to be dated. Unfortunately, only summarizing calibrations was succesful.
+Here discuss `Figure` \ref{fig:lttplot_crossval_pathd8_summ1}.
 
 
-
-<!--
-## 4. Simulate data/ Add missing taxa
-Finally, if data can be added to An alternative to generate a dated tree from a set of taxa is to take the available
-information and simulate into it the missing data.
-We will take the median and sdm summary chronograms to date the Synthetic tree of Life:
-
--->
-
-\newpage
-
-## 4. Example with subspecies tree
-As an example, we're gonna date the subspecies tree of the group using all approaches
-for generating new data.
-
-
-Now, let's say you like the Open Tree of Life Taxonomy and you want to stick to
-that tree. Dates from available studies were tested over the Open Tree of Life
-Synthetic tree of Cetacea and a tree was constructed, but all branch lengths are NA.
-We also tried  each source chronogram independently, with the Dated OToL and with
-each other, as a form of cross validation in Table 2. This is not working
-perfectly yet, but we are developping new ways to use all calibrations efficiently.
 
 \newpage
 
@@ -205,120 +182,92 @@ perfectly yet, but we are developping new ways to use all calibrations efficient
 
 
 \begin{longtable}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{11cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.8cm}}
-\caption{\label{tab:unnamed-chunk-6}Cetacea source chronogram studies information.}\\
+\caption{\label{tab:source_chr}Cetacea source chronogram original studies information.}\\
 \toprule
 \multicolumn{1}{>{\centering\arraybackslash}p{0.4cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{   }}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{11cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Citation}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.5cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Source N}}\endgroup} & \multicolumn{1}{>{\centering\arraybackslash}p{1.8cm}}{\begingroup\fontsize{9}{11}\selectfont \em{\textbf{Taxon N}}\endgroup}\\
 \midrule
-\multicolumn{1}{r}{\em{\textbf{1.}}} & \bgroup\fontsize{8}{10}\selectfont Bininda-Emonds, Olaf R. P., Marcel Cardillo, Kate E. Jones, Ross D. E. MacPhee, Robin M. D. Beck, Richard Grenyer, Samantha A. Price, Rutger A. Vos, John L. Gittleman, Andy Purvis. 2007. The delayed rise of present-day mammals. Nature 446 (7135): 507-512\egroup{} & \multicolumn{1}{c}{3} & \multicolumn{1}{c}{78/198}\\
-\multicolumn{1}{r}{\em{\textbf{2.}}} & \bgroup\fontsize{8}{10}\selectfont Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{79/198}\\
-\multicolumn{1}{r}{\em{\textbf{3.}}} & \bgroup\fontsize{8}{10}\selectfont Steeman, M., Hebsgaard M., Fordyce R., Ho S., Rabosky D., Nielsen R., Rahbek C., Glenner H., Sørensen M., \& Willerslev E. 2009. Radiation of Extant Cetaceans Driven by Restructuring of the Oceans. Systematic Biology 58 (6): 573-585.\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{86/198}\\
-\multicolumn{1}{r}{\em{\textbf{4.}}} & \bgroup\fontsize{8}{10}\selectfont Toljagi\&\#263; O., Voje K.L., Matschiner M., Liow L., \& Hansen T.F. 2017. Millions of Years Behind: Slow Adaptation of Ruminants to Grasslands. Systematic Biology, .\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{32/198}\\
+\multicolumn{1}{r}{\em{\textbf{1.}}} & \bgroup\fontsize{8}{10}\selectfont Bininda-Emonds, Olaf R. P., Marcel Cardillo, Kate E. Jones, Ross D. E. MacPhee, Robin M. D. Beck, Richard Grenyer, Samantha A. Price, Rutger A. Vos, John L. Gittleman, Andy Purvis. 2007. The delayed rise of present-day mammals. Nature 446 (7135): 507-512\egroup{} & \multicolumn{1}{c}{3} & \multicolumn{1}{c}{78/95}\\
+\multicolumn{1}{r}{\em{\textbf{2.}}} & \bgroup\fontsize{8}{10}\selectfont Hedges, S. Blair, Julie Marin, Michael Suleski, Madeline Paymer, Sudhir Kumar. 2015. Tree of life reveals clock-like speciation and diversification. Molecular Biology and Evolution 32 (4): 835-845\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{79/95}\\
+\multicolumn{1}{r}{\em{\textbf{3.}}} & \bgroup\fontsize{8}{10}\selectfont Steeman, M., Hebsgaard M., Fordyce R., Ho S., Rabosky D., Nielsen R., Rahbek C., Glenner H., Sørensen M., \& Willerslev E. 2009. Radiation of Extant Cetaceans Driven by Restructuring of the Oceans. Systematic Biology 58 (6): 573-585.\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{86/95}\\
+\multicolumn{1}{r}{\em{\textbf{4.}}} & \bgroup\fontsize{8}{10}\selectfont Toljagi\&\#263; O., Voje K.L., Matschiner M., Liow L., \& Hansen T.F. 2017. Millions of Years Behind: Slow Adaptation of Ruminants to Grasslands. Systematic Biology, .\egroup{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{32/95}\\
 \bottomrule
 \multicolumn{4}{l}{{\textbf{\textit{Source N}}}: Number of source chronograms reported in study.}\\
 \multicolumn{4}{l}{{\textbf{\textit{Taxon N}}}: Number of queried taxa found in source chronograms.}\\
 \end{longtable}
-
-<!--
-\newpage
-
-\begin{table}[t]
-
-\caption{\label{tab:unnamed-chunk-7}Was it successful to use each source chronogram independently as calibration (CalibN) against the Dated Open Tree of Life (dOToL) and each other (ChronoN)?}
-\fontsize{9}{11}\selectfont
-\begin{tabular}{llllllll}
-\toprule
-  & dOToL & Chrono1 & Chrono2 & Chrono3 & Chrono4 & Chrono5 & Chrono6\\
-\midrule
-Calibrations1 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
-Calibrations2 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
-Calibrations3 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
-Calibrations4 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
-Calibrations5 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
-\addlinespace
-Calibrations6 & TRUE & TRUE & FALSE & FALSE & FALSE & TRUE & TRUE\\
-\bottomrule
-\end{tabular}
-\end{table}
--->
 \newpage
 
 
-\begin{figure}[h!]
-	\includegraphics{plots/Cetacea_LTTplot_phyloall.pdf}
-	\caption{Lineage through time (LTT) plots of source chronograms available in data base
-  for species in the Cetacea. Numbers correspond to original studies in Table 1. Arrows indicate maximum age of each chronogram.}
-	\label{fig:lttplot_phyloall}
+\begin{figure}[!h]
+\includegraphics{plots/Cetacea_LTTplot_phyloall.pdf}
+\caption{Lineage through time (LTT) plots of source chronograms
+  available in database for species in the Cetacea. Numbers correspond to original
+  studies in Table \ref{tab:source_chr}. Arrows indicate maximum age of each chronogram.}
+\label{fig:lttplot_phyloall}
 \end{figure}
 
 \newpage
 
 
-\begin{figure}[h!]
-	\includegraphics{plots/Cetacea_lttplot_cluster_median.pdf}
-	\caption{Lineage Through Time plots of Cetacea median summary
+\begin{figure}[!h]
+\includegraphics{plots/Cetacea_lttplot_cluster_median.pdf}
+\caption{Lineage Through Time plots of Cetacea median summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with this summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the SDM summary matrix are very similar to the ones from
 the median summary matrix with all clustering algorithms (Appendix Fig. \ref{fig:lttplot_cluster_sdm}).}
-	\label{fig:lttplot_cluster_median}
+\label{fig:lttplot_cluster_median}
 \end{figure}
 
 \newpage
 
 
-\begin{figure}[h!]
-	\includegraphics{plots/Cetacea_LTTplot_summary_chronograms.pdf}
-	\caption{Cetacea lineage through time (LTT) plots from
-    source chronograms (gray), median (green) and SDM (blue) summary chronograms
+\begin{figure}[!h]
+\includegraphics{plots/Cetacea_LTTplot_summary_chronograms2.pdf}
+\caption{Cetacea lineage through time (LTT) plots of summary chronograms
     obtained by calibrating a consensus tree tropology with distance data
-    from respective summary matrices and then adjusting branch lengths with BLADJ.}
-	\label{fig:lttplot_summchrono}
+    from median (upper) and SDM (lower) summary matrices and then adjusting branch
+    lengths with BLADJ. Source chronograms are shown in gray for comparison.}
+\label{fig:lttplot_summchrono}
 \end{figure}
 
 \newpage
 
 
-\begin{figure}[h!]
-	\includegraphics{plots/Cetacea_LTTplot_crossval_bladj.pdf}
-	\caption{Cetacea lineage through time (LTT) plots from
+\begin{figure}[!h]
+\includegraphics{plots/Cetacea_LTTplot_crossval_bladj.pdf}
+\caption{Cetacea lineage through time (LTT) plots from
     source chronograms used as secondary calibrations (gray), source chronograms
     used as topology (purple) and chronograms resulting from calibrating the latter
     with the former, using BLADJ (green).}
-	\label{fig:lttplot_crossval_bladj}
+\label{fig:lttplot_crossval_bladj}
 \end{figure}
-\break
-\newpage
 
-# Appendix
-The following species were not found in the chronogram database:  *Amphiptera pacifica**, **Balaena agamachschik**, **Balaena mangidach**, **Balaenoptera andrejewi**, **Balaenoptera caerulescens**, **Balaenoptera emargenata**, **Balaenoptera grimmi**, **Balaenoptera maculata**, **Balaenoptera nigra**, **Balaenoptera punctulata**, **Catodon polycyphus**, **Catodon polyscyphus**, **Catodon svineval**, **Cephalorhyncus commersonii**, **Cephalorhyncus heavisidii**, **Clymenia gadamu**, **Delphinapterus senedetta**, **Delphinorhynchus maculatus**, **Delphinorhynchus pernettyi**, **Delphinorhynchus santonicus**, **Delphinus abusalam**, **Delphinus anarnacus**, **Delphinus attenuatus**, **Delphinus bertini**, **Delphinus bonnaterrei**, **Delphinus boryi**, **Delphinus caerulescens**, **Delphinus carbonarius**, **Delphinus coronatus**, **Delphinus cymodice**, **Delphinus cymodoce**, **Delphinus epiodon**, **Delphinus eurynome**, **Delphinus fabricii**, **Delphinus feres**, **Delphinus gadamu**, **Delphinus hamatus**, **Delphinus harlani**, **Delphinus leucocephalus**, **Delphinus livittatus**, **Delphinus maculatus**, **Delphinus maculiventer**, **Delphinus minimus**, **Delphinus nesarnac**, **Delphinus niger**, **Delphinus pernettyensis**, **Delphinus pernetyi**, **Delphinus perniger**, **Delphinus rappii**, **Delphinus rhinoceros**, **Delphinus salam**, **Delphinus siculus**, **Delphinus symodice**, **Delphinus walkeri**, **Epiodon rafinesque**, **Epiodon urganantus**, **Eudelphinus tasmaniensis**, **Globicephala macrorhyncus**, **Globicephalus fuscus**, **Globicephalus uneidens**, **Globiocephalus chinensis**, **Inia araguaiaensis**, **Inia boliviensis**, **Lagenodelphis australis**, **Lagenodelphis obliquidens**, **Lagenoelphis hosei**, **Lagenorhynchus bombifrons**, **Lagenorhynchus nilssonii**, **Lagenorhynchus posidonia**, **Lagenorhynchus superciliosus**, **Lagenorhyncus acutus**, **Lagenorhyncus albirostris**, **Lagenorhyncus australis**, **Lagenorhyncus cruciger**, **Lagenorhyncus obliquidens**, **Lagenorhyncus obscurus**, **Mesoplodon hotaula**, **Mesoplodon lazardii**, **Monodon spurius**, **Neophocaena asiaeorientalis**, **Phocaena posidonia**, **Physeter gibbosus**, **Physeter katadon**, **Physeter krefftii**, **Physeter polycephus**, **Physeter polycystus**, **Physeter pterodon**, **Platanista indi**, **Prodelphinus malayanus**, **Sotalia gadamu**, **Sotalia maculiventer**, **Sotalia perniger**, **Sotalia santonicus**, **Sousa gadamu**, **Sousa plumbea**, **Sousa sahulensis**, **Steno fuscus**, **Steno gadamu**, **Steno malayanus**, **Steno perniger**, **Tursio catalania**, **Tursio cymodoce**, **Tursio eurynome**, **Tursiops australis**, **Tursiops catalania**, **Tursiops cymodice**, **Tursiops dawsoni**, **Tursiops fergusoni**, **Tursiops nesarnack*
+
+\newpage
 
 
 \begin{figure}[h!]
-	\includegraphics{plots/Cetacea_lttplot_cluster_sdm.pdf}
-	\caption{Lineage Through Time plots of Cetacea SDM summary
+	\includegraphics{plots/Cetacea_LTTplot_crossval_pathd8_summ1.pdf}
+	\caption{Cetacea lineage through time (LTT) plots from
+      source chronograms used as secondary calibrations (gray), source chronograms
+      used as topology (purple) and chronograms resulting from calibrating the latter
+      with the former, using PATHd8 (green). Calibrations were summarized to make them agree}
+	\label{fig:lttplot_crossval_pathd8_summ1}
+\end{figure}
+
+\newpage
+
+
+
+# Appendix
+
+The following species were not found in the chronogram database:  *Inia araguaiaensis**, **Inia boliviensis**, **Mesoplodon hotaula**, **Neophocaena asiaeorientalis**, **Platanista indi**, **Tursiops australis*
+\begin{figure}[!h]
+\includegraphics{plots/Cetacea_lttplot_cluster_sdm.pdf}
+\caption{Lineage Through Time plots of Cetacea SDM summary
 chronograms obtained with different clustering algorithms. Not all algorithms worked
 with the SDM summary matrix and we are only showing here the ones that worked.
 Chronograms obtained from the median summary matrix are very similar to the ones shown
 here with all algorithms (main figure \ref{fig:lttplot_cluster_median}).}
-	\label{fig:lttplot_cluster-sdm}
+\label{fig:lttplot_cluster_sdm}
 \end{figure}
-
-
-Dated induced subtree could not be obtained for the Cetacea.
-
-
-This taxon's SDM matrix has some negative values in the following taxa: *Eubalaena japonica*, *Eubalaena glacialis*. This taxon's Median matrix has NO negative values.
-
-![Cetacea lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with different methods (NJ and UPGMA).  Clustering algorithms used often are returning non-ultrametric trees or
-  with maximum ages that are just off (too old or too young). So we developped an
-  alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Cetacea_LTTplot_Median.pdf)
-
-
-![Cetacea lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with different methods (NJ and UPGMA). As you can note, dashed lines and solid lines from trees coming out from both types of clustering algorithms implemented are mostly overlapping. This means that removing negative values does not change results from clustering algorithms much. Clustering algorithms used often are returning non-ultrametric trees or
-  with maximum ages that are just off (too old or too young). So we developped an
-  alternative algorithm in `datelife` to go from a summary matrix to a fully ultrametric tree.](plots/Cetacea_LTTplot_sdm.pdf)
-
-
-![Cetacea lineage through time (LTT) plots from source chronograms and Median summary matrix converted to phylo with `datelife` algorithm.](plots/Cetacea_LTTplot_summtrees_Median.pdf)
-
-![Cetacea lineage through time (LTT) plots from source chronograms and SDM summary matrix converted to phylo with `datelife` algorithm.](plots/Cetacea_LTTplot_summtrees_SDM.pdf)

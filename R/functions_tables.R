@@ -1,11 +1,14 @@
-make_table0 <- function(tax_dr, tax_summ, tax_dq, table_caption = ""){
-    dd <- !duplicated(names(tax_dr)) # take only the first chronogram from the same publication
-    # the most commoncase is that all chronograms in the same publication have the same species sampling
+make_table0 <- function(tax_dr, tax_summ, tax_dq, table_caption = "", label = "source_chr"){
+    # to determine taxon number, take only the first chronogram from the same publication
+    # the most common case is that all chronograms in the same publication have the same species sampling
     # but there are cases in which this is not the case (e.g., De-Nova et al. 2018)
     # and there are several chronograms in the same publication that have different taxon sampling
     # a way to incorporate them would be putting the taxon presence of all source chronograms from the same publication in the same vector, separated by "\n"
-    taxon_number <- sapply(seq(nrow(tax_summ$matrix))[dd], function(x) sum(tax_summ$matrix[x,]))
-    taxon_number <- taxon_number[order(names(tax_dr)[dd])] #order taxon_number in the same order as names from table
+    # for now, we will just show the maximum number of sampled species in study
+    nn <- sort(unique(names(tax_dr)))
+    # taxon_number_all <- sapply(seq(nrow(tax_summ$matrix)), function(x) sum(tax_summ$matrix[x,]))
+    # the line above is replaced by tax_summ$summary2$taxon_number
+    taxon_number <- unname(sapply(nn, function(x) max(tax_summ$summary2$taxon_number[names(tax_dr) %in% x])))
     xx <- table(names(tax_dr))
     table0 <- data.frame(var1 = paste0(seq(length(xx)), "."),
         var2 = names(xx), var3 = as.numeric(unname(xx)),
@@ -16,7 +19,7 @@ make_table0 <- function(tax_dr, tax_summ, tax_dq, table_caption = ""){
         var3 = cell_spec(var3, "latex", align = "c"),
         var4 = cell_spec(var4, "latex", align = "c"))
     t0 <- knitr::kable(table0, escape = FALSE, row.names = FALSE, format = "latex",
-        booktabs = TRUE, caption = table_caption, linesep = "", longtable = TRUE)
+        booktabs = TRUE, caption = table_caption, label = label, linesep = "", longtable = TRUE)
     t0 <- gsub("var1", "   ", t0)
     t0 <- gsub("var2", "Citation", t0)
     t0 <- gsub("var3", "Source N", t0)

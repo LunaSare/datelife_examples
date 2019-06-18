@@ -2,10 +2,14 @@ make_lttplot_data1 <- function(taxon, crossval, tax_summary, tax_phyloall,
   dating_method = "BLADJ", filename = "LTTplot_data_"){
     names(crossval) <- names(tax_phyloall)
     crossval <- crossval[!is.na(crossval)]
+    if(length(crossval) == 0){
+      message("No phylogenies where succesful in cross validation")
+      return(NA)
+    }
     crossval <- crossval[sapply(crossval, ape::Ntip) > 2]
     crossval <- crossval[bold_has_brlen(crossval)]
     if(length(crossval) == 0){
-      message("No phylogenies where succesful in cross validation")
+      message("Some phylogenies where succesful in cross validation, but with no branch length data")
       return(NA)
     }
     max_ages <- tax_summary$mrca
