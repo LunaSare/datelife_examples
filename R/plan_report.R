@@ -8,9 +8,9 @@ loadd(tax_treefromtaxall)  # it errors only with CoL now (segfault) length(tax_t
 loadd(tax_otolall)
 loadd(tax_allcalall)
 # loadd(tax_allcal_datedotolall)
-# loadd(tax_crossvalall)
+# loadd(tax_selfvalall)
 # loadd(tax_crossval2all)
-loadd(tax_eachcalall)
+# loadd(tax_selfcalall)
 # loadd(tax_eachcal_datedotolall)
 # loadd(tax_med_bladjall)
 # loadd(tax_sdm_bladjall)
@@ -29,6 +29,7 @@ loadd(crossval_bladjall)
 loadd(tax_phyloall_boldall)
 loadd(crossval_pathd8_exp1)
 loadd(crossval_pathd8_summ1)
+loadd(sim_otol_eachall)
 for(i in seq(taxa)){
     print(taxa[i])
     plan_report <- drake_plan(
@@ -56,10 +57,13 @@ for(i in seq(taxa)){
       tax_summall[[i]], omi3 = 0, filename = "otol"),
     	# tax_allcal_datedotol = tax_allcal_datedotolall[[i]],
     	# tax_eachcal_datedotol = tax_eachcal_datedotolall[[i]],
-    	# tax_crossval = tax_crossvalall[[i]],
+    	# tax_crossval = tax_selfvalall[[i]],
     	keep_median = !is.na(tax_median_phyclusterall[[i]]),
       keep_sdm = !is.na(tax_sdm_phyclusterall[[i]]),
-    	lttplot_phyloall = make_lttplot_phyloall(taxa[i], tax_phyloall, tax_summary, add_title = TRUE),
+      colors_here = as.character(unlist(read.table(paste0(getwd(), "/docs/plots/", taxon, "_lttplot_phyloall_colors.txt"),
+        sep = ",", strip.white = TRUE))),
+    	lttplot_phyloall = plot_ltt_phyloall(taxa[i], tax_phyloallall[[i]], tax_summaryall[[i]], add_title = TRUE,
+        file_dir = paste0(getwd(), "/docs/plots"), ltt_colors = colors_here),
       # lttplot_phyloall2 = make_lttplot_summ2(taxa[i], tax_phyloall, tax_summary,
       #     filename = "make_lttplot_summ2_test", tax_phyloall_color = "other",
       #     tax_phycluster_median = tax_median_phyclusterall[[i]][keep_median],
@@ -85,6 +89,9 @@ for(i in seq(taxa)){
           tax_summary, tax_phyloall, dating_method = "PATHd8", filename = "lttplot_crossval_pathd8_exp1"),
       lttplot_crossval5 = make_lttplot_data1(taxa[i], crossval_pathd8_summ1[[i]],
           tax_summary, tax_phyloall, dating_method = "PATHd8", filename = "lttplot_crossval_pathd8_summ1"),
+      lttplot_simotol = plot_ltt_phyloall(taxa[i], sim_otol_eachall[[i]], tax_summaryall[[i]],
+        add_title = FALSE, file_dir = paste0(getwd(), "/docs/plots"), file_name = "_lttplot_simotol.pdf",
+        ltt_colors = colors_here),
       reportname = paste0(taxa[i], "_report"),
       mdname = paste0("docs/", reportname, ".md"),
       report = make_report(mdname),

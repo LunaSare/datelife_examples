@@ -107,3 +107,9 @@ names(tax_phyloallall[[3]])[bold_has_brlen(crossval_pathd8_exp1[[3]])]
 
 sapply(crossval_pathd8_summ1[[3]], inherits, "phylo")
 names(tax_phyloallall[[3]])[bold_has_brlen(crossval_pathd8_summ1[[3]])]
+
+for(i in seq(sim_otol_eachall[[1]])){
+  plot(sim_otol_eachall[[1]][[i]])
+  axisPhylo()
+  mtext()
+}

@@ -22,5 +22,6 @@ source("R/plan_summ2.R")
 # source("R/plan_sim.R")
 source("R/plan_data.R") # self validation tests
 source("R/plan_data2.R") # cross validation tests
+source("R/plan_sim.R") # using each chronogram in phylo all to date an otol topology
 
 source("R/plan_report.R")
