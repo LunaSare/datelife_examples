@@ -1,22 +1,22 @@
----
-output: github_document
----
+# Datelife examples
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-# datelife_examples
+The goal of this repo is to show the possibilities of usage of the `datelife` package, by producing pdf reports of the information status of organisms of interest. 
 
-The goal of datelife_examples is to present a bunch of possibilities of usage of the `datelife` package.
+Following is a list with links to the `datelife` reports currently available:
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+<!-- ``` {r echo = FALSE, warning=FALSE, message = FALSE, results = 'asis'}
+# emo::ji("speak_no_evil")
+# emo::ji("lizard")
+# emo::ji("whale")
+# emo::ji("bird")
+# emo::ji("bat")
+# emo::ji("penguin")
+``` -->
 
-```{r cars}
-
-```
-
+- `r emo::ji("lizard")` [Anolis](https://github.com/LunaSare/datelife_examples/blob/master/docs/Anolis_report.pdf)
+- `r emo::ji("whale")` [Cetaceae](https://github.com/LunaSare/datelife_examples/blob/master/docs/Cetacea_report.pdf)
+- `r emo::ji("bird")` [Fringillidae](https://github.com/LunaSare/datelife_examples/blob/master/docs/Fringillidae_report.pdf)
+- `r emo::ji("bat")` [Phyllostomidae](https://github.com/LunaSare/datelife_examples/blob/master/docs/Phyllostomidae_report.pdf)
+- `r emo::ji("speak_no_evil")` [Primates](https://github.com/LunaSare/datelife_examples/blob/master/docs/Primates_report.pdf)
+- `r emo::ji("penguin")` [Spheniscidae](https://github.com/LunaSare/datelife_examples/blob/master/docs/Spheniscidae_report.pdf)
