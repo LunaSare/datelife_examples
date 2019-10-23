@@ -1,16 +1,20 @@
+---
+output: github_document
+---
+
 ```{r setup, include = FALSE}
 # print(getwd())
 # source("report_template_setup.R")
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
-devtools::install_github("hadley/emo")
 )
-
+devtools::install_github("hadley/emo")
+```
 # Datelife examples
 
 
-The goal of this repo is to show the possibilities of usage of the `datelife` package, by producing pdf reports of the information status of organisms of interest. 
+The goal of this repo is to show the possibilities of usage of the **`datelife`** package, by producing pdf reports of the information status of organisms of interest. 
 
 Following is a list with links to the `datelife` reports currently available:
 
