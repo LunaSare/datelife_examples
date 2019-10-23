@@ -1,3 +1,12 @@
+```{r setup, include = FALSE}
+# print(getwd())
+# source("report_template_setup.R")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+devtools::install_github("hadley/emo")
+)
+
 # Datelife examples
 
 
